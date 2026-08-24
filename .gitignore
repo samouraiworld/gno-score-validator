@@ -1,0 +1,7 @@
+# Google service account key — never commit
+service-account.json
+*.pem
+
+# Local render checks
+*.pdf
+bin/
