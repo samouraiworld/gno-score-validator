@@ -8,6 +8,8 @@
 //	dump        print cell ranges (read-only)
 //	coerce      convert those text numbers into real numbers
 //	bilan       rewrite the Score column and the GitHub audit columns
+//	refresh     rewrite a network tab from the live gnomonitoring report
+//	snapshot    mirror the sheet into scorecard.json and the HTML page
 //	dashboard   build the Dashboard tab from scratch
 //	export      save a tab as PDF, to eyeball the result
 //
@@ -68,6 +70,10 @@ func main() {
 		err = runCoerce(e, rest)
 	case "bilan":
 		err = runBilan(e, rest)
+	case "refresh":
+		err = runRefresh(e, rest)
+	case "snapshot":
+		err = runSnapshot(e, rest)
 	case "dashboard":
 		err = runDashboard(e, rest)
 	case "export":
@@ -91,6 +97,9 @@ func usage() {
   dump        print cell ranges, e.g. dump "Bilan!A1:K3"  (read-only)
   coerce      convert text numbers into real numbers      [-dry]
   bilan       rewrite Score + GitHub audit columns         [-dry]
+  refresh     rewrite a network tab from gnomonitoring      [-dry]
+              [-chain sapphire-1] [-tab Score-sapphire] [-period current_year]
+  snapshot    rebuild data/scorecard.json + re-embed it in the page  [-dry]
   dashboard   rebuild the Dashboard tab
   export      save a tab as PDF, e.g. export Dashboard out.pdf
 

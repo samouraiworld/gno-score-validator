@@ -39,9 +39,11 @@ costs points.
 
 | Path | Contents |
 | --- | --- |
-| `cmd/scoresheet` | the CLI: audit, dump, coerce, bilan, dashboard, export |
+| `cmd/scoresheet` | the CLI: audit, dump, coerce, bilan, refresh, snapshot, dashboard, export |
 | `internal/scoring` | the scoring rule and the Bilan schema, shared by every command |
 | `internal/sheetx` | Sheets API helpers, and the locale rules that break formulas |
+| `internal/monitoring` | the gnomonitoring report client |
+| `gno-monitoring-metrics/` | dated CSV snapshots of those reports, one per chain |
 | `data/github-links.csv` | moniker → GitHub account, confidence, participation score |
 | `data/github-evidence.csv` | the evidence behind each match, for review |
 | `data/scorecard.json` | the merged snapshot the HTML page embeds |
@@ -66,12 +68,25 @@ ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID dump "Bilan!A1:K3" # inspect cells    (read-only)
 ./bin/scoresheet -id $ID coerce -dry        # plan the text→number fix
 ./bin/scoresheet -id $ID bilan -dry         # plan the Score rewrite
+./bin/scoresheet -id $ID refresh -dry       # plan a network tab refresh
+./bin/scoresheet -id $ID snapshot -dry      # plan the scorecard.json rebuild
 ./bin/scoresheet -id $ID dashboard          # rebuild the Dashboard tab
 ./bin/scoresheet -id $ID export Dashboard out.pdf
 ```
 
 Every writing command takes `-dry`. Start there — `bilan` rewrites a column
 that a human curates.
+
+`refresh` rewrites a network tab from the live gnomonitoring report. It
+defaults to `-chain sapphire-1 -tab Score-sapphire -period current_year`, and
+prints the moniker-level diff before writing anything.
+
+`snapshot` mirrors the sheet into `data/scorecard.json` and re-embeds it in the
+HTML page, so the two can never disagree about a score. It **merges rather than
+regenerates**: every field the sheet holds is rewritten from the sheet, and the
+`github` evidence blocks are carried over untouched. They have to be — the
+page's all-time versus since-2025 contribution split exists in neither the sheet
+nor the CSVs, and rebuilding the file from scratch would silently drop it.
 
 `dashboard` is idempotent: it clears the tab's cells, charts, banding and
 conditional rules before rebuilding, so repeated runs do not stack duplicates.
@@ -90,7 +105,25 @@ The human columns **A–G are never written**.
 `dashboard` builds its own tab and reads everything else through formulas, so
 the standings stay live: edit Bilan and the table reorders itself.
 
-## fr_FR, and three ways it breaks formulas
+## The monitoring reports
+
+The metrics behind the three network tabs come from gnomonitoring. Only
+**sapphire-1** is still served: `topaz-1` returns the two remaining core
+validators and `test13` is a `400 invalid chain ID`, so the CSVs under
+`gno-monitoring-metrics/` are frozen backups for those two chains and the only
+record left of what they held.
+
+Bilan reads a network tab with `VLOOKUP(A2;'Score-sapphire'!A:C;3;FALSE)` — by
+**moniker**, not by address, and case-insensitively. That matters more than it
+looks: between the 18/08 snapshot and the live report only 17 sapphire
+addresses out of 86 survived, 24 monikers having rotated to a new address. A
+join on the address column would have dropped three quarters of the rows.
+
+A moniker absent from the live report falls through to the `IFERROR` zero. That
+is a scoring decision, not an accident: leaving the active set costs the whole
+sapphire quarter of the score.
+
+## fr_FR, and four ways it breaks formulas
 
 The spreadsheet's locale is French. Each of these produced a silent wrong
 answer before it was pinned down, and all three are handled in
@@ -105,6 +138,13 @@ answer before it was pinned down, and all three are handled in
 3. **A tab name containing a hyphen must be quoted.** `Score-test13!E2` parses
    as the subtraction `Score` minus `test13!E2` and returns a plausible-looking
    wrong number rather than an error. Always go through `sheetx.Ref`.
+
+4. **A `.` decimal can be read as a date.** `12.6` imported into the proposer
+   column landed as the 12th of June, storing the serial 46185 where a
+   percentage belonged — on 50 of 53 rows. `audit` cannot see it, because a
+   date *is* a number. `refresh` sidesteps it by sending JSON numbers under
+   `RAW` and resetting the column's number format, since a cell still carrying
+   the date format would render a good value as a bad date.
 
 Weights are written as fractions (`/4`, `/10`) rather than `0.25` and `0.1`, so
 the decimal separator never enters a formula at all.
@@ -121,6 +161,9 @@ numbers, which sidesteps locale parsing entirely.
 server and no network. It carries the same snapshot the sheet does: overall
 standings, a per-validator profile with the on-chain detail for all three
 networks, one page per scoring arena, and the GitHub evidence.
+
+Run `snapshot` after any change to the sheet, or the page keeps serving the
+previous run's numbers while the spreadsheet has moved on.
 
 It rounds half away from zero to match Google Sheets. Plain `toFixed` rounds on
 the binary representation, which renders the median as 59.42 against the
