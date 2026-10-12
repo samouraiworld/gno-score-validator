@@ -42,8 +42,8 @@ type snapValidator struct {
 
 	// Evidence gathered outside the spreadsheet: the account behind a
 	// validator, and its contribution counts split all-time versus since the
-	// cutoff. The sheet holds none of it and the CSVs only carry the all-time
-	// half, so it is carried across untouched rather than rebuilt.
+	// cutoff. The sheet holds none of it; it is copied untouched from
+	// data/github/evidence.json.
 	Github json.RawMessage `json:"github,omitempty"`
 
 	RankCurrent   int `json:"rank_current"`
@@ -100,9 +100,10 @@ type snapOnchain struct {
 // runSnapshot rebuilds data/scorecard.json from the spreadsheet and re-embeds
 // it in the HTML page, so the two can never disagree about a score.
 //
-// It merges rather than regenerates: everything the sheet holds is rewritten
-// from the sheet, and everything it does not — the GitHub evidence blocks — is
-// carried over from the existing file.
+// Everything the sheet holds is rewritten from the sheet. The GitHub evidence
+// blocks come from data/github/evidence.json, and the remaining fields the
+// sheet does not hold (weights, source, mainnet) are carried over from the
+// existing file.
 func runSnapshot(e *env, args []string) error {
 	fs := flag.NewFlagSet("snapshot", flag.ExitOnError)
 	dry := fs.Bool("dry", false, "print the plan without writing")
@@ -119,12 +120,13 @@ func runSnapshot(e *env, args []string) error {
 	if err != nil {
 		return err
 	}
-	carried := map[string]json.RawMessage{}
+	evidence, err := loadEvidence(e.data(evidenceFile))
+	if err != nil {
+		return err
+	}
+	used := map[string]bool{}
 	before := map[string]float64{}
 	for _, v := range prev.Validators {
-		if len(v.Github) > 0 {
-			carried[scoring.Key(v.Moniker)] = v.Github
-		}
 		before[scoring.Key(v.Moniker)] = v.ScoreCorrected
 	}
 
@@ -188,7 +190,7 @@ func runSnapshot(e *env, args []string) error {
 			GithubCorrected: nums[6],
 			ScoreCorrected:  nums[7],
 			Onchain:         map[string]snapOnchain{},
-			Github:          carried[scoring.Key(moniker)],
+			Github:          evidence[scoring.Key(moniker)],
 		}
 		if want := total(v.Components, v.GithubCorrected); absDiff(want, v.ScoreCorrected) > 0.005 {
 			return fmt.Errorf("%s row %d (%s): column %s holds %g, the scoring rule gives %g",
@@ -221,7 +223,15 @@ func runSnapshot(e *env, args []string) error {
 		}
 		v.ScoreCurrent = total(v.Components, v.GithubCurrent)
 
+		used[scoring.Key(moniker)] = len(v.Github) > 0
 		next.Validators = append(next.Validators, v)
+	}
+	// A block whose moniker left Bilan, or was respelt beyond a case change,
+	// would vanish from the page without a word.
+	for k := range evidence {
+		if !used[k] {
+			return fmt.Errorf("%s: %q matches no Bilan row", evidenceFile, k)
+		}
 	}
 
 	rank(next.Validators)

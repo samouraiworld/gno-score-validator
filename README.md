@@ -56,6 +56,7 @@ costs points.
 | `gno-monitoring-metrics/` | dated CSV snapshots of those reports, one per chain |
 | `data/github-links.csv` | moniker → GitHub account, confidence, participation score |
 | `data/github-evidence.csv` | the evidence behind each match, for review |
+| `data/github/evidence.json` | the `github` block of each linked validator, with the all-time versus since-2025 split; `snapshot` copies it into the scorecard |
 | `data/scorecard.json` | the merged snapshot the HTML page and the scoreboard are built from |
 | `data/frozen/` | CSV copies of the final arena tabs and Bilan, written by `freeze` |
 | `data/fire-drill-2026-09-02.csv` | the fire drill rubric, built by `firedrill` from the portal exports |
@@ -105,10 +106,12 @@ scores live in git and not only in an editable spreadsheet.
 
 `snapshot` mirrors the sheet into `data/scorecard.json` and re-embeds a public
 copy of it in the HTML page, so the two can never disagree about a score. It **merges rather than
-regenerates**: every field the sheet holds is rewritten from the sheet, and the
-`github` evidence blocks are carried over untouched. They have to be — the
-page's all-time versus since-2025 contribution split exists in neither the sheet
-nor the CSVs, and rebuilding the file from scratch would silently drop it.
+regenerates**: every field the sheet holds is rewritten from the sheet, the
+`github` evidence blocks are copied untouched from `data/github/evidence.json`,
+and the weights and the `mainnet` block are carried over from the existing
+file. The evidence file is the only record of the page's all-time versus
+since-2025 contribution split. `snapshot` stops if one of its monikers matches
+no Bilan row, so a block cannot vanish from the page unnoticed.
 It stops on a formula error or a number stored as text in Bilan, on a moniker
 listed twice, and on a column J that disagrees with the scoring rule. Equal
 scores share a rank. It ends by regenerating the scoreboard.

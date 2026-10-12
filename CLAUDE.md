@@ -74,11 +74,13 @@ rotate addresses between chains and between runs: only 17 of 86 sapphire
 addresses survived one refresh. Any code keyed on the address column will
 silently drop most rows.
 
-**`snapshot` merges, it does not regenerate.** The `github` blocks on the 12
-linked validators carry an all-time versus since-2025 contribution split that
-exists in neither the sheet nor the CSVs. They are passed through as
-`json.RawMessage`. Rebuilding the file from scratch would empty the page's
-GitHub evidence view without any error.
+**The `github` blocks come from `data/github/evidence.json`.** The 12 linked
+validators carry an all-time versus since-2025 contribution split that exists
+in neither the sheet nor the CSVs. `snapshot` copies each block as
+`json.RawMessage`, keyed by moniker, and refuses a block whose moniker matches
+no Bilan row. Edit that file, not the blocks in `scorecard.json`, which
+`snapshot` overwrites. The weights and the `mainnet` block are still carried
+over from the previous `scorecard.json`.
 
 **Columns A–H of Bilan are human-curated and must never be written.** The tool
 writes only I, J, K, L.

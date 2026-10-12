@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/csv"
 	"encoding/json"
 	"os"
@@ -65,8 +66,8 @@ func readCSV(t *testing.T, path string) []map[string]string {
 //
 // The rules mirror Bilan: candidates are Bilan's column A, every join is by
 // scoring.Key, and a moniker absent from an arena scores 0 there. The
-// uncorrected GitHub score still comes from the github blocks of
-// scorecard.json, the one input that lives nowhere else yet.
+// uncorrected GitHub score comes from data/github/evidence.json, whose blocks
+// must also match the ones scorecard.json publishes byte for byte.
 func TestParityWithFrozenCSVs(t *testing.T) {
 	frozen := filepath.Join("..", "..", "data", "frozen")
 
@@ -105,6 +106,20 @@ func TestParityWithFrozenCSVs(t *testing.T) {
 		scores[a.name] = byKey
 	}
 
+	evidence, err := loadEvidence(filepath.Join("..", "..", "data", evidenceFile))
+	if err != nil {
+		t.Fatal(err)
+	}
+	published := 0
+	for _, v := range snap.Validators {
+		if len(v.Github) > 0 {
+			published++
+		}
+	}
+	if published != len(evidence) {
+		t.Errorf("scorecard.json publishes %d github blocks, %s holds %d", published, evidenceFile, len(evidence))
+	}
+
 	links, err := scoring.LoadLinks(filepath.Join("..", "..", "data", "github-links.csv"))
 	if err != nil {
 		t.Fatal(err)
@@ -139,11 +154,21 @@ func TestParityWithFrozenCSVs(t *testing.T) {
 
 		corrected := links[k].Score
 		current := corrected
-		if len(want.Github) > 0 {
+		if block, ok := evidence[k]; ok {
+			var a, b bytes.Buffer
+			if err := json.Compact(&a, block); err != nil {
+				t.Fatalf("%s: evidence block: %v", moniker, err)
+			}
+			if err := json.Compact(&b, want.Github); err != nil {
+				t.Fatalf("%s: scorecard github block: %v", moniker, err)
+			}
+			if !bytes.Equal(a.Bytes(), b.Bytes()) {
+				t.Errorf("%s: github block in scorecard.json differs from %s", moniker, evidenceFile)
+			}
 			var g struct {
 				AllTime map[string]float64 `json:"all_time"`
 			}
-			if err := json.Unmarshal(want.Github, &g); err != nil {
+			if err := json.Unmarshal(block, &g); err != nil {
 				t.Fatalf("%s: github block: %v", moniker, err)
 			}
 			current = githubScore(g.AllTime)

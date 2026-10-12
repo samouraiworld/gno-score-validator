@@ -1,0 +1,340 @@
+{
+ "AviaOne": {
+  "login": "AviaOne",
+  "profile": "https://github.com/AviaOne",
+  "confidence": "certain",
+  "match_rule": "brand domain in profile + operator tooling",
+  "evidence": "moniker == GitHub login (normalized) — AviaOne ~ AviaOne",
+  "note": "GitHub company '@aviaone', blog aviaone.com == moniker AviaOne; owns 'GnoDuty', a Gno.land (TM2) validator monitoring fork.",
+  "name": "Aviaone",
+  "blog": "https://aviaone.com/",
+  "bio": "Staking with Aviaone 🟢 generate a yield and your tokens stays on your wallet 🔑 🔒. NO TRANSFER REQUIRED 👍",
+  "repos": "gno",
+  "merged_pr_urls": [
+   "https://github.com/gnolang/gno/pull/6023"
+  ],
+  "all_time": {
+   "commits": 1,
+   "merged_prs": 1,
+   "unmerged_prs": 0,
+   "issues": 1,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 1,
+   "merged_prs": 1,
+   "unmerged_prs": 0,
+   "issues": 1,
+   "comment_threads": 0
+  },
+  "related": [
+   {
+    "login": "RaulBernal",
+    "profile": "https://github.com/RaulBernal",
+    "note": "Company 'AviaOne Validator', bio '@aviaone Validators member' — a member of the AviaOne team, NOT necessarily the person behind Discord 'aviaone_cto'. Do not count as a second AviaOne identity."
+   }
+  ]
+ },
+ "Cumulo": {
+  "login": "santosdios",
+  "profile": "https://github.com/santosdios",
+  "confidence": "certain",
+  "match_rule": "brand in name, company, blog and org repo",
+  "evidence": "moniker found in GitHub blog URL — Cumulo ∈ Mon | Cumulo / https://cumulo.pro/",
+  "note": "GitHub name 'Mon | Cumulo', company 'Cumulo', blog cumulo.pro, email moncho.santosdios@gmail.com; Discord handle is literally mon.cumulo.pro; org repo Cumulo-pro/Cumulo-Front-Chain contains the valoper address.",
+  "name": "Mon | Cumulo",
+  "blog": "https://cumulo.pro/",
+  "bio": "",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 1,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 1,
+   "comment_threads": 0
+  }
+ },
+ "HazenNetworkSolutions": {
+  "login": "hazennetworksolutions",
+  "profile": "https://github.com/hazennetworksolutions",
+  "confidence": "certain",
+  "match_rule": "moniker == GitHub login + brand domain",
+  "evidence": "moniker == GitHub login (normalized) — HazenNetworkSolutions ~ hazennetworksolutions",
+  "note": "Exact login match; blog hazennetworksolutions.com; owns 'gnoland', 'gnoland-dev' and 'gno-mcp' repos.",
+  "name": "hazennetworksolutions",
+  "blog": "https://www.hazennetworksolutions.com/",
+  "bio": "Engineer | Blockchain Validator \u0026 Node Operator | Expert in PoS Networks, DevOps, and Cloud Infrastructure | Moderator |",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 3
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 3
+  }
+ },
+ "ITRocket": {
+  "login": "itrocket-team",
+  "profile": "https://github.com/itrocket-team",
+  "confidence": "certain",
+  "match_rule": "brand domain in profile + validator ops PR",
+  "evidence": "moniker found in GitHub blog URL — ITRocket ∈ Sam / https://itrocket.net/",
+  "note": "Blog itrocket.net == moniker ITRocket; merged PR adds gno peer and seed ports, which is validator-operations work.",
+  "name": "Sam",
+  "blog": "https://itrocket.net/",
+  "bio": "Trusted Validator \u0026 Interchain Utility Provider",
+  "repos": "gno gno-fixes",
+  "merged_pr_urls": [
+   "https://github.com/gnolang/gno/pull/4572"
+  ],
+  "all_time": {
+   "commits": 2,
+   "merged_prs": 1,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 2,
+   "merged_prs": 1,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 0
+  }
+ },
+ "MictoNode": {
+  "login": "MictoNode",
+  "profile": "https://github.com/MictoNode",
+  "confidence": "certain",
+  "match_rule": "moniker == GitHub login, plus operator profile",
+  "evidence": "moniker == GitHub login (normalized) — MictoNode ~ MictoNode",
+  "note": "Exact login match; bio 'Professional Node Operator'; forked 'validator-info' and 'validator-registry'.",
+  "name": "MictoNode",
+  "blog": "https://x.com/onurnft0",
+  "bio": "Professional Node Operator",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 1,
+   "issues": 0,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 1,
+   "issues": 0,
+   "comment_threads": 0
+  }
+ },
+ "Oneiric Stake": {
+  "login": "cougarmaster",
+  "profile": "https://github.com/cougarmaster",
+  "confidence": "strong",
+  "match_rule": "Discord handle == GitHub login + proven test13 operator",
+  "evidence": "Discord handle == GitHub login (normalized) — cougarmaster ~ cougarmaster",
+  "note": "Login == Discord handle 'cougarmaster', which the sheet's own introduction field also states; authored gnolang/gno#5879 from a test13 node. No artifact names 'Oneiric Stake'.",
+  "name": "cougarmaster",
+  "blog": "",
+  "bio": "",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 1,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 1,
+   "comment_threads": 0
+  }
+ },
+ "Santala-Research": {
+  "login": "sontrh",
+  "profile": "https://github.com/sontrh",
+  "confidence": "certain",
+  "match_rule": "operator's own repos carry the brand",
+  "evidence": "moniker found in GitHub blog URL — Santala-Research ∈ Santala / https://santala-research.com/en/",
+  "note": "Owns repos 'santala' and 'Santala-Coin'; GitHub name 'Santala'; blog santala-research.com == moniker Santala-Research. NOTE: their 3 gno PRs are typo fixes from 2023, predating test13.",
+  "name": "Santala",
+  "blog": "https://santala-research.com/en/",
+  "bio": "In Blockchain, we trust!",
+  "repos": "gno gno-fixes",
+  "merged_pr_urls": [
+   "https://github.com/gnolang/gno/pull/1428",
+   "https://github.com/gnolang/gno/pull/606"
+  ],
+  "all_time": {
+   "commits": 4,
+   "merged_prs": 2,
+   "unmerged_prs": 1,
+   "issues": 0,
+   "comment_threads": 1
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 0
+  }
+ },
+ "Ubik Capital": {
+  "login": "OddAna",
+  "profile": "https://github.com/OddAna",
+  "confidence": "strong",
+  "match_rule": "Discord handle == GitHub login + proven test13 operator",
+  "evidence": "Discord handle == GitHub login (normalized) — oddana ~ OddAna",
+  "note": "Login 'OddAna' == Discord handle 'oddana'; comments on gnolang/gno#5879 report a synced test13 node (height, peers, catching_up). No artifact names 'Ubik Capital', so identity rests on the handle match.",
+  "name": "Burak ESEN",
+  "blog": "",
+  "bio": "",
+  "repos": "gno tm2-js-client",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 5
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 0,
+   "issues": 0,
+   "comment_threads": 5
+  }
+ },
+ "ZeycaNode": {
+  "login": "zeycan1",
+  "profile": "https://github.com/zeycan1",
+  "confidence": "certain",
+  "match_rule": "moniker declared in the operator's own repo",
+  "evidence": "moniker is a substring of the GitHub login — ZeycaNode ~ zeycan1",
+  "note": "zeycan1/Gnoland-Sapphire README runs 'gnoland config set ... moniker ZeycaNode'; explorer at zeycanode.com.",
+  "name": "zeycan1",
+  "blog": "",
+  "bio": "",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 2,
+   "issues": 0,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 2,
+   "issues": 0,
+   "comment_threads": 0
+  }
+ },
+ "coinsspor": {
+  "login": "coinsspor",
+  "profile": "https://github.com/coinsspor",
+  "confidence": "certain",
+  "match_rule": "moniker == Discord handle == GitHub login, plus test13 repos",
+  "evidence": "moniker == GitHub login (normalized) — coinsspor ~ coinsspor",
+  "note": "Triple exact identity match; owns 'gnoland-test13-guide', 'gnoland-explorer', 'gnoland-topaz-guide'.",
+  "name": "fatih erdal",
+  "blog": "https://nodescenter.coinsspor.com/",
+  "bio": "",
+  "repos": "gno hackerspace",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 1,
+   "issues": 2,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 1,
+   "issues": 2,
+   "comment_threads": 0
+  }
+ },
+ "n1stake": {
+  "login": "Romainua",
+  "profile": "https://github.com/Romainua",
+  "confidence": "certain",
+  "match_rule": "brand domain in profile",
+  "evidence": "moniker found in GitHub blog URL — n1stake ∈ Roman / https://n1stake.com",
+  "note": "Blog n1stake.com == moniker n1stake.",
+  "name": "Roman",
+  "blog": "https://n1stake.com",
+  "bio": "Web 3 is near or already in",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 1,
+   "issues": 0,
+   "comment_threads": 1
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 1,
+   "issues": 0,
+   "comment_threads": 1
+  }
+ },
+ "zardozmonopoly": {
+  "login": "zardozmonopoly",
+  "profile": "https://github.com/zardozmonopoly",
+  "confidence": "certain",
+  "match_rule": "moniker == Discord handle == GitHub login, plus test13 activity",
+  "evidence": "moniker == GitHub login (normalized) — zardozmonopoly ~ zardozmonopoly",
+  "note": "Triple exact identity match; issue gnolang/gno#5939 is explicitly about the chain/test13 runtime API, so the account is a test13 operator.",
+  "name": "mono.",
+  "blog": "https://twitter.com/zardozmonopoly",
+  "bio": "BlockchainaholiC",
+  "repos": "gno",
+  "merged_pr_urls": [],
+  "all_time": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 4,
+   "issues": 1,
+   "comment_threads": 0
+  },
+  "since_2025": {
+   "commits": 0,
+   "merged_prs": 0,
+   "unmerged_prs": 4,
+   "issues": 1,
+   "comment_threads": 0
+  }
+ }
+}
