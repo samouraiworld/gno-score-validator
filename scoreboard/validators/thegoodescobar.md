@@ -2,7 +2,7 @@
 
 # TheGoodEscobar
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟠 **Rank 63 of 98** · **Score 54.60 / 100**
 

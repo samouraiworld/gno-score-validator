@@ -2,7 +2,7 @@
 
 # dnsarz
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟡 **Rank 25 of 98** · **Score 78.57 / 100**
 

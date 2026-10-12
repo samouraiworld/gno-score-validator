@@ -2,7 +2,7 @@
 
 # Gno validator scoreboard
 
-Data as of **2026-09-10** · **98** candidates · median score **68.22**
+Data as of **2026-10-12** · **98** candidates · median score **68.22**
 
 **Score** = (challenge + test13 + topaz + sapphire + pearl + fire drill) / 6 + GitHub / 10, capped at 100.
 

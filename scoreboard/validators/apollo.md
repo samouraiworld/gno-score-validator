@@ -2,7 +2,7 @@
 
 # Apollo
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟢 **Rank 22 of 98** · **Score 80.33 / 100**
 

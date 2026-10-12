@@ -2,7 +2,7 @@
 
 # HusoNode
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟡 **Rank 41 of 98** · **Score 71.50 / 100**
 

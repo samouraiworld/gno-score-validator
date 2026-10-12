@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-10",
+ "generated_at": "2026-10-12",
  "source": "Score Gno-Validator",
  "weights": {
   "challenge": 0.16666666666666666,
@@ -2801,8 +2801,8 @@
      "missed": 2641
     }
    },
-   "rank_current": 34,
-   "rank_corrected": 34
+   "rank_current": 33,
+   "rank_corrected": 33
   },
   {
    "moniker": "KonsorTech",
@@ -3097,8 +3097,8 @@
      "missed": 0
     }
    },
-   "rank_current": 20,
-   "rank_corrected": 20
+   "rank_current": 19,
+   "rank_corrected": 19
   },
   {
    "moniker": "cunum",
@@ -3467,8 +3467,8 @@
      "missed": 58822
     }
    },
-   "rank_current": 30,
-   "rank_corrected": 30
+   "rank_current": 29,
+   "rank_corrected": 29
   },
   {
    "moniker": "1XP",
@@ -6325,8 +6325,8 @@
      "missed": 8216
     }
    },
-   "rank_current": 63,
-   "rank_corrected": 62
+   "rank_current": 62,
+   "rank_corrected": 61
   },
   {
    "moniker": "Nodeshub",
@@ -8121,8 +8121,8 @@
     "score": 0
    },
    "onchain": {},
-   "rank_current": 98,
-   "rank_corrected": 98
+   "rank_current": 97,
+   "rank_corrected": 97
   }
  ],
  "mainnet": {

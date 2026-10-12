@@ -2,7 +2,7 @@
 
 # CentNode
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🔴 **Rank 96 of 98** · **Score 3.17 / 100**
 

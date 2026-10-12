@@ -2,7 +2,7 @@
 
 # UTSA
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟢 **Rank 8 of 98** · **Score 88.40 / 100**
 

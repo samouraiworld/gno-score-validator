@@ -2,7 +2,7 @@
 
 # 2NH
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟡 **Rank 43 of 98** · **Score 70.83 / 100**
 

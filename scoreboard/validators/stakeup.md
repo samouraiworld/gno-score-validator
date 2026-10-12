@@ -2,7 +2,7 @@
 
 # StakeUp
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🟢 **Rank 5 of 98** · **Score 90.33 / 100**
 

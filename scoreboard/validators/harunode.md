@@ -2,7 +2,7 @@
 
 # HaruNode
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-12
 
 🔴 **Rank 88 of 98** · **Score 13.57 / 100**
 
