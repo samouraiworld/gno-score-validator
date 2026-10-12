@@ -51,6 +51,7 @@ costs points.
 | --- | --- |
 | `cmd/scoresheet` | the CLI: audit, dump, coerce, bilan, refresh, firedrill, freeze, snapshot, render, dashboard, export |
 | `internal/scoring` | the scoring rule and the Bilan schema, shared by every command |
+| `internal/arena` | loads `config/arenas.json`, the arena CSVs and the candidate list, joined by moniker |
 | `internal/sheetx` | Sheets API helpers, and the locale rules that break formulas |
 | `internal/monitoring` | the gnomonitoring report client |
 | `gno-monitoring-metrics/` | dated CSV snapshots of those reports, one per chain |
@@ -58,7 +59,9 @@ costs points.
 | `data/github-evidence.csv` | the evidence behind each match, for review |
 | `data/github/evidence.json` | the `github` block of each linked validator, with the all-time versus since-2025 split; `snapshot` copies it into the scorecard |
 | `data/scorecard.json` | the merged snapshot the HTML page and the scoreboard are built from |
-| `data/frozen/` | CSV copies of the final arena tabs and Bilan, written by `freeze` |
+| `config/arenas.json` | the scored arenas: id, label, source, sheet tab, CSV columns, colour, whether it counts toward the total |
+| `data/arenas/<id>.csv` | each arena's scores, one row per validator, copied from its tab by `freeze` |
+| `data/candidates.csv` | the 98 scored candidates (moniker, Discord), copied from Bilan A:B by `freeze` |
 | `data/fire-drill-2026-09-02.csv` | the fire drill rubric, built by `firedrill` from the portal exports |
 | `scores.json`, `submissions.jsonl` | the fire drill portal exports |
 | `scoreboard/` | generated Markdown: the ranking and one page per validator |
@@ -84,7 +87,7 @@ ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID coerce -dry        # plan the text→number fix
 ./bin/scoresheet -id $ID bilan -dry         # plan the Score rewrite
 ./bin/scoresheet -id $ID refresh -dry -chain <id> -tab <tab>  # plan a network tab refresh
-./bin/scoresheet -id $ID freeze -dry        # plan the copy of the final tabs to data/frozen/
+./bin/scoresheet -id $ID freeze -dry        # plan the copy of the arena tabs to data/arenas/
 ./bin/scoresheet -id $ID snapshot -dry      # plan the scorecard.json rebuild
 ./bin/scoresheet render                     # regenerate scoreboard/ and the page payload (offline, no -id)
 ./bin/scoresheet mainnet -dry               # plan the gnoland-1 fetch (shown, not scored; no -id)
@@ -101,8 +104,11 @@ anything. It refuses an empty report, a report that would drop more than a
 fifth of the tab, and any frozen arena tab, unless given `-force`. `firedrill`
 refuses to rewrite the fire drill without `-force` too.
 
-`freeze` copies Bilan and every final arena tab into `data/frozen/`, so the
-scores live in git and not only in an editable spreadsheet.
+`freeze` copies every arena tab listed in `config/arenas.json` into
+`data/arenas/<id>.csv`, and Bilan's moniker and Discord columns into
+`data/candidates.csv`, so the scores live in git and not only in an editable
+spreadsheet. A parity test recomputes every score from those files and fails if
+it disagrees with `data/scorecard.json`.
 
 `snapshot` mirrors the sheet into `data/scorecard.json` and re-embeds a public
 copy of it in the HTML page, so the two can never disagree about a score. It **merges rather than

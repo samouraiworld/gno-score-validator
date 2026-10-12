@@ -10,7 +10,7 @@
 //	bilan       rewrite the Score column and the GitHub audit columns
 //	refresh     rewrite a network tab from the live gnomonitoring report
 //	firedrill   rebuild the fire drill CSV and tab from the portal exports
-//	freeze      copy the final arena tabs into data/frozen/ (reads the sheet)
+//	freeze      copy the arena tabs into data/arenas/ (reads the sheet)
 //	snapshot    mirror the sheet into scorecard.json, the HTML page and the scoreboard
 //	render      regenerate the scoreboard and the page payload from scorecard.json (offline)
 //	mainnet     fetch gnoland-1 into scorecard.json, shown beside the totals (no sheet)
@@ -31,6 +31,7 @@ import (
 
 	"google.golang.org/api/sheets/v4"
 
+	"github.com/louisb/score-validator/internal/arena"
 	"github.com/louisb/score-validator/internal/sheetx"
 )
 
@@ -113,6 +114,11 @@ func main() {
 
 func (e *env) data(name string) string { return filepath.Join(e.root, "data", name) }
 
+// arenas reads config/arenas.json, the list of scored arenas.
+func (e *env) arenas() (arena.Config, error) {
+	return arena.LoadConfig(filepath.Join(e.root, "config", "arenas.json"))
+}
+
 func usage() {
 	fmt.Fprint(os.Stderr, `scoresheet -creds key.json -id <spreadsheet> <command> [flags]
 
@@ -123,7 +129,7 @@ func usage() {
   refresh     rewrite a network tab from gnomonitoring      [-dry] [-force]
               -chain <id> -tab <tab> [-period current_year]
   firedrill   rebuild the fire drill CSV + tab from the portal exports [-dry] [-force]
-  freeze      copy the final arena tabs and Bilan to data/frozen/*.csv [-dry]
+  freeze      copy the arena tabs to data/arenas/*.csv and Bilan A:B to data/candidates.csv [-dry]
   snapshot    rebuild data/scorecard.json, re-embed it in the page and
               regenerate the scoreboard                               [-dry]
   render      regenerate scoreboard/ and the page payload from data/scorecard.json (no -id needed)

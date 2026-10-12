@@ -26,7 +26,7 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 ./bin/scoresheet -id $ID audit                 # numbers stored as text (read-only)
 ./bin/scoresheet -id $ID dump "Bilan!A1:L3"    # inspect cells      (read-only)
 ./bin/scoresheet -id $ID dashboard             # rebuild the Dashboard tab
-./bin/scoresheet -id $ID freeze -dry           # final tabs -> data/frozen/*.csv
+./bin/scoresheet -id $ID freeze -dry           # arena tabs -> data/arenas/*.csv
 ./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + page + scoreboard/
 ./bin/scoresheet render                        # scoreboard/ + page payload, offline, no -id
 ./bin/scoresheet mainnet -dry                  # gnoland-1, shown not scored, no -id
@@ -132,7 +132,8 @@ are:
 | Where | What |
 | --- | --- |
 | `internal/scoring/scoring.go` | `ArenaDivisor = 6`, `ScoreFormula`, and `ColFireDrill = "H"` |
-| `cmd/scoresheet/snapshot.go` | `total()`, `snapComponents` |
+| `config/arenas.json` | one entry per arena; a test fails if its count of `in_total` arenas differs from `ArenaDivisor` |
+| `cmd/scoresheet/snapshot.go` | `total()`, `snapComponents` (and `componentSetters` in `parity_test.go`) |
 | `cmd/scoresheet/dashboard.go` | the component list and its colour |
 | `web/validator-scorecard.html` | `SERIES`, `ARENA_WEIGHT`, the formula line in the static markup, and a nav button + page for the new arena |
 
