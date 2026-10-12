@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 	"time"
@@ -23,11 +22,13 @@ type snapshot struct {
 	Weights       json.RawMessage `json:"weights"`
 	GithubWeights json.RawMessage `json:"github_score_weights"`
 	Validators    []snapValidator `json:"validators"`
+	// Shown beside the scorecard, never inside a total; see mainnet.go.
+	Mainnet *snapMainnet `json:"mainnet,omitempty"`
 }
 
 type snapValidator struct {
 	Moniker         string         `json:"moniker"`
-	Discord         string         `json:"discord"`
+	Discord         string         `json:"discord,omitempty"`
 	Components      snapComponents `json:"components"`
 	GithubCurrent   float64        `json:"github_current"`
 	GithubCorrected float64        `json:"github_corrected"`
@@ -96,10 +97,6 @@ type snapOnchain struct {
 	Missed   float64  `json:"missed"`
 }
 
-// payloadRe matches the one-line JSON island the HTML page reads at startup.
-var payloadRe = regexp.MustCompile(
-	`(?s)(<script id="payload" type="application/json">)(.*?)(</script>)`)
-
 // runSnapshot rebuilds data/scorecard.json from the spreadsheet and re-embeds
 // it in the HTML page, so the two can never disagree about a score.
 //
@@ -154,6 +151,8 @@ func runSnapshot(e *env, args []string) error {
 		Source:        prev.Source,
 		Weights:       prev.Weights,
 		GithubWeights: prev.GithubWeights,
+		// The sheet has no mainnet tab; the block is fetched by `mainnet`.
+		Mainnet: prev.Mainnet,
 	}
 
 	seen := map[string]int{}
@@ -242,31 +241,11 @@ func runSnapshot(e *env, args []string) error {
 		return nil
 	}
 
-	pretty, err := json.MarshalIndent(next, "", " ")
-	if err != nil {
-		return err
-	}
-	if err := os.WriteFile(*out, append(pretty, '\n'), 0o644); err != nil {
+	if err := saveSnapshot(*out, next); err != nil {
 		return err
 	}
 
-	compact, err := json.Marshal(next)
-	if err != nil {
-		return err
-	}
-	html, err := os.ReadFile(*page)
-	if err != nil {
-		return err
-	}
-	if !payloadRe.Match(html) {
-		return fmt.Errorf(`%s: no <script id="payload"> block`, *page)
-	}
-	// Literal $ in the JSON would be read as a capture reference by Expand.
-	embedded := payloadRe.ReplaceAllFunc(html, func(m []byte) []byte {
-		g := payloadRe.FindSubmatch(m)
-		return append(append(append([]byte{}, g[1]...), compact...), g[3]...)
-	})
-	if err := os.WriteFile(*page, embedded, 0o644); err != nil {
+	if err := embedPage(next, *page); err != nil {
 		return err
 	}
 

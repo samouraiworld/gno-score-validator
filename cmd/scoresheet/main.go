@@ -12,7 +12,8 @@
 //	firedrill   rebuild the fire drill CSV and tab from the portal exports
 //	freeze      copy the final arena tabs into data/frozen/ (reads the sheet)
 //	snapshot    mirror the sheet into scorecard.json, the HTML page and the scoreboard
-//	render      regenerate the Markdown scoreboard from scorecard.json (offline)
+//	render      regenerate the scoreboard and the page payload from scorecard.json (offline)
+//	mainnet     fetch gnoland-1 into scorecard.json, shown beside the totals (no sheet)
 //	dashboard   build the Dashboard tab from scratch
 //	export      save a tab as PDF, to eyeball the result
 //
@@ -55,6 +56,13 @@ func main() {
 	// render works from the committed snapshot alone: no sheet, no key.
 	if args[0] == "render" {
 		if err := runRender(*root, args[1:]); err != nil {
+			fatal(err)
+		}
+		return
+	}
+	// mainnet reads gnomonitoring, which is public, and writes the snapshot.
+	if args[0] == "mainnet" {
+		if err := runMainnet(*root, args[1:]); err != nil {
 			fatal(err)
 		}
 		return
@@ -118,7 +126,9 @@ func usage() {
   freeze      copy the final arena tabs and Bilan to data/frozen/*.csv [-dry]
   snapshot    rebuild data/scorecard.json, re-embed it in the page and
               regenerate the scoreboard                               [-dry]
-  render      regenerate scoreboard/ from data/scorecard.json (no -id needed)
+  render      regenerate scoreboard/ and the page payload from data/scorecard.json (no -id needed)
+  mainnet     fetch gnoland-1 into data/scorecard.json, shown but not scored
+              (no -id needed)           [-dry] [-force] [-chain gnoland-1] [-period current_year]
   dashboard   rebuild the Dashboard tab
   export      save a tab as PDF, e.g. export Dashboard out.pdf
 

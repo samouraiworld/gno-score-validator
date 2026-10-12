@@ -8,7 +8,9 @@ scorecard built from the same numbers.
 validator, generated from `data/scorecard.json` and readable right here on GitHub.
 
 Every arena is final: the testnets (test13, topaz, sapphire, pearl) have ended
-and the fire drill has closed. Mainnet (`gnoland-1`) is not scored yet.
+and the fire drill has closed. Mainnet (`gnoland-1`) is shown on the page and
+the scoreboard but no total includes it: none of its validators is a candidate
+yet, and its weight will be decided when one joins.
 
 ## The score
 
@@ -83,7 +85,8 @@ ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID refresh -dry -chain <id> -tab <tab>  # plan a network tab refresh
 ./bin/scoresheet -id $ID freeze -dry        # plan the copy of the final tabs to data/frozen/
 ./bin/scoresheet -id $ID snapshot -dry      # plan the scorecard.json rebuild
-./bin/scoresheet render                     # regenerate scoreboard/ (offline, no -id)
+./bin/scoresheet render                     # regenerate scoreboard/ and the page payload (offline, no -id)
+./bin/scoresheet mainnet -dry               # plan the gnoland-1 fetch (shown, not scored; no -id)
 ./bin/scoresheet -id $ID dashboard          # rebuild the Dashboard tab
 ./bin/scoresheet -id $ID export Dashboard out.pdf
 ```
@@ -100,8 +103,8 @@ refuses to rewrite the fire drill without `-force` too.
 `freeze` copies Bilan and every final arena tab into `data/frozen/`, so the
 scores live in git and not only in an editable spreadsheet.
 
-`snapshot` mirrors the sheet into `data/scorecard.json` and re-embeds it in the
-HTML page, so the two can never disagree about a score. It **merges rather than
+`snapshot` mirrors the sheet into `data/scorecard.json` and re-embeds a public
+copy of it in the HTML page, so the two can never disagree about a score. It **merges rather than
 regenerates**: every field the sheet holds is rewritten from the sheet, and the
 `github` evidence blocks are carried over untouched. They have to be — the
 page's all-time versus since-2025 contribution split exists in neither the sheet
@@ -111,8 +114,12 @@ listed twice, and on a column J that disagrees with the scoring rule. Equal
 scores share a rank. It ends by regenerating the scoreboard.
 
 `render` builds `scoreboard/` from `data/scorecard.json` alone, without the
-sheet or the key. It writes public fields only — no Discord handle, no GitHub
-identity.
+sheet or the key, and re-embeds the page's payload. Both carry public fields
+only. The page keeps the GitHub login, profile link, match rule, confidence and
+contribution counts, and drops Discord handles, real names, bios, blogs and the
+matching notes. The page payload goes through an allowlist
+(`cmd/scoresheet/page.go`), so a new evidence field stays private by default,
+and a test fails if the committed page differs from it.
 
 `dashboard` is idempotent: it clears the tab's cells, charts, banding and
 conditional rules before rebuilding, so repeated runs do not stack duplicates.

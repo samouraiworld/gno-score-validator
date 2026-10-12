@@ -6,7 +6,7 @@ Data as of **2026-09-10** · **98** candidates · median score **68.22**
 
 **Score** = (challenge + test13 + topaz + sapphire + pearl + fire drill) / 6 + GitHub / 10, capped at 100.
 
-All six arenas carry equal weight and are final: the testnets have ended and the fire drill has closed. A candidate absent from an arena scores 0 there. The GitHub bonus counts contributions from 2025 on and is worth at most 10 points. Mainnet (`gnoland-1`) is not scored yet.
+All six arenas carry equal weight and are final: the testnets have ended and the fire drill has closed. A candidate absent from an arena scores 0 there. The GitHub bonus counts contributions from 2025 on and is worth at most 10 points. Mainnet (`gnoland-1`) is shown below but not scored.
 
 ## Arenas
 
@@ -18,6 +18,19 @@ All six arenas carry equal weight and are final: the testnets have ended and the
 | sapphire | gnomonitoring `sapphire-1`, final report | 79 | 84 |
 | pearl | gnomonitoring `pearl-1`, final report | 74 | 98 |
 | Fire drill | 2026-09-02 exercise, portal exports | 59 | 71 |
+
+## Mainnet `gnoland-1` — shown, not scored
+
+gnomonitoring `current_year` report fetched **2026-10-12**: 6 validators, 0 of them candidates. No score above includes it; its weight will be decided when a candidate joins mainnet.
+
+| Validator | Candidate | Tier | Score | Signing % | Missed blocks |
+| --- | --- | --- | ---: | ---: | ---: |
+| berty-validator-1 |  | Excellent | 100 | 100 | 3 |
+| onbloc-validator-1 |  | Good | 79 | 99.97 | 226 |
+| samourai-crew-validator-1 |  | Good | 69 | 99.95 | 406 |
+| Mithrandir |  | Good | 65 | 99.86 | 55 |
+| gno-core-validator-1 |  | Watch | 53 | 99.89 | 831 |
+| moul |  | Watch | 30 | 99.53 | 1282 |
 
 ## Distribution
 

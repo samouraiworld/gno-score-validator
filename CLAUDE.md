@@ -28,7 +28,8 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 ./bin/scoresheet -id $ID dashboard             # rebuild the Dashboard tab
 ./bin/scoresheet -id $ID freeze -dry           # final tabs -> data/frozen/*.csv
 ./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + page + scoreboard/
-./bin/scoresheet render                        # scoreboard/ only, offline, no -id
+./bin/scoresheet render                        # scoreboard/ + page payload, offline, no -id
+./bin/scoresheet mainnet -dry                  # gnoland-1, shown not scored, no -id
 ```
 
 Verification is `go build`, `go vet ./...`, `gofmt -l .`, `go test ./...`,
@@ -36,11 +37,17 @@ then `-dry` on every writing command before running it for real.
 
 **Every arena is final** (challenge, test13, topaz, sapphire, pearl, fire
 drill): `refresh` and `firedrill` refuse their tabs without `-force`
-(`scoring.FrozenTabs`). Only mainnet `gnoland-1` is expected to move; it has 6
-validators and is not scored yet.
+(`scoring.FrozenTabs`). Only mainnet `gnoland-1` is expected to move. It is
+**shown, not scored** (owner decision 2026-10-12): on that date its 6
+validators were all team nodes, none of the 98 candidates, so a 7th arena would
+only have scaled every score down by 1/7. Its weight gets decided when a
+candidate first joins it. `mainnet` (no `-id`, `current_year` like the
+testnets) fetches it into the `mainnet` block of `data/scorecard.json`, which
+`snapshot` carries across like the github blocks; no total reads it.
 
 **Run order after changing any tab:** `dashboard` → `snapshot` (which also
-renders `scoreboard/`). Commit `scoreboard/` with `data/scorecard.json`.
+renders `scoreboard/`). Commit `scoreboard/` and the page with
+`data/scorecard.json`. To update mainnet: `mainnet -dry`, then `mainnet`.
 `bilan` only needs re-running when `data/github-links.csv` or the scoring formula
 changes.
 
@@ -88,6 +95,9 @@ writes only I, J, K, L.
 - `github-evidence.csv` holds real names, blogs, bios and Discord handles for 98
   people. The GitHub repo is private and must stay private — for that reason,
   not because of any key.
+- The HTML page embeds `publicPayload`, never `scorecard.json` as is: Discord
+  handles and the github `name`, `bio`, `blog`, `note`, `evidence` fields stay
+  out. Widen the allowlist in `cmd/scoresheet/page.go` only on purpose.
 
 ## Chains
 
