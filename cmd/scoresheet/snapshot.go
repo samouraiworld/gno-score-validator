@@ -26,15 +26,17 @@ type snapshot struct {
 }
 
 type snapValidator struct {
-	Moniker         string                 `json:"moniker"`
-	Discord         string                 `json:"discord"`
-	Components      snapComponents         `json:"components"`
-	GithubCurrent   float64                `json:"github_current"`
-	GithubCorrected float64                `json:"github_corrected"`
-	ScoreCurrent    float64                `json:"score_current"`
-	ScoreCorrected  float64                `json:"score_corrected"`
-	FireDrill       *float64               `json:"fire_drill"`
-	Challenge       *snapChallenge         `json:"challenge_detail"`
+	Moniker         string         `json:"moniker"`
+	Discord         string         `json:"discord"`
+	Components      snapComponents `json:"components"`
+	GithubCurrent   float64        `json:"github_current"`
+	GithubCorrected float64        `json:"github_corrected"`
+	ScoreCurrent    float64        `json:"score_current"`
+	ScoreCorrected  float64        `json:"score_corrected"`
+	Challenge       *snapChallenge `json:"challenge_detail"`
+	// The total belongs in Components; this field carries only the rubric detail
+	// so there cannot be a second, nullable representation of the same score.
+	FireDrillDetail *snapFireDrill         `json:"fire_drill_detail,omitempty"`
 	Onchain         map[string]snapOnchain `json:"onchain"`
 
 	// Evidence gathered outside the spreadsheet: the account behind a
@@ -52,6 +54,8 @@ type snapComponents struct {
 	Test13    float64 `json:"test13"`
 	Topaz     float64 `json:"topaz"`
 	Sapphire  float64 `json:"sapphire"`
+	Pearl     float64 `json:"pearl"`
+	FireDrill float64 `json:"firedrill"`
 }
 
 type snapChallenge struct {
@@ -61,6 +65,20 @@ type snapChallenge struct {
 	Bonus    float64 `json:"bonus"`
 	FinalW   float64 `json:"final_w"`
 	Score    float64 `json:"score"`
+}
+
+// snapFireDrill is the exercise rubric: four criteria worth 25 each, summing to
+// the arena score. The three automatic ones stay pointers even though every row
+// carries them today — the sheet is hand-maintained, and a blank cell must read
+// as "not recorded" rather than as a zero, the same distinction Proposer draws.
+type snapFireDrill struct {
+	UploadTime    *float64 `json:"upload_time"`
+	Metadata      *float64 `json:"metadata"`
+	LogQuality    *float64 `json:"log_quality"`
+	Incident      float64  `json:"incident"`
+	Findings      string   `json:"findings,omitempty"`
+	PortalMoniker string   `json:"portal_moniker"`
+	Address       string   `json:"address"`
 }
 
 type snapOnchain struct {
@@ -113,12 +131,16 @@ func runSnapshot(e *env, args []string) error {
 		before[v.Moniker] = v.ScoreCorrected
 	}
 
-	rows, err := e.sheetValues(fmt.Sprintf("%s!A%d:K%d",
+	rows, err := e.sheetValues(fmt.Sprintf("%s!A%d:L%d",
 		sheetx.Ref(scoring.TabBilan), scoring.FirstRow, scoring.LastRow))
 	if err != nil {
 		return err
 	}
 	challenge, err := e.challengeDetail()
+	if err != nil {
+		return err
+	}
+	firedrill, err := e.firedrillDetail()
 	if err != nil {
 		return err
 	}
@@ -144,15 +166,19 @@ func runSnapshot(e *env, args []string) error {
 			Discord: cell(row, 1),
 			Components: snapComponents{
 				Challenge: number(row, 2), Test13: number(row, 3),
-				Topaz: number(row, 4), Sapphire: number(row, 5),
+				Topaz: number(row, 4), Sapphire: number(row, 5), Pearl: number(row, 6),
+				FireDrill: number(row, 7),
 			},
-			GithubCorrected: number(row, 7),
-			ScoreCorrected:  number(row, 8),
+			GithubCorrected: number(row, 8),
+			ScoreCorrected:  number(row, 9),
 			Onchain:         map[string]snapOnchain{},
 			Github:          carried[moniker],
 		}
 		if d, ok := challenge[moniker]; ok {
 			v.Challenge = &d
+		}
+		if d, ok := firedrill[strings.ToLower(moniker)]; ok {
+			v.FireDrillDetail = &d
 		}
 		for net, byMoniker := range onchain {
 			if o, ok := byMoniker[strings.ToLower(moniker)]; ok {
@@ -247,7 +273,7 @@ func githubScore(c map[string]float64) float64 {
 
 // total is the scoring rule, in Go rather than in fr_FR formula syntax.
 func total(c snapComponents, github float64) float64 {
-	t := (c.Challenge+c.Test13+c.Topaz+c.Sapphire)/scoring.ArenaDivisor +
+	t := (c.Challenge+c.Test13+c.Topaz+c.Sapphire+c.Pearl+c.FireDrill)/scoring.ArenaDivisor +
 		github/scoring.BonusDivisor
 	if t > scoring.MaxScore {
 		return scoring.MaxScore
@@ -318,7 +344,43 @@ func (e *env) challengeDetail() (map[string]snapChallenge, error) {
 	return out, nil
 }
 
-// onchainByNetwork reads the three network tabs into network -> moniker -> row.
+// firedrillDetail reads the exercise rubric, keyed case-insensitively by the
+// scorecard moniker. Portal spelling and the rotated exercise address are kept
+// for provenance, never for joining.
+func (e *env) firedrillDetail() (map[string]snapFireDrill, error) {
+	rows, err := e.sheetValues(fmt.Sprintf("%s!A2:I1000", sheetx.Ref(scoring.TabFireDrill)))
+	if err != nil {
+		return nil, err
+	}
+	out := map[string]snapFireDrill{}
+	for _, r := range rows {
+		moniker := strings.ToLower(strings.TrimSpace(cell(r, 0)))
+		if moniker == "" {
+			continue
+		}
+		out[moniker] = snapFireDrill{
+			UploadTime: optNumber(r, 3), Metadata: optNumber(r, 4), LogQuality: optNumber(r, 5),
+			Incident: number(r, 6), Findings: cell(r, 7),
+			PortalMoniker: cell(r, 1), Address: cell(r, 8),
+		}
+	}
+	return out, nil
+}
+
+// optNumber is number for a column that is legitimately blank: it returns nil
+// rather than 0, so a cell nobody has filled in cannot pass for a score of 0.
+func optNumber(row []interface{}, i int) *float64 {
+	if i >= len(row) {
+		return nil
+	}
+	f, ok := row[i].(float64)
+	if !ok {
+		return nil
+	}
+	return &f
+}
+
+// onchainByNetwork reads the network tabs into network -> moniker -> row.
 // The moniker key is lowercased because that is how Bilan's VLOOKUP matches it,
 // and a tab can spell a validator "offellnode" where Bilan says "offellNode".
 func (e *env) onchainByNetwork() (map[string]map[string]snapOnchain, error) {

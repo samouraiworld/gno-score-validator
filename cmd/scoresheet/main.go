@@ -72,6 +72,8 @@ func main() {
 		err = runBilan(e, rest)
 	case "refresh":
 		err = runRefresh(e, rest)
+	case "firedrill":
+		err = runFiredrill(e, rest)
 	case "snapshot":
 		err = runSnapshot(e, rest)
 	case "dashboard":
@@ -94,11 +96,12 @@ func usage() {
 	fmt.Fprint(os.Stderr, `scoresheet -creds key.json -id <spreadsheet> <command> [flags]
 
   audit       report numbers stored as text (read-only)
-  dump        print cell ranges, e.g. dump "Bilan!A1:K3"  (read-only)
+  dump        print cell ranges, e.g. dump "Bilan!A1:L3"  (read-only)
   coerce      convert text numbers into real numbers      [-dry]
   bilan       rewrite Score + GitHub audit columns         [-dry]
   refresh     rewrite a network tab from gnomonitoring      [-dry]
               [-chain sapphire-1] [-tab Score-sapphire] [-period current_year]
+  firedrill   rebuild the fire drill CSV + tab from the portal exports [-dry]
   snapshot    rebuild data/scorecard.json + re-embed it in the page  [-dry]
   dashboard   rebuild the Dashboard tab
   export      save a tab as PDF, e.g. export Dashboard out.pdf

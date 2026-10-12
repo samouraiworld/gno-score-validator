@@ -7,13 +7,15 @@ scorecard built from the same numbers.
 ## The score
 
 ```
-Score = ( Test13-challenge + Score-test13 + Score-topaz + Score-sapphire ) / 4
+Score = ( Test13-challenge + Score-test13 + Score-topaz + Score-sapphire + Score-pearl + Fire-drill ) / 6
       + GitHub / 10,   capped at 100
 ```
 
-The four arenas carry equal weight, so each contributes at most 25 points.
+The six arenas carry equal weight, so each contributes at most 16.7 points.
 GitHub is a bonus on top worth at most 10: it can lift a candidate, never sink
 one. **The cap matters** — without it the formula reaches 110.
+The snapshot records each arena's `1/6` weight as the full repeating decimal
+available to JSON; the executable rule remains the integer divisor above.
 
 GitHub participation is scored as:
 
@@ -65,7 +67,7 @@ go build -o bin/scoresheet ./cmd/scoresheet
 
 ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID audit              # numbers stored as text (read-only)
-./bin/scoresheet -id $ID dump "Bilan!A1:K3" # inspect cells    (read-only)
+./bin/scoresheet -id $ID dump "Bilan!A1:L3" # inspect cells    (read-only)
 ./bin/scoresheet -id $ID coerce -dry        # plan the text→number fix
 ./bin/scoresheet -id $ID bilan -dry         # plan the Score rewrite
 ./bin/scoresheet -id $ID refresh -dry       # plan a network tab refresh
@@ -74,8 +76,8 @@ ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID export Dashboard out.pdf
 ```
 
-Every writing command takes `-dry`. Start there — `bilan` rewrites a column
-that a human curates.
+Every writing command takes `-dry`. Start there — `bilan` rewrites the generated
+score and GitHub columns.
 
 `refresh` rewrites a network tab from the live gnomonitoring report. It
 defaults to `-chain sapphire-1 -tab Score-sapphire -period current_year`, and
@@ -93,25 +95,25 @@ conditional rules before rebuilding, so repeated runs do not stack duplicates.
 
 ## What the tool touches
 
-`bilan` writes **only** columns H, I, J and K:
+`bilan` writes **only** columns I, J, K and L:
 
-- **H** GitHub participation score, restricted to the cutoff year
-- **I** the total, as a capped formula rather than a pasted number
-- **J**, **K** GitHub login and match confidence, so the bonus is auditable
+- **I** GitHub participation score, restricted to the cutoff year
+- **J** the total, as a capped formula rather than a pasted number
+- **K**, **L** GitHub login and match confidence, so the bonus is auditable
   from the same row instead of taken on trust
 
-The human columns **A–G are never written**.
+The human columns **A–H are never written**.
 
 `dashboard` builds its own tab and reads everything else through formulas, so
 the standings stay live: edit Bilan and the table reorders itself.
 
 ## The monitoring reports
 
-The metrics behind the three network tabs come from gnomonitoring. Only
-**sapphire-1** is still served: `topaz-1` returns the two remaining core
-validators and `test13` is a `400 invalid chain ID`, so the CSVs under
-`gno-monitoring-metrics/` are frozen backups for those two chains and the only
-record left of what they held.
+The metrics behind the four network tabs come from gnomonitoring. Only
+**sapphire-1** and **pearl-1** are still served: `topaz-1` returns the two
+remaining core validators and `test13` is a `400 invalid chain ID`, so the CSVs
+under `gno-monitoring-metrics/` are frozen backups for those two chains and the
+only record left of what they held.
 
 Bilan reads a network tab with `VLOOKUP(A2;'Score-sapphire'!A:C;3;FALSE)` — by
 **moniker**, not by address, and case-insensitively. That matters more than it
@@ -121,7 +123,7 @@ join on the address column would have dropped three quarters of the rows.
 
 A moniker absent from the live report falls through to the `IFERROR` zero. That
 is a scoring decision, not an accident: leaving the active set costs the whole
-sapphire quarter of the score.
+sapphire contribution of 16.7 points.
 
 ## fr_FR, and four ways it breaks formulas
 
@@ -146,7 +148,7 @@ answer before it was pinned down, and all three are handled in
    `RAW` and resetting the column's number format, since a cell still carrying
    the date format would render a good value as a bad date.
 
-Weights are written as fractions (`/4`, `/10`) rather than `0.25` and `0.1`, so
+Weights are written as fractions (`/6`, `/10`) rather than decimal multipliers, so
 the decimal separator never enters a formula at all.
 
 A related trap, fixed once by `coerce`: values imported with a `.` decimal
@@ -159,7 +161,7 @@ numbers, which sidesteps locale parsing entirely.
 
 `web/validator-scorecard.html` is self-contained — open it in a browser, no
 server and no network. It carries the same snapshot the sheet does: overall
-standings, a per-validator profile with the on-chain detail for all three
+standings, a per-validator profile with the on-chain detail for all four
 networks, one page per scoring arena, and the GitHub evidence.
 
 Run `snapshot` after any change to the sheet, or the page keeps serving the

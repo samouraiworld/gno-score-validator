@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"google.golang.org/api/sheets/v4"
 
@@ -19,7 +20,7 @@ const (
 	methodRows = 6
 	profBar    = methodTop + methodRows
 	profHdr    = profBar + 1 // moniker row, and the COMPONENT header
-	profRows   = 7           // component table rows below the header
+	profRows   = 8           // component table rows below the header
 	onchBar    = profHdr + profRows + 1
 	onchHdr    = onchBar + 1
 	onchRows   = 12
@@ -27,10 +28,15 @@ const (
 	stdHdr     = stdBar + 1
 	stdFirst   = stdHdr + 1
 	helperRow  = 150 // off-screen source for the distribution chart
+	dashCols   = 13  // standings occupy A:M
+	chartCol   = 13  // charts start immediately beyond the standings, at N
+	helperCol  = 14  // helper data sit under the charts in O:P
+	gridCols   = 16
 )
 
 // Palette shared with the web scorecard. The network hues come from the
-// gemstones the testnets are named after: topaz gold, sapphire blue.
+// gemstones the testnets are named after: topaz gold, sapphire blue and pearl
+// purple.
 const (
 	cInk       = "#0f1720"
 	cInkSoft   = "#56636f"
@@ -41,6 +47,8 @@ const (
 	cTest13    = "#1baf7a"
 	cTopaz     = "#eda100"
 	cSapphire  = "#2a78d6"
+	cPearl     = "#8b5fd6"
+	cFireDrill = "#d64545"
 	cGitHub    = "#e87ba4"
 	cScaleLow  = "#eaf2fd"
 )
@@ -75,7 +83,7 @@ func runDashboard(e *env, _ []string) error {
 		created, err := e.svc.Spreadsheets.BatchUpdate(e.id, &sheets.BatchUpdateSpreadsheetRequest{
 			Requests: []*sheets.Request{{AddSheet: &sheets.AddSheetRequest{
 				Properties: &sheets.SheetProperties{Title: dashTab,
-					GridProperties: &sheets.GridProperties{RowCount: 200, ColumnCount: 14}}}}},
+					GridProperties: &sheets.GridProperties{RowCount: 200, ColumnCount: gridCols}}}}},
 		}).Do()
 		if err != nil {
 			return err
@@ -106,8 +114,14 @@ func runDashboard(e *env, _ []string) error {
 // command is idempotent. Clearing cells alone leaves banding behind, and a
 // second run then fails with "range already has alternating colors".
 func (e *env) wipeDashboard(ss *sheets.Spreadsheet, id int64) error {
-	reqs := []*sheets.Request{{UpdateCells: &sheets.UpdateCellsRequest{
-		Range: sheetx.Range(id, 0, 200, 0, 14), Fields: "*"}}}
+	reqs := []*sheets.Request{
+		{UpdateSheetProperties: &sheets.UpdateSheetPropertiesRequest{
+			Properties: &sheets.SheetProperties{SheetId: id,
+				GridProperties: &sheets.GridProperties{ColumnCount: gridCols}},
+			Fields: "gridProperties.columnCount"}},
+		{UpdateCells: &sheets.UpdateCellsRequest{
+			Range: sheetx.Range(id, 0, 200, 0, gridCols), Fields: "*"}},
+	}
 	for _, sh := range ss.Sheets {
 		if sh.Properties.SheetId != id {
 			continue
@@ -127,7 +141,7 @@ func (e *env) wipeDashboard(ss *sheets.Spreadsheet, id int64) error {
 		}
 	}
 	reqs = append(reqs, &sheets.Request{UnmergeCells: &sheets.UnmergeCellsRequest{
-		Range: sheetx.Range(id, 0, 200, 0, 14)}})
+		Range: sheetx.Range(id, 0, 200, 0, gridCols)}})
 	_, err := e.svc.Spreadsheets.BatchUpdate(e.id,
 		&sheets.BatchUpdateSpreadsheetRequest{Requests: reqs}).Do()
 	return err
@@ -135,15 +149,21 @@ func (e *env) wipeDashboard(ss *sheets.Spreadsheet, id int64) error {
 
 func methodText() [][]interface{} {
 	return [][]interface{}{
-		{fmt.Sprintf("Score  =  ( Test13-challenge + Score-test13 + Score-topaz + Score-sapphire ) / %d   +   GitHub / %d,   capped at %d",
+		{fmt.Sprintf("Score  =  ( Test13-challenge + Score-test13 + Score-topaz + Score-sapphire + Score-pearl + Fire-drill ) / %d   +   GitHub / %d,   capped at %d",
 			scoring.ArenaDivisor, scoring.BonusDivisor, scoring.MaxScore)},
-		{"The four arenas carry equal weight: each contributes at most 25 points. GitHub is a bonus on top, worth at most 10 — it can lift a candidate, never sink one."},
+		{"The six arenas carry equal weight: each contributes at most 16.7 points. GitHub is a bonus on top, worth at most 10 — it can lift a candidate, never sink one."},
 		{fmt.Sprintf("GitHub score  =  %d × merged PRs  +  %d × unmerged PRs  +  %d × issues opened  +  %d × commits  +  %d × comment threads. A merged pull request is the only artefact proving code landed, so it outweighs intent and discussion.",
 			scoring.WeightMergedPR, scoring.WeightUnmergedPR, scoring.WeightIssue,
 			scoring.WeightCommit, scoring.WeightComment)},
 		{fmt.Sprintf("Only contributions dated %d or later count toward the bonus. One candidate is affected: Santala-Research, whose three gnolang pull requests are typo fixes from 2023 that predate test13 entirely.", scoring.CutoffYear)},
-		{"12 of the 98 candidates could be tied to a GitHub account, each verified by hand. A blank GitHub column is absence of evidence, not evidence of absence — it never costs points."},
-		{"Fire drill is not scored yet and carries no weight. Adding it later means rebalancing the other four, or totals will run past 100."},
+		// The two counts below are formulas, not text. The fire drill stayed open
+		// after its first export and grew from 49 submitters to 59 while a typed
+		// "49" sat on this tab, contradicting the standings under it.
+		{liveCount(`COUNTIF(%s!%s%d:%s%d;"?*")`, scoring.ColGitHubUser,
+			" of the %d candidates could be tied to a GitHub account, each verified by hand. A blank GitHub column is absence of evidence, not evidence of absence — it never costs points.", "")},
+		{liveCount(`COUNTIF(%s!%s%d:%s%d;">0")`, scoring.ColFireDrill,
+			" of the %d candidates submitted.",
+			"The pearl-1 fire drill measured upload time, metadata, log quality and incident response. ")},
 	}
 }
 
@@ -159,6 +179,8 @@ func componentRows() [][]interface{} {
 		{"Score · test13", scoring.ColTest13, scoring.ArenaDivisor, cTest13},
 		{"Score · topaz", scoring.ColTopaz, scoring.ArenaDivisor, cTopaz},
 		{"Score · sapphire", scoring.ColSapphire, scoring.ArenaDivisor, cSapphire},
+		{"Score · pearl", scoring.ColPearl, scoring.ArenaDivisor, cPearl},
+		{"Fire drill", scoring.ColFireDrill, scoring.ArenaDivisor, cFireDrill},
 		{"GitHub bonus", scoring.ColGitHub, scoring.BonusDivisor, cGitHub},
 	}
 	var out [][]interface{}
@@ -168,7 +190,6 @@ func componentRows() [][]interface{} {
 			fmt.Sprintf(`=IFERROR(%s/%d;"—")`, raw, c.divisor),
 			sheetx.SparkBar(raw, c.color, cScaleLow)})
 	}
-	out = append(out, []interface{}{"Fire drill", "", "—", "—", ""})
 	out = append(out, []interface{}{"TOTAL", "", "",
 		fmt.Sprintf(`=MIN(%d;SUM($G$%d:$G$%d))`, scoring.MaxScore, profHdr+1, profHdr+len(comps)), ""})
 	return out
@@ -199,11 +220,8 @@ func onchainRows() [][]interface{} {
 	var out [][]interface{}
 	for _, m := range metrics {
 		row := []interface{}{m.label, ""}
-		for i, net := range scoring.Networks {
+		for _, net := range scoring.Networks {
 			row = append(row, netLookup(net, m.col, m.text))
-			if i < len(scoring.Networks)-1 {
-				row = append(row, "")
-			}
 		}
 		out = append(out, row)
 	}
@@ -220,7 +238,7 @@ func (e *env) writeDashboardValues() error {
 	vals := []*sheets.ValueRange{
 		{Range: dashTab + "!A1", Values: [][]interface{}{{"Gno Validator Scorecard"}}},
 		{Range: dashTab + "!A2", Values: [][]interface{}{{fmt.Sprintf(
-			"%d test13 candidates  ·  Score = (challenge + test13 + topaz + sapphire) / %d  +  GitHub / %d,  capped at %d",
+			"%d test13 candidates  ·  Score = (challenge + test13 + topaz + sapphire + pearl + fire drill) / %d  +  GitHub / %d,  capped at %d",
 			scoring.NumRows, scoring.ArenaDivisor, scoring.BonusDivisor, scoring.MaxScore)}}},
 
 		{Range: dashTab + "!A4", Values: [][]interface{}{
@@ -233,7 +251,7 @@ func (e *env) writeDashboardValues() error {
 			fmt.Sprintf(`=COUNTIF(%s!%s%d:%s%d;"<>")`, bilan,
 				scoring.ColGitHubUser, scoring.FirstRow, scoring.ColGitHubUser, scoring.LastRow)}}},
 		{Range: dashTab + "!A6", Values: [][]interface{}{{
-			"scored across four arenas", "",
+			"scored across six arenas", "",
 			"half score above, half below", "",
 			fmt.Sprintf("=XLOOKUP(MAX(%s);%s;%s)", scoreRange, scoreRange, monikerRange), "",
 			"average of all candidates", "",
@@ -261,20 +279,20 @@ func (e *env) writeDashboardValues() error {
 		{Range: fmt.Sprintf("%s!A%d", dashTab, onchBar),
 			Values: [][]interface{}{{"ON-CHAIN DETAIL  ·  current year"}}},
 		{Range: fmt.Sprintf("%s!B%d", dashTab, onchHdr), Values: [][]interface{}{
-			{"METRIC", "", scoring.Networks[0][6:], "", scoring.Networks[1][6:], "", scoring.Networks[2][6:]}}},
+			append([]interface{}{"METRIC", ""}, networkLabels()...)}},
 		{Range: fmt.Sprintf("%s!B%d", dashTab, onchHdr+1), Values: onchainRows()},
 
 		{Range: fmt.Sprintf("%s!A%d", dashTab, stdBar), Values: [][]interface{}{{"STANDINGS"}}},
 		{Range: fmt.Sprintf("%s!A%d", dashTab, stdHdr), Values: [][]interface{}{{
 			"#", "Moniker", "Discord", "Challenge", "test13", "topaz", "sapphire",
-			"GitHub", "Score", "GitHub login", "Score bar"}}},
+			"pearl", "fire drill", "GitHub", "Score", "GitHub login", "Score bar"}}},
 		// One spilling formula keeps the table live: edit Bilan and it reorders.
 		{Range: fmt.Sprintf("%s!A%d", dashTab, stdFirst), Values: [][]interface{}{{
 			fmt.Sprintf("=SEQUENCE(%d)", scoring.NumRows),
-			fmt.Sprintf("=SORT(CHOOSECOLS(%s!A%d:K%d;1;2;3;4;5;6;8;9;10);8;FALSE)",
+			fmt.Sprintf("=SORT(CHOOSECOLS(%s!A%d:L%d;1;2;3;4;5;6;7;8;9;10;11);10;FALSE)",
 				bilan, scoring.FirstRow, scoring.LastRow)}}},
 
-		{Range: fmt.Sprintf("%s!M%d", dashTab, helperRow),
+		{Range: fmt.Sprintf("%s!O%d", dashTab, helperRow),
 			Values: [][]interface{}{{"Score band", "Candidates"}}},
 	}
 
@@ -288,17 +306,36 @@ func (e *env) writeDashboardValues() error {
 			fmt.Sprintf(`=COUNTIFS(%s;">=%d";%s;"<%d")`, scoreRange, b[0], scoreRange, b[1])})
 	}
 	vals = append(vals, &sheets.ValueRange{
-		Range: fmt.Sprintf("%s!M%d", dashTab, helperRow+1), Values: bands})
+		Range: fmt.Sprintf("%s!O%d", dashTab, helperRow+1), Values: bands})
 
 	var sparks [][]interface{}
 	for r := stdFirst; r < stdFirst+scoring.NumRows; r++ {
 		sparks = append(sparks, []interface{}{
-			sheetx.SparkBar(fmt.Sprintf("I%d", r), cSapphire, cScaleLow)})
+			sheetx.SparkBar(fmt.Sprintf("J%d", r), cSapphire, cScaleLow)})
 	}
 	vals = append(vals, &sheets.ValueRange{
-		Range: fmt.Sprintf("%s!K%d", dashTab, stdFirst), Values: sparks})
+		Range: fmt.Sprintf("%s!M%d", dashTab, stdFirst), Values: sparks})
 
 	_, err := e.svc.Spreadsheets.Values.BatchUpdate(e.id, &sheets.BatchUpdateValuesRequest{
 		ValueInputOption: "USER_ENTERED", Data: vals}).Do()
 	return err
+}
+
+func networkLabels() []interface{} {
+	labels := make([]interface{}, 0, len(scoring.Networks))
+	for _, network := range scoring.Networks {
+		labels = append(labels, network[6:])
+	}
+	return labels
+}
+
+// liveCount builds a sentence whose count is a COUNTIF over one Bilan column,
+// so the tab stays right when the data under it moves. countExpr takes the tab,
+// column, first row, column and last row; rest takes the candidate total.
+// Quotes are doubled because the text sits inside a formula string literal.
+func liveCount(countExpr, col, rest, lead string) string {
+	count := fmt.Sprintf(countExpr, sheetx.Ref(scoring.TabBilan),
+		col, scoring.FirstRow, col, scoring.LastRow)
+	q := func(t string) string { return strings.ReplaceAll(t, `"`, `""`) }
+	return fmt.Sprintf(`="%s"&%s&"%s"`, q(lead), count, q(fmt.Sprintf(rest, scoring.NumRows)))
 }

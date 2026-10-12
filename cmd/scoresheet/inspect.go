@@ -12,7 +12,7 @@ import (
 // formula evaluated rather than landing as text or #ERROR!.
 func runDump(e *env, args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf(`dump needs at least one range, e.g. "Bilan!A1:K3"`)
+		return fmt.Errorf(`dump needs at least one range, e.g. "Bilan!A1:L3"`)
 	}
 	for _, rng := range args {
 		vr, err := e.svc.Spreadsheets.Values.Get(e.id, rng).Do()

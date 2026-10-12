@@ -11,13 +11,13 @@ import (
 
 // runBilan rewrites three things on the Bilan tab:
 //
-//   - column H, the GitHub participation score, restricted to contributions
+//   - column I, the GitHub participation score, restricted to contributions
 //     from the cutoff year on;
-//   - column I, the total, as a capped formula rather than a pasted number;
-//   - columns J and K, the GitHub login and match confidence, so the bonus can
+//   - column J, the total, as a capped formula rather than a pasted number;
+//   - columns K and L, the GitHub login and match confidence, so the bonus can
 //     be audited from the same row instead of taken on trust.
 //
-// The human columns A-G are never touched.
+// The human columns A-H are never touched.
 func runBilan(e *env, args []string) error {
 	_, dry := subFlags("bilan", args)
 
@@ -41,6 +41,7 @@ func runBilan(e *env, args []string) error {
 
 	var github, score, audit [][]interface{}
 	changed := 0
+	githubIndex := int(scoring.ColGitHub[0] - 'A')
 	for i, row := range cur.Values {
 		r := scoring.FirstRow + i
 		moniker := fmt.Sprint(row[0])
@@ -53,8 +54,8 @@ func runBilan(e *env, args []string) error {
 		}
 
 		old := ""
-		if len(row) > 7 {
-			old = fmt.Sprint(row[7])
+		if len(row) > githubIndex {
+			old = fmt.Sprint(row[githubIndex])
 		}
 		if fmt.Sprintf("%g", newScore) != old {
 			changed++

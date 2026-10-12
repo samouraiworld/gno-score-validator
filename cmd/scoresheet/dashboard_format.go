@@ -13,22 +13,23 @@ func (e *env) formatDashboard(id int64) error {
 	}
 	merge := func(r1, r2, c1, c2 int64) *sheets.Request { return sheetx.Merge(id, r1, r2, c1, c2) }
 	last := int64(stdFirst - 1 + scoring.NumRows)
+	onchainEnd := int64(3 + len(scoring.Networks))
 
 	reqs := []*sheets.Request{
 		{UpdateSheetProperties: &sheets.UpdateSheetPropertiesRequest{
 			Properties: &sheets.SheetProperties{SheetId: id,
-				GridProperties: &sheets.GridProperties{HideGridlines: true, FrozenRowCount: 6},
+				GridProperties: &sheets.GridProperties{HideGridlines: true, FrozenRowCount: 6, ColumnCount: gridCols},
 				TabColor:       sheetx.Color(cSapphire)},
-			Fields: "gridProperties.hideGridlines,gridProperties.frozenRowCount,tabColor"}},
+			Fields: "gridProperties.hideGridlines,gridProperties.frozenRowCount,gridProperties.columnCount,tabColor"}},
 
 		// title band
-		merge(0, 1, 0, 11), merge(1, 2, 0, 11),
+		merge(0, 1, 0, dashCols), merge(1, 2, 0, dashCols),
 		sheetx.RowHeight(id, 0, 1, 52), sheetx.RowHeight(id, 1, 2, 26),
-		fmtc(0, 1, 0, 11, &sheets.CellFormat{
+		fmtc(0, 1, 0, dashCols, &sheets.CellFormat{
 			BackgroundColor: sheetx.Color(cInk), TextFormat: sheetx.Text(true, 20, "#ffffff"),
 			VerticalAlignment: "MIDDLE", Padding: &sheets.Padding{Left: 14},
 		}, "backgroundColor,textFormat,verticalAlignment,padding"),
-		fmtc(1, 2, 0, 11, &sheets.CellFormat{
+		fmtc(1, 2, 0, dashCols, &sheets.CellFormat{
 			BackgroundColor: sheetx.Color(cInk), TextFormat: sheetx.Text(false, 10, "#9ba8b9"),
 			VerticalAlignment: "MIDDLE", Padding: &sheets.Padding{Left: 14},
 		}, "backgroundColor,textFormat,verticalAlignment,padding"),
@@ -42,11 +43,11 @@ func (e *env) formatDashboard(id int64) error {
 		fmtc(5, 6, 0, 9, &sheets.CellFormat{TextFormat: sheetx.Text(false, 9, cInkSoft)}, "textFormat"),
 
 		// explanation: prose, not a data grid
-		fmtc(methodTop-1, methodTop-1+methodRows, 0, 11, &sheets.CellFormat{
+		fmtc(methodTop-1, methodTop-1+methodRows, 0, dashCols, &sheets.CellFormat{
 			TextFormat: sheetx.Text(false, 9, cInkSoft), WrapStrategy: "WRAP",
 			VerticalAlignment: "MIDDLE", Padding: &sheets.Padding{Left: 6, Top: 2, Bottom: 2},
 		}, "textFormat,wrapStrategy,verticalAlignment,padding"),
-		fmtc(methodTop-1, methodTop, 0, 11, &sheets.CellFormat{
+		fmtc(methodTop-1, methodTop, 0, dashCols, &sheets.CellFormat{
 			TextFormat: sheetx.Text(true, 10, cInk)}, "textFormat"),
 
 		// profile labels (col B) and values (col C)
@@ -75,7 +76,7 @@ func (e *env) formatDashboard(id int64) error {
 		}, "textFormat,borders"),
 
 		// on-chain table
-		fmtc(onchHdr-1, onchHdr, 1, 9, &sheets.CellFormat{
+		fmtc(onchHdr-1, onchHdr, 1, onchainEnd, &sheets.CellFormat{
 			TextFormat: sheetx.Text(true, 8, cMuted), HorizontalAlignment: "CENTER",
 			Borders: underline(cBorder),
 		}, "textFormat,horizontalAlignment,borders"),
@@ -83,28 +84,28 @@ func (e *env) formatDashboard(id int64) error {
 			HorizontalAlignment: "LEFT"}, "horizontalAlignment"),
 		fmtc(onchHdr, onchHdr+onchRows, 1, 2, &sheets.CellFormat{
 			TextFormat: sheetx.Text(false, 0, cInkSoft)}, "textFormat"),
-		fmtc(onchHdr, onchHdr+onchRows, 3, 9, &sheets.CellFormat{
+		fmtc(onchHdr, onchHdr+onchRows, 3, onchainEnd, &sheets.CellFormat{
 			HorizontalAlignment: "CENTER", TextFormat: sheetx.Text(true, 10, cInk),
 		}, "horizontalAlignment,textFormat"),
-		fmtc(onchHdr+2, onchHdr+3, 3, 9, &sheets.CellFormat{
+		fmtc(onchHdr+2, onchHdr+3, 3, onchainEnd, &sheets.CellFormat{
 			NumberFormat: &sheets.NumberFormat{Type: "NUMBER", Pattern: `0.0"%"`}}, "numberFormat"),
-		fmtc(onchHdr+8, onchHdr+9, 3, 9, &sheets.CellFormat{
+		fmtc(onchHdr+8, onchHdr+9, 3, onchainEnd, &sheets.CellFormat{
 			NumberFormat: &sheets.NumberFormat{Type: "NUMBER", Pattern: "0.000"}}, "numberFormat"),
-		fmtc(onchHdr+11, onchHdr+12, 3, 9, &sheets.CellFormat{
+		fmtc(onchHdr+11, onchHdr+12, 3, onchainEnd, &sheets.CellFormat{
 			TextFormat: sheetx.Text(false, 7, cMuted), WrapStrategy: "WRAP",
 		}, "textFormat,wrapStrategy"),
 
 		// standings
-		fmtc(stdHdr-1, stdHdr, 0, 11, &sheets.CellFormat{
+		fmtc(stdHdr-1, stdHdr, 0, dashCols, &sheets.CellFormat{
 			BackgroundColor: sheetx.Color(cInk), TextFormat: sheetx.Text(true, 9, "#ffffff"),
 			HorizontalAlignment: "CENTER", VerticalAlignment: "MIDDLE",
 		}, "backgroundColor,textFormat,horizontalAlignment,verticalAlignment"),
 		sheetx.RowHeight(id, stdHdr-1, stdHdr, 28),
 		// Components keep the automatic format: an explicit "0.##" pattern
 		// leaves a dangling decimal separator on whole numbers.
-		fmtc(stdFirst-1, last, 3, 8, &sheets.CellFormat{
+		fmtc(stdFirst-1, last, 3, 10, &sheets.CellFormat{
 			HorizontalAlignment: "RIGHT"}, "horizontalAlignment"),
-		fmtc(stdFirst-1, last, 8, 9, &sheets.CellFormat{
+		fmtc(stdFirst-1, last, 10, 11, &sheets.CellFormat{
 			HorizontalAlignment: "RIGHT", TextFormat: sheetx.Text(true, 10, cInk),
 			NumberFormat: &sheets.NumberFormat{Type: "NUMBER", Pattern: "0.00"},
 		}, "horizontalAlignment,textFormat,numberFormat"),
@@ -115,19 +116,20 @@ func (e *env) formatDashboard(id int64) error {
 			TextFormat: sheetx.Text(true, 10, cInk)}, "textFormat"),
 		fmtc(stdFirst-1, last, 2, 3, &sheets.CellFormat{
 			TextFormat: sheetx.Text(false, 0, cInkSoft)}, "textFormat"),
-		fmtc(stdFirst-1, last, 9, 10, &sheets.CellFormat{
+		fmtc(stdFirst-1, last, 11, 12, &sheets.CellFormat{
 			TextFormat: sheetx.Text(false, 9, cInkSoft)}, "textFormat"),
 
-		fmtc(helperRow-1, helperRow, 12, 14, &sheets.CellFormat{
+		fmtc(helperRow-1, helperRow, helperCol, helperCol+2, &sheets.CellFormat{
 			TextFormat: sheetx.Text(true, 9, cMuted)}, "textFormat"),
 
 		sheetx.ColumnWidth(id, 0, 1, 46), sheetx.ColumnWidth(id, 1, 2, 190),
-		sheetx.ColumnWidth(id, 2, 3, 160), sheetx.ColumnWidth(id, 3, 9, 84),
-		sheetx.ColumnWidth(id, 9, 10, 140), sheetx.ColumnWidth(id, 10, 11, 120),
-		sheetx.ColumnWidth(id, 11, 12, 24), sheetx.ColumnWidth(id, 12, 14, 110),
+		sheetx.ColumnWidth(id, 2, 3, 160), sheetx.ColumnWidth(id, 3, onchainEnd, 110),
+		sheetx.ColumnWidth(id, onchainEnd, 11, 84), sheetx.ColumnWidth(id, 11, 12, 140),
+		sheetx.ColumnWidth(id, 12, 13, 120), sheetx.ColumnWidth(id, 13, 14, 24),
+		sheetx.ColumnWidth(id, helperCol, helperCol+2, 110),
 
 		{AddBanding: &sheets.AddBandingRequest{BandedRange: &sheets.BandedRange{
-			Range: sheetx.Range(id, stdFirst-1, last, 0, 11),
+			Range: sheetx.Range(id, stdFirst-1, last, 0, dashCols),
 			RowProperties: &sheets.BandingProperties{
 				FirstBandColor:  sheetx.Color("#ffffff"),
 				SecondBandColor: sheetx.Color("#f8fafc")}}}},
@@ -135,7 +137,7 @@ func (e *env) formatDashboard(id int64) error {
 		// Score is a magnitude, so the scale is one hue, light to dark.
 		{AddConditionalFormatRule: &sheets.AddConditionalFormatRuleRequest{
 			Rule: &sheets.ConditionalFormatRule{
-				Ranges: []*sheets.GridRange{sheetx.Range(id, stdFirst-1, last, 8, 9)},
+				Ranges: []*sheets.GridRange{sheetx.Range(id, stdFirst-1, last, 10, 11)},
 				GradientRule: &sheets.GradientRule{
 					Minpoint: &sheets.InterpolationPoint{Color: sheetx.Color(cScaleLow), Type: "MIN"},
 					Maxpoint: &sheets.InterpolationPoint{Color: sheetx.Color(cSapphire), Type: "MAX"},
@@ -152,22 +154,18 @@ func (e *env) formatDashboard(id int64) error {
 
 	for _, bar := range []int64{methodBar, profBar, onchBar, stdBar} {
 		reqs = append(reqs,
-			fmtc(bar-1, bar, 0, 11, &sheets.CellFormat{
+			fmtc(bar-1, bar, 0, dashCols, &sheets.CellFormat{
 				BackgroundColor: sheetx.Color(cSurface2), TextFormat: sheetx.Text(true, 10, cInk),
 				Padding: &sheets.Padding{Left: 6},
 			}, "backgroundColor,textFormat,padding"),
-			merge(bar-1, bar, 0, 11))
+			merge(bar-1, bar, 0, dashCols))
 	}
 	for r := int64(methodTop - 1); r < methodTop-1+methodRows; r++ {
-		reqs = append(reqs, merge(r, r+1, 0, 11))
+		reqs = append(reqs, merge(r, r+1, 0, dashCols))
 	}
 	for r := int64(profHdr - 1); r < profHdr+profRows; r++ {
 		reqs = append(reqs, merge(r, r+1, 3, 5))
 	}
-	for r := int64(onchHdr - 1); r < onchHdr+onchRows; r++ {
-		reqs = append(reqs, merge(r, r+1, 3, 5), merge(r, r+1, 5, 7), merge(r, r+1, 7, 9))
-	}
-
 	_, err := e.svc.Spreadsheets.BatchUpdate(e.id,
 		&sheets.BatchUpdateSpreadsheetRequest{Requests: reqs}).Do()
 	return err
@@ -212,7 +210,7 @@ func (e *env) dashboardCharts(id int64) error {
 	}
 	reqs := []*sheets.Request{
 		{AddChart: &sheets.AddChartRequest{Chart: &sheets.EmbeddedChart{
-			Position: anchor(3, 12),
+			Position: anchor(3, chartCol),
 			Spec: &sheets.ChartSpec{
 				Title: "Top 15 by score", Subtitle: "points out of 100",
 				BasicChart: &sheets.BasicChartSpec{
@@ -224,21 +222,21 @@ func (e *env) dashboardCharts(id int64) error {
 					Series: []*sheets.BasicChartSeries{{
 						Series: &sheets.ChartData{SourceRange: &sheets.ChartSourceRange{
 							Sources: []*sheets.GridRange{
-								sheetx.Range(id, stdFirst-1, stdFirst-1+15, 8, 9)}}},
+								sheetx.Range(id, stdFirst-1, stdFirst-1+15, 10, 11)}}},
 						Color: sheetx.Color(cSapphire)}}}}}}},
 		{AddChart: &sheets.AddChartRequest{Chart: &sheets.EmbeddedChart{
-			Position: anchor(22, 12),
+			Position: anchor(22, chartCol),
 			Spec: &sheets.ChartSpec{
 				Title: "Score distribution", Subtitle: "candidates per 20-point band",
 				BasicChart: &sheets.BasicChartSpec{
 					ChartType: "COLUMN", LegendPosition: "NO_LEGEND",
 					Domains: []*sheets.BasicChartDomain{{Domain: &sheets.ChartData{
 						SourceRange: &sheets.ChartSourceRange{Sources: []*sheets.GridRange{
-							sheetx.Range(id, helperRow, helperRow+5, 12, 13)}}}}},
+							sheetx.Range(id, helperRow, helperRow+5, helperCol, helperCol+1)}}}}},
 					Series: []*sheets.BasicChartSeries{{
 						Series: &sheets.ChartData{SourceRange: &sheets.ChartSourceRange{
 							Sources: []*sheets.GridRange{
-								sheetx.Range(id, helperRow, helperRow+5, 13, 14)}}},
+								sheetx.Range(id, helperRow, helperRow+5, helperCol+1, helperCol+2)}}},
 						Color: sheetx.Color(cTest13)}}}}}}},
 	}
 	_, err := e.svc.Spreadsheets.BatchUpdate(e.id,

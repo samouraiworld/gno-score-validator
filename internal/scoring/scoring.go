@@ -10,7 +10,7 @@ import (
 )
 
 // The Bilan tab: header on row 1, one validator per row from FirstRow to
-// LastRow, columns A-K.
+// LastRow, columns A-L.
 const (
 	TabBilan = "Bilan"
 	FirstRow = 2
@@ -26,29 +26,33 @@ const (
 	ColTest13     = "D"
 	ColTopaz      = "E"
 	ColSapphire   = "F"
-	ColFireDrill  = "G"
-	ColGitHub     = "H"
-	ColScore      = "I"
-	ColGitHubUser = "J" // added by this tool
-	ColConfidence = "K" // added by this tool
+	ColPearl      = "G"
+	ColFireDrill  = "H"
+	ColGitHub     = "I"
+	ColScore      = "J"
+	ColGitHubUser = "K" // added by this tool
+	ColConfidence = "L" // added by this tool
 )
 
 // Network tabs, in the order they are presented.
-var Networks = []string{"Score-test13", "Score-topaz", "Score-sapphire"}
+var Networks = []string{"Score-test13", "Score-topaz", "Score-sapphire", "Score-pearl"}
 
-// TabChallenge holds the onboarding challenge breakdown.
-const TabChallenge = "Test13-challenge"
+// Non-network tabs hold rubric breakdowns rather than gnomonitoring metrics.
+const (
+	TabChallenge = "Test13-challenge"
+	TabFireDrill = "Score-firedrill"
+)
 
 // The scoring rule.
 //
-//	Score = ( challenge + test13 + topaz + sapphire ) / ArenaDivisor
+//	Score = ( challenge + test13 + topaz + sapphire + pearl + fire drill ) / ArenaDivisor
 //	      + GitHub / BonusDivisor,  capped at MaxScore
 //
-// The four arenas carry equal weight, so each contributes at most 25 points.
+// The six arenas carry equal weight, so each contributes at most 100/6 points.
 // GitHub is a bonus on top worth at most 10: it can lift a candidate, never
 // sink one. The cap matters — without it the formula reaches 110.
 const (
-	ArenaDivisor = 4
+	ArenaDivisor = 6
 	BonusDivisor = 10
 	MaxScore     = 100
 )
@@ -71,9 +75,9 @@ const CutoffYear = 2025
 
 // ScoreFormula is the capped total for one Bilan row, in fr_FR syntax.
 func ScoreFormula(row int) string {
-	return fmt.Sprintf("=MIN(%d; (%s%d+%s%d+%s%d+%s%d)/%d + %s%d/%d)",
+	return fmt.Sprintf("=MIN(%d; (%s%d+%s%d+%s%d+%s%d+%s%d+%s%d)/%d + %s%d/%d)",
 		MaxScore,
-		ColChallenge, row, ColTest13, row, ColTopaz, row, ColSapphire, row,
+		ColChallenge, row, ColTest13, row, ColTopaz, row, ColSapphire, row, ColPearl, row, ColFireDrill, row,
 		ArenaDivisor, ColGitHub, row, BonusDivisor)
 }
 

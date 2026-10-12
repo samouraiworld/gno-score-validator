@@ -14,15 +14,18 @@ import (
 // coerceTargets are the columns known to have arrived as text. The network
 // tabs were imported with a '.' decimal separator; the challenge tab's Bonus
 // column carries a leading '+'.
-var coerceTargets = []struct {
+type coerceTarget struct {
 	tab  string
 	cols []string
-}{
-	{scoring.Networks[0], []string{"E", "G", "K"}},
-	{scoring.Networks[1], []string{"E", "G", "K"}},
-	{scoring.Networks[2], []string{"E", "G", "K"}},
-	{scoring.TabChallenge, []string{"F"}},
 }
+
+var coerceTargets = func() []coerceTarget {
+	targets := make([]coerceTarget, 0, len(scoring.Networks)+1)
+	for _, network := range scoring.Networks {
+		targets = append(targets, coerceTarget{network, []string{"E", "G", "K"}})
+	}
+	return append(targets, coerceTarget{scoring.TabChallenge, []string{"F"}})
+}()
 
 // numberFormats keep the same metric presented identically across tabs.
 var numberFormats = map[string]string{

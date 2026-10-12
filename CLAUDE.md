@@ -11,7 +11,7 @@ order to run things, and which decisions are already settled.
 `Score Gno-Validator`, id `1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA`
 (owner `lours@samourai.coop`). It is deliberately not hardcoded — every command
 takes `-id`. Tabs: `Dashboard`, `Bilan`, `Test13-challenge`, `Score-test13`,
-`Score-topaz`, `Score-sapphire`, `Github`.
+`Score-topaz`, `Score-sapphire`, `Score-pearl`, `Score-firedrill`, `Github`.
 
 `service-account.json` is a **symlink** to `../gno-onboarding-bot/service-account.json`
 and is gitignored. The sheet must be shared with that account's `client_email`
@@ -24,7 +24,7 @@ go build -o bin/scoresheet ./cmd/scoresheet
 ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 
 ./bin/scoresheet -id $ID audit                 # numbers stored as text (read-only)
-./bin/scoresheet -id $ID dump "Bilan!A1:K3"    # inspect cells      (read-only)
+./bin/scoresheet -id $ID dump "Bilan!A1:L3"    # inspect cells      (read-only)
 ./bin/scoresheet -id $ID refresh -dry          # network tab from the live API
 ./bin/scoresheet -id $ID dashboard             # rebuild the Dashboard tab
 ./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + re-embed in the page
@@ -34,7 +34,8 @@ There are no tests. Verification is `go build`, `go vet ./...`, `gofmt -l .`,
 then `-dry` on every writing command before running it for real.
 
 **Run order after changing any network tab:** `refresh` → `dashboard` → `snapshot`.
-`bilan` only needs re-running when `data/github-links.csv` changes.
+`bilan` only needs re-running when `data/github-links.csv` or the scoring formula
+changes.
 
 To eyeball the page, screenshot it rather than assuming — this is how the stale
 hardcoded footer date was caught:
@@ -47,10 +48,10 @@ hardcoded footer date was caught:
 
 ## Architecture
 
-**Bilan is the hub, and it is mostly formulas.** Columns C–F pull each arena
-with `=IFERROR(VLOOKUP(A2;'Score-sapphire'!A:C;3;FALSE);0)` and column I is
-`=MIN(100; (C+D+E+F)/4 + H/10)`. So rewriting a network tab makes Bilan and the
-Dashboard recompute **on their own** — no command needed. Only
+**Bilan is the hub, and it is mostly formulas.** Columns C–G pull each arena
+with `=IFERROR(VLOOKUP(A2;'Score-pearl'!A:C;3;FALSE);0)` and column J is
+`=MIN(100; (C+D+E+F+G+H)/6 + I/10)`. So rewriting a network tab makes Bilan and
+the Dashboard recompute **on their own** — no command needed. Only
 `data/scorecard.json` and the HTML page are static and must be regenerated with
 `snapshot`.
 
@@ -65,8 +66,8 @@ exists in neither the sheet nor the CSVs. They are passed through as
 `json.RawMessage`. Rebuilding the file from scratch would empty the page's
 GitHub evidence view without any error.
 
-**Columns A–G of Bilan are human-curated and must never be written.** The tool
-writes only H, I, J, K.
+**Columns A–H of Bilan are human-curated and must never be written.** The tool
+writes only I, J, K, L.
 
 ## Settled decisions — do not "fix" these
 
@@ -90,32 +91,31 @@ Only **`sapphire-1`** and **`pearl-1`** are served by
 the only surviving record of those two chains. Never point `refresh` at
 `topaz-1`: it would wipe 85 rows down to 2.
 
-## Next task: add pearl, and the fire drill
+## Live pearl chain and the fire drill
 
-Verified as of 2026-08-25: `pearl-1` returns **79 validators**, same schema as
+Verified as of 2026-09-03: `pearl-1` returns **79 validators**, same schema as
 sapphire, **74 monikers** matching the scorecard (the 5 others are
 `gno-core-validator-1/2/3`, `onbloc-val-01`, `samourai-crew-1` — team nodes, not
-candidates). `refresh -chain pearl-1 -tab Score-pearl` already works once the
-tab exists.
+candidates). It is an equal-weight arena; a candidate absent from its
+report scores zero there, with no last-known-value fallback.
 
-The fire drill is **not** an API chain (`fire-drill`, `fire-drill-test` all
-return 400). It lives in the sibling repo `../validator-diagnostics` — a
-submission portal with a `scoring/` package and `submissions.jsonl`; see its
-`test-drill-2026-09-02.md` and `prd.md`. Bilan already has an empty `Fire-Drill`
-column G reserved for it.
+The fire drill is **not** an API chain. Its 2026-09-02 results are frozen in
+`data/fire-drill-2026-09-02.csv` and join to the scorecard by `moniker`.
+`portal_moniker` preserves spellings altered by the portal's filename rules,
+while the exercise addresses are provenance only: none matches Score-pearl
+because validators rotated keys between exercises.
 
-**The divisor is the trap.** Going from four arenas to five or six means
-`ArenaDivisor` must change with the arena count, or totals run past 100. It is
-hardcoded or assumed in all of these:
+**The divisor is the trap.** The fire drill creates six arenas, so
+`ArenaDivisor` is 6 or totals run past 100. The places that must move together
+are:
 
 | Where | What |
 | --- | --- |
-| `internal/scoring/scoring.go` | `ArenaDivisor = 4`, `Networks`, `ScoreFormula`, a new `Col*` letter |
+| `internal/scoring/scoring.go` | `ArenaDivisor = 6`, `ScoreFormula`, and `ColFireDrill = "H"` |
 | `cmd/scoresheet/snapshot.go` | `total()`, `snapComponents` |
-| `cmd/scoresheet/coerce.go` | `coerceTargets` indexes `Networks[0..2]` |
-| `cmd/scoresheet/dashboard.go` | the component list and its colour, `cSapphire`-style |
-| `web/validator-scorecard.html` | `SERIES` (arenas are `slice(0,4)`), the `0.25` multipliers at the profile and net cards, the formula line in the static markup, and a nav button + page for the new arena |
+| `cmd/scoresheet/dashboard.go` | the component list and its colour |
+| `web/validator-scorecard.html` | `SERIES`, `ARENA_WEIGHT`, the formula line in the static markup, and a nav button + page for the new arena |
 
-Bilan's column I formula is generated, so it follows `ScoreFormula`. But adding
-a column shifts G–K, and `snapshot` reads Bilan by fixed index — both need
-updating together.
+Bilan's column J formula is generated, so it follows `ScoreFormula`. Filling the
+reserved fire-drill column does not shift later columns, but `snapshot` reads
+Bilan by fixed index and must gain the new component explicitly.

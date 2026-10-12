@@ -1,11 +1,13 @@
 {
- "generated_at": "2026-08-24",
+ "generated_at": "2026-09-10",
  "source": "Score Gno-Validator",
  "weights": {
-  "challenge": 0.25,
-  "test13": 0.25,
-  "topaz": 0.25,
-  "sapphire": 0.25,
+  "challenge": 0.16666666666666666,
+  "test13": 0.16666666666666666,
+  "topaz": 0.16666666666666666,
+  "sapphire": 0.16666666666666666,
+  "pearl": 0.16666666666666666,
+  "firedrill": 0.16666666666666666,
   "github_bonus": 0.1
  },
  "github_score_weights": {
@@ -23,13 +25,14 @@
     "challenge": 100,
     "test13": 85,
     "topaz": 96,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 100,
+    "firedrill": 96
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 94.25,
-   "score_corrected": 94.25,
-   "fire_drill": null,
+   "score_current": 95.5,
+   "score_corrected": 95.5,
    "challenge_detail": {
     "weighted": 4.65,
     "simple": 4.71,
@@ -38,7 +41,30 @@
     "final_w": 5,
     "score": 100
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 25,
+    "findings": "Pointed two blocked validators at rsyslog with a command that worked",
+    "portal_moniker": "Cogwheel",
+    "address": "g1nez986lpnmyxcrgdzm4kw5l2375hdwvytfujc8"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1ffdn2xnaz2uwx8evrnse9mudjpqdg32mf2sew6",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1ffdn2xnaz2uwx8evrnse9mudjpqdg32mf2sew6",
      "tier": "Excellent",
@@ -92,13 +118,14 @@
     "challenge": 86,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 5,
    "github_corrected": 5,
-   "score_current": 90.5,
-   "score_corrected": 90.5,
-   "fire_drill": null,
+   "score_current": 92,
+   "score_corrected": 92,
    "challenge_detail": {
     "weighted": 4.3,
     "simple": 4.29,
@@ -107,7 +134,29 @@
     "final_w": 4.3,
     "score": 86
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "Cumulo",
+    "address": "g1mndkvypn3339m6yvkyutal5hk6m2yeqp5d52ly"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1hvp8pddnc3dwjpa40syvxn0t9cpgd2d9su23gk",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1fqm8dacncdt6arch9dqmv5h05h4c33kqdvqvjj",
      "tier": "Excellent",
@@ -188,13 +237,14 @@
     "challenge": 85.6,
     "test13": 85,
     "topaz": 82,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 31,
    "github_corrected": 31,
-   "score_current": 90.5,
-   "score_corrected": 90.5,
-   "fire_drill": null,
+   "score_current": 92.86666666666666,
+   "score_corrected": 92.86666666666666,
    "challenge_detail": {
     "weighted": 4.28,
     "simple": 4.36,
@@ -203,7 +253,29 @@
     "final_w": 4.28,
     "score": 85.6
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "ITRocket",
+    "address": "g1y4l44w8fwl8tj473y49l3ay3k2nad0pdhchn3d"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1a5nsknqz603w8tq6us6pdhqq0yjs0k59hs9e0j",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1a5nsknqz603w8tq6us6pdhqq0yjs0k59hs9e0j",
      "tier": "Excellent",
@@ -276,8 +348,8 @@
      "comment_threads": 0
     }
    },
-   "rank_current": 5,
-   "rank_corrected": 5
+   "rank_current": 2,
+   "rank_corrected": 2
   },
   {
    "moniker": "StakeUp",
@@ -286,13 +358,14 @@
     "challenge": 79,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 88.25,
-   "score_corrected": 88.25,
-   "fire_drill": null,
+   "score_current": 90.33333333333333,
+   "score_corrected": 90.33333333333333,
    "challenge_detail": {
     "weighted": 3.95,
     "simple": 4.07,
@@ -301,7 +374,29 @@
     "final_w": 3.95,
     "score": 79
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "StakeUp",
+    "address": "g1pau0v59hme9hnvf63gsfpdm3xc3pkkawu6jpu7"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1j246592ysshyufyqfvqv33cjer0m4r569d6wk5",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1j246592ysshyufyqfvqv33cjer0m4r569d6wk5",
      "tier": "Excellent",
@@ -345,8 +440,8 @@
      "missed": 0
     }
    },
-   "rank_current": 7,
-   "rank_corrected": 7
+   "rank_current": 5,
+   "rank_corrected": 5
   },
   {
    "moniker": "testovich",
@@ -355,13 +450,14 @@
     "challenge": 67.6,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 97,
+    "firedrill": 71
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 61.15,
-   "score_corrected": 61.15,
-   "fire_drill": null,
+   "score_current": 68.76666666666667,
+   "score_corrected": 68.76666666666667,
    "challenge_detail": {
     "weighted": 3.38,
     "simple": 3.5,
@@ -370,7 +466,30 @@
     "final_w": 3.38,
     "score": 67.6
    },
+   "fire_drill_detail": {
+    "upload_time": 19,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window · Off by one hour: captured 13:00–15:00 UTC",
+    "portal_moniker": "testovich",
+    "address": "g1qd974fj0wgkmj5ah2euqygs7w86tgsskme6n05"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g14r6fzau996wfk3m08xkw7r9u55apangtu9fvkn",
+     "tier": "Excellent",
+     "score": 97,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 83.26048774869713,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "test13": {
      "address": "g13qsl8x9wtmzqhqj9zc2e7dh3d0cxjep4l6muut",
      "tier": "Good",
@@ -400,8 +519,8 @@
      "missed": 0
     }
    },
-   "rank_current": 57,
-   "rank_corrected": 57
+   "rank_current": 48,
+   "rank_corrected": 48
   },
   {
    "moniker": "kgnodes",
@@ -410,13 +529,14 @@
     "challenge": 68,
     "test13": 84,
     "topaz": 92,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 100,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 85,
-   "score_corrected": 85,
-   "fire_drill": null,
+   "score_current": 73.33333333333333,
+   "score_corrected": 73.33333333333333,
    "challenge_detail": {
     "weighted": 3.9,
     "simple": 4,
@@ -426,6 +546,20 @@
     "score": 68
    },
    "onchain": {
+    "pearl": {
+     "address": "g17rl2d83mfysakeccsg8egwcqdpdc7mnnwvk23q",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g17rl2d83mfysakeccsg8egwcqdpdc7mnnwvk23q",
      "tier": "Excellent",
@@ -469,8 +603,8 @@
      "missed": 9
     }
    },
-   "rank_current": 12,
-   "rank_corrected": 12
+   "rank_current": 38,
+   "rank_corrected": 38
   },
   {
    "moniker": "EquinoxDao",
@@ -479,13 +613,14 @@
     "challenge": 70.4,
     "test13": 84,
     "topaz": 90,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 61.1,
-   "score_corrected": 61.1,
-   "fire_drill": null,
+   "score_current": 40.733333333333334,
+   "score_corrected": 40.733333333333334,
    "challenge_detail": {
     "weighted": 3.52,
     "simple": 3.64,
@@ -538,8 +673,8 @@
      "missed": 0
     }
    },
-   "rank_current": 59,
-   "rank_corrected": 59
+   "rank_current": 74,
+   "rank_corrected": 74
   },
   {
    "moniker": "Perfect-nodes",
@@ -548,13 +683,14 @@
     "challenge": 70.4,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 86.1,
-   "score_corrected": 86.1,
-   "fire_drill": null,
+   "score_current": 88.89999999999999,
+   "score_corrected": 88.89999999999999,
    "challenge_detail": {
     "weighted": 3.52,
     "simple": 3.64,
@@ -563,7 +699,29 @@
     "final_w": 3.52,
     "score": 70.4
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "Perfect-nodes",
+    "address": "g1kqdfj5ps9auyj5gzjwt079rlg6rpke9gspqudc"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1dqqsa7kps5kctwpylpmv7lfjsuvp2zayj5js5m",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1dqqsa7kps5kctwpylpmv7lfjsuvp2zayj5js5m",
      "tier": "Excellent",
@@ -607,8 +765,8 @@
      "missed": 0
     }
    },
-   "rank_current": 11,
-   "rank_corrected": 11
+   "rank_current": 6,
+   "rank_corrected": 6
   },
   {
    "moniker": "EmberStake",
@@ -617,13 +775,14 @@
     "challenge": 67.6,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 61.15,
-   "score_corrected": 61.15,
-   "fire_drill": null,
+   "score_current": 40.766666666666666,
+   "score_corrected": 40.766666666666666,
    "challenge_detail": {
     "weighted": 3.88,
     "simple": 4,
@@ -662,8 +821,8 @@
      "missed": 0
     }
    },
-   "rank_current": 58,
-   "rank_corrected": 58
+   "rank_current": 73,
+   "rank_corrected": 73
   },
   {
    "moniker": "PRO Delegators",
@@ -672,13 +831,14 @@
     "challenge": 78.4,
     "test13": 78,
     "topaz": 93,
-    "sapphire": 83
+    "sapphire": 83,
+    "pearl": 100,
+    "firedrill": 94
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 83.1,
-   "score_corrected": 83.1,
-   "fire_drill": null,
+   "score_current": 87.73333333333333,
+   "score_corrected": 87.73333333333333,
    "challenge_detail": {
     "weighted": 4.42,
     "simple": 4.5,
@@ -687,7 +847,30 @@
     "final_w": 3.92,
     "score": 78.4
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 23,
+    "findings": "Walked another validator through the whole signing chain",
+    "portal_moniker": "PRODelegators",
+    "address": "g1plf3fmy0h4395jcxxh63g7mzeypr06f9yrdk4d"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1re5g2h0mzwg8keladjvqu75l7ee8c0a6qc985v",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1re5g2h0mzwg8keladjvqu75l7ee8c0a6qc985v",
      "tier": "Good",
@@ -731,8 +914,8 @@
      "missed": 3
     }
    },
-   "rank_current": 17,
-   "rank_corrected": 17
+   "rank_current": 9,
+   "rank_corrected": 9
   },
   {
    "moniker": "KaLaMuC",
@@ -741,13 +924,14 @@
     "challenge": 53,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 59
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 81.75,
-   "score_corrected": 81.75,
-   "fire_drill": null,
+   "score_current": 81,
+   "score_corrected": 81,
    "challenge_detail": {
     "weighted": 3.15,
     "simple": 3.36,
@@ -756,7 +940,30 @@
     "final_w": 2.65,
     "score": 53
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "no recognizable timestamps · journalctl returned “-- No entries --”",
+    "portal_moniker": "KaLaMuC",
+    "address": "g1uzxyk9fvtk0zfsl20kswvatt2da67sjjh4fud0"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1p5nuvh3ynkus4mygzjjnm3lftkvj3l8dvcf39w",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g15xl7nze2mecgcrnv2pyex83v258jq387mnshgm",
      "tier": "Excellent",
@@ -800,8 +1007,8 @@
      "missed": 11
     }
    },
-   "rank_current": 20,
-   "rank_corrected": 20
+   "rank_current": 19,
+   "rank_corrected": 19
   },
   {
    "moniker": "HazenNetworkSolutions",
@@ -810,13 +1017,14 @@
     "challenge": 61,
     "test13": 84,
     "topaz": 95,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 0
    },
    "github_current": 6,
    "github_corrected": 6,
-   "score_current": 84.85,
-   "score_corrected": 84.85,
-   "fire_drill": null,
+   "score_current": 73.43333333333332,
+   "score_corrected": 73.43333333333332,
    "challenge_detail": {
     "weighted": 3.55,
     "simple": 3.5,
@@ -826,6 +1034,20 @@
     "score": 61
    },
    "onchain": {
+    "pearl": {
+     "address": "g1dpt7qvsrrzcx88h3m62g5cvpqlnzpqa5eg9l4x",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1gweck5ngrgrqsjr0yfpmeqlvwfyglvq6s4ddup",
      "tier": "Excellent",
@@ -896,8 +1118,8 @@
      "comment_threads": 3
     }
    },
-   "rank_current": 13,
-   "rank_corrected": 13
+   "rank_current": 36,
+   "rank_corrected": 36
   },
   {
    "moniker": "coinsspor",
@@ -906,13 +1128,14 @@
     "challenge": 85,
     "test13": 67,
     "topaz": 92,
-    "sapphire": 80
+    "sapphire": 80,
+    "pearl": 100,
+    "firedrill": 0
    },
    "github_current": 18,
    "github_corrected": 18,
-   "score_current": 82.8,
-   "score_corrected": 82.8,
-   "fire_drill": null,
+   "score_current": 72.46666666666667,
+   "score_corrected": 72.46666666666667,
    "challenge_detail": {
     "weighted": 4,
     "simple": 4.07,
@@ -922,6 +1145,20 @@
     "score": 85
    },
    "onchain": {
+    "pearl": {
+     "address": "g149emnps8f37j6hltxkz2tnavtvexvn26svahsr",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.99882264293115,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 2
+    },
     "sapphire": {
      "address": "g1wvyjsyz7jjx9cxtg0xh59uvyyftj62mywg54ak",
      "tier": "Good",
@@ -992,8 +1229,8 @@
      "comment_threads": 0
     }
    },
-   "rank_current": 18,
-   "rank_corrected": 18
+   "rank_current": 39,
+   "rank_corrected": 39
   },
   {
    "moniker": "nsk1984",
@@ -1002,13 +1239,14 @@
     "challenge": 46.6,
     "test13": 83,
     "topaz": 96,
-    "sapphire": 83
+    "sapphire": 83,
+    "pearl": 98,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 77.15,
-   "score_corrected": 77.15,
-   "fire_drill": null,
+   "score_current": 67.76666666666667,
+   "score_corrected": 67.76666666666667,
    "challenge_detail": {
     "weighted": 2.83,
     "simple": 3,
@@ -1018,6 +1256,20 @@
     "score": 46.6
    },
    "onchain": {
+    "pearl": {
+     "address": "g185hajw0wxedvgnq34xmqc4fdel7lu7lnktzr9d",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99929744198627,
+     "vp": 5,
+     "proposer": 87.50453485358902,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 1
+    },
     "sapphire": {
      "address": "g1h6z8e2h9dg72g7y5y34jrgaf4te0pzcxnt6mfw",
      "tier": "Good",
@@ -1061,8 +1313,8 @@
      "missed": 1
     }
    },
-   "rank_current": 31,
-   "rank_corrected": 31
+   "rank_current": 50,
+   "rank_corrected": 50
   },
   {
    "moniker": "Conqueror",
@@ -1071,13 +1323,14 @@
     "challenge": 88.00000000000001,
     "test13": 69,
     "topaz": 93,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 98,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 86.5,
-   "score_corrected": 86.5,
-   "fire_drill": null,
+   "score_current": 88.83333333333333,
+   "score_corrected": 88.83333333333333,
    "challenge_detail": {
     "weighted": 4.4,
     "simple": 4.43,
@@ -1086,7 +1339,29 @@
     "final_w": 4.4,
     "score": 88.00000000000001
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "Conqueror",
+    "address": "g1tv58fhdus9pxfhdzc2srkzreh34r4p66cnqtkq"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1x6lxs086qn56g2mav200hqs407zzthj6varjxd",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.51081166681064,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1x6lxs086qn56g2mav200hqs407zzthj6varjxd",
      "tier": "Excellent",
@@ -1130,8 +1405,8 @@
      "missed": 0
     }
    },
-   "rank_current": 9,
-   "rank_corrected": 9
+   "rank_current": 7,
+   "rank_corrected": 7
   },
   {
    "moniker": "AviaOne",
@@ -1140,13 +1415,14 @@
     "challenge": 52,
     "test13": 85,
     "topaz": 82,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 90,
+    "firedrill": 77
    },
    "github_current": 33,
    "github_corrected": 33,
-   "score_current": 82.05,
-   "score_corrected": 82.05,
-   "fire_drill": null,
+   "score_current": 83.63333333333333,
+   "score_corrected": 83.63333333333333,
    "challenge_detail": {
     "weighted": 2.1,
     "simple": 2.57,
@@ -1155,7 +1431,29 @@
     "final_w": 2.6,
     "score": 52
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "AviaOne",
+    "address": "g1u7g4cejjqsm44nha34hzpzu6df6a7egc9rpqw5"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g18y36npu0n8z0wrnyc9hprc470d8kz5e2xmhutl",
+     "tier": "Excellent",
+     "score": 90,
+     "sign": 99.9603033534779,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 1,
+     "warning": 2,
+     "freq": 2,
+     "freq_rate": 0.0569865031485936,
+     "downtime": 34,
+     "missed": 67
+    },
     "sapphire": {
      "address": "g149rtylmm3xtvm4rjm3ppu58esan56x509acxpp",
      "tier": "Excellent",
@@ -1235,8 +1533,8 @@
      }
     ]
    },
-   "rank_current": 19,
-   "rank_corrected": 19
+   "rank_current": 13,
+   "rank_corrected": 13
   },
   {
    "moniker": "linkednode",
@@ -1245,13 +1543,14 @@
     "challenge": 75,
     "test13": 82,
     "topaz": 71,
-    "sapphire": 94
+    "sapphire": 94,
+    "pearl": 98,
+    "firedrill": 59
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 80.5,
-   "score_corrected": 80.5,
-   "fire_drill": null,
+   "score_current": 79.83333333333333,
+   "score_corrected": 79.83333333333333,
    "challenge_detail": {
     "weighted": 3.75,
     "simple": 3.79,
@@ -1260,7 +1559,30 @@
     "final_w": 3.75,
     "score": 75
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "no recognizable timestamps · Archived the instruction sheet instead of the log",
+    "portal_moniker": "linkednode",
+    "address": "g1hnl50flwq7t4urmwzkuc629xpvxdwd4zvl0kmy"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1g2qex0w5kfusftk79j6am224pgcgs4gpldpad5",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99654932056123,
+     "vp": 5,
+     "proposer": 89.3564826811782,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 5
+    },
     "sapphire": {
      "address": "g1axm3kf4f78x256m4ezepjc9scary9fnp5648xe",
      "tier": "Excellent",
@@ -1304,8 +1626,8 @@
      "missed": 2547
     }
    },
-   "rank_current": 24,
-   "rank_corrected": 24
+   "rank_current": 23,
+   "rank_corrected": 23
   },
   {
    "moniker": "Chicharito",
@@ -1314,13 +1636,14 @@
     "challenge": 73.4,
     "test13": 67,
     "topaz": 93,
-    "sapphire": 93
+    "sapphire": 93,
+    "pearl": 96,
+    "firedrill": 60
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 81.6,
-   "score_corrected": 81.6,
-   "fire_drill": null,
+   "score_current": 80.39999999999999,
+   "score_corrected": 80.39999999999999,
    "challenge_detail": {
     "weighted": 3.67,
     "simple": 3.79,
@@ -1329,7 +1652,30 @@
     "final_w": 3.67,
     "score": 73.4
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 12,
+    "findings": "logs do not fully cover the window · no sentry.log.gz (sentry_enabled true) · Explained the rotation loss inside the log file",
+    "portal_moniker": "Chicharito",
+    "address": "g1vlvfudwxh8h569p8jruf2euemzqt3hqk3e3mx9"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1753phksv8y476y2aczazwggxs5wr3k7h00na6h",
+     "tier": "Excellent",
+     "score": 96,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 79.86525006478364,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1pk6yr9ss0cxe3ymzkd722j07tcuwldd46gm7ux",
      "tier": "Excellent",
@@ -1383,13 +1729,14 @@
     "challenge": 80,
     "test13": 84,
     "topaz": 56,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 86,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 79,
-   "score_corrected": 79,
-   "fire_drill": null,
+   "score_current": 75.66666666666667,
+   "score_corrected": 75.66666666666667,
    "challenge_detail": {
     "weighted": 4,
     "simple": 4,
@@ -1398,7 +1745,30 @@
     "final_w": 4,
     "score": 80
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window · Posted the receipt and nothing else; the archive is dated 03 Sep",
+    "portal_moniker": "ChiterinCosmos",
+    "address": "g1t77whwu4ct4y77g9x82j74vzl88eyk8a6f5wz3"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g14g83lmjkmcfar20jqlaea6m5yvzh37v20q329m",
+     "tier": "Excellent",
+     "score": 86,
+     "sign": 96.63751362238071,
+     "vp": 5,
+     "proposer": 86.19273847571336,
+     "critical": 1,
+     "warning": 1,
+     "freq": 1,
+     "freq_rate": 0.0284932515742968,
+     "downtime": 493,
+     "missed": 4875
+    },
     "sapphire": {
      "address": "g14g83lmjkmcfar20jqlaea6m5yvzh37v20q329m",
      "tier": "Excellent",
@@ -1442,8 +1812,8 @@
      "missed": 1677
     }
    },
-   "rank_current": 26,
-   "rank_corrected": 26
+   "rank_current": 31,
+   "rank_corrected": 31
   },
   {
    "moniker": "CoreNode",
@@ -1452,13 +1822,14 @@
     "challenge": 35,
     "test13": 84,
     "topaz": 92,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 98,
+    "firedrill": 56
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 76.75,
-   "score_corrected": 76.75,
-   "fire_drill": null,
+   "score_current": 76.83333333333333,
+   "score_corrected": 76.83333333333333,
    "challenge_detail": {
     "weighted": 2.75,
     "simple": 3,
@@ -1467,7 +1838,30 @@
     "final_w": 1.75,
     "score": 35
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 12,
+    "findings": "no recognizable timestamps · Gave the channel the correct packaging command, then built his own inner log with tar instead of gzip",
+    "portal_moniker": "corenode",
+    "address": "g1pd2jqrgc0hwsx3evqk8lakvz7y89zkx4nc78g0"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g10y86jslnuvk8n99s2wgsqdpyftl5fz4twsskxe",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.51081166681064,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1yvyzsrp4nx3azs9gtyqvr6squ7cpt88m3and67",
      "tier": "Excellent",
@@ -1511,8 +1905,8 @@
      "missed": 0
     }
    },
-   "rank_current": 32,
-   "rank_corrected": 32
+   "rank_current": 28,
+   "rank_corrected": 28
   },
   {
    "moniker": "OshVanK",
@@ -1521,13 +1915,14 @@
     "challenge": 71.6,
     "test13": 85,
     "topaz": 63,
-    "sapphire": 95
+    "sapphire": 95,
+    "pearl": 83,
+    "firedrill": 96
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 78.65,
-   "score_corrected": 78.65,
-   "fire_drill": null,
+   "score_current": 82.26666666666667,
+   "score_corrected": 82.26666666666667,
    "challenge_detail": {
     "weighted": 4.08,
     "simple": 4.21,
@@ -1536,7 +1931,30 @@
     "final_w": 3.58,
     "score": 71.6
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 25,
+    "findings": "Named the fleet-wide cause: --log-level info plus retention pruning",
+    "portal_moniker": "OshVanK",
+    "address": "g1thrjnx75dgc95qed7x9edd0rvvpj5d5vevj50h"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1rgqsfcuzn23zak0efkvrmyv86cnq63ascrtq3k",
+     "tier": "Good",
+     "score": 83,
+     "sign": 95.72843525403152,
+     "vp": 5,
+     "proposer": 85.26676456191875,
+     "critical": 1,
+     "warning": 2,
+     "freq": 2,
+     "freq_rate": 0.0569865031485936,
+     "downtime": 494,
+     "missed": 6193
+    },
     "sapphire": {
      "address": "g1akqsg7dam2npzctk8fszqg6w7gqlju94dtxath",
      "tier": "Excellent",
@@ -1580,8 +1998,8 @@
      "missed": 6590
     }
    },
-   "rank_current": 28,
-   "rank_corrected": 28
+   "rank_current": 18,
+   "rank_corrected": 18
   },
   {
    "moniker": "Apollo",
@@ -1590,13 +2008,14 @@
     "challenge": 77,
     "test13": 84,
     "topaz": 45,
-    "sapphire": 87
+    "sapphire": 87,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 73.25,
-   "score_corrected": 73.25,
-   "fire_drill": null,
+   "score_current": 80.33333333333333,
+   "score_corrected": 80.33333333333333,
    "challenge_detail": {
     "weighted": 3.85,
     "simple": 3.93,
@@ -1605,7 +2024,29 @@
     "final_w": 3.85,
     "score": 77
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "Apollo",
+    "address": "g1z360harzpshhdnlrdgj5ljkx2aeckzavkyl9g0"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1sgu52u6hfffg9tyck7v3zgd27hhv2paf9rgamr",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1sgu52u6hfffg9tyck7v3zgd27hhv2paf9rgamr",
      "tier": "Excellent",
@@ -1649,8 +2090,8 @@
      "missed": 4959
     }
    },
-   "rank_current": 41,
-   "rank_corrected": 41
+   "rank_current": 22,
+   "rank_corrected": 22
   },
   {
    "moniker": "plantree",
@@ -1659,13 +2100,14 @@
     "challenge": 60,
     "test13": 82,
     "topaz": 92,
-    "sapphire": 36
+    "sapphire": 36,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 67.5,
-   "score_corrected": 67.5,
-   "fire_drill": null,
+   "score_current": 45,
+   "score_corrected": 45,
    "challenge_detail": {
     "weighted": 3,
     "simple": 3.43,
@@ -1718,8 +2160,8 @@
      "missed": 2362
     }
    },
-   "rank_current": 48,
-   "rank_corrected": 48
+   "rank_current": 70,
+   "rank_corrected": 70
   },
   {
    "moniker": "Provalidator",
@@ -1728,13 +2170,14 @@
     "challenge": 44.6,
     "test13": 84,
     "topaz": 76,
-    "sapphire": 95
+    "sapphire": 95,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 74.9,
-   "score_corrected": 74.9,
-   "fire_drill": null,
+   "score_current": 49.93333333333334,
+   "score_corrected": 49.93333333333334,
    "challenge_detail": {
     "weighted": 2.73,
     "simple": 2.79,
@@ -1744,6 +2187,20 @@
     "score": 44.6
    },
    "onchain": {
+    "pearl": {
+     "address": "g17mte58ns4fah9agcd3euyhhq8cm789durkjedm",
+     "tier": "Critical",
+     "score": 0,
+     "sign": 0,
+     "vp": 5,
+     "proposer": 0,
+     "critical": 0,
+     "warning": 1,
+     "freq": 1,
+     "freq_rate": 0.0284932515742968,
+     "downtime": 0,
+     "missed": 144982
+    },
     "sapphire": {
      "address": "g17mte58ns4fah9agcd3euyhhq8cm789durkjedm",
      "tier": "Excellent",
@@ -1787,8 +2244,8 @@
      "missed": 19271
     }
    },
-   "rank_current": 36,
-   "rank_corrected": 36
+   "rank_current": 69,
+   "rank_corrected": 68
   },
   {
    "moniker": "NODESYNC",
@@ -1797,13 +2254,14 @@
     "challenge": 83.00000000000001,
     "test13": 68,
     "topaz": 76,
-    "sapphire": 70
+    "sapphire": 70,
+    "pearl": 100,
+    "firedrill": 58
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 74.25,
-   "score_corrected": 74.25,
-   "fire_drill": null,
+   "score_current": 75.83333333333333,
+   "score_corrected": 75.83333333333333,
    "challenge_detail": {
     "weighted": 3.65,
     "simple": 3.79,
@@ -1812,7 +2270,30 @@
     "final_w": 4.15,
     "score": 83.00000000000001
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window · no sentry.log.gz (sentry_enabled true)",
+    "portal_moniker": "NODESYNC",
+    "address": "g1ppvaadzu0smzqyrgvw73hjdrhvlu43l7g7tw3f"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g17awwm2k3s3q9ru0t2hy3f4wqzzuhpu73qgr5d8",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g17awwm2k3s3q9ru0t2hy3f4wqzzuhpu73qgr5d8",
      "tier": "Good",
@@ -1856,8 +2337,8 @@
      "missed": 151
     }
    },
-   "rank_current": 38,
-   "rank_corrected": 38
+   "rank_current": 29,
+   "rank_corrected": 29
   },
   {
    "moniker": "Umair_ChainGuard",
@@ -1866,13 +2347,14 @@
     "challenge": 73,
     "test13": 73,
     "topaz": 74,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 98,
+    "firedrill": 58
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 55,
-   "score_corrected": 55,
-   "fire_drill": null,
+   "score_current": 62.666666666666664,
+   "score_corrected": 62.666666666666664,
    "challenge_detail": {
     "weighted": 3.65,
     "simple": 3.71,
@@ -1881,7 +2363,30 @@
     "final_w": 3.65,
     "score": 73
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Umair_ChainGuard",
+    "address": "g1npaccm9xucl696fns8j7na44fmeucduflh59uu"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1fj39gu2g0fed3lfxwm5al009fk8ap4rgafn3z6",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.04782470991334,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1sz7mqz305m3q0qdaggccdwve22y68ct4x64c9r",
      "tier": "Critical",
@@ -1925,8 +2430,8 @@
      "missed": 5905
     }
    },
-   "rank_current": 66,
-   "rank_corrected": 66
+   "rank_current": 54,
+   "rank_corrected": 54
   },
   {
    "moniker": "Kromo127",
@@ -1935,13 +2440,14 @@
     "challenge": 73,
     "test13": 59,
     "topaz": 93,
-    "sapphire": 77
+    "sapphire": 77,
+    "pearl": 98,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 75.5,
-   "score_corrected": 75.5,
-   "fire_drill": null,
+   "score_current": 75.33333333333333,
+   "score_corrected": 75.33333333333333,
    "challenge_detail": {
     "weighted": 3.65,
     "simple": 3.79,
@@ -1950,7 +2456,30 @@
     "final_w": 3.65,
     "score": 73
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Kromo127",
+    "address": "g1zlrdlcs65d6yhschadhvlf3qnw9ruelh9rn6wn"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1gum759783g8q4d9239fxsv2tmj948hupakash8",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.43364717399443,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g145xt67qxkk226al0c7mdts3yrxhdqmcw50ccr3",
      "tier": "Good",
@@ -2004,13 +2533,14 @@
     "challenge": 69.6,
     "test13": 66,
     "topaz": 77,
-    "sapphire": 82
+    "sapphire": 82,
+    "pearl": 98,
+    "firedrill": 83
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 73.65,
-   "score_corrected": 73.65,
-   "fire_drill": null,
+   "score_current": 79.26666666666667,
+   "score_corrected": 79.26666666666667,
    "challenge_detail": {
     "weighted": 3.48,
     "simple": 3.57,
@@ -2019,7 +2549,29 @@
     "final_w": 3.48,
     "score": 69.6
    },
+   "fire_drill_detail": {
+    "upload_time": 19,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "NomadValidator",
+    "address": "g1jaxzh9epmtachaf6tx6ftxgq6pndcctxrf68tr"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g16zxk7ducx39kccgw84emgqjg206cnv25ymgpat",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99411321465574,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 1,
+     "freq": 1,
+     "freq_rate": 0.0284932515742968,
+     "downtime": 0,
+     "missed": 10
+    },
     "sapphire": {
      "address": "g1ryz2myd043eqd7sya2r5khxy2lwd4nt3wph32q",
      "tier": "Good",
@@ -2063,8 +2615,8 @@
      "missed": 1451
     }
    },
-   "rank_current": 40,
-   "rank_corrected": 40
+   "rank_current": 24,
+   "rank_corrected": 24
   },
   {
    "moniker": "BlockNth",
@@ -2073,13 +2625,14 @@
     "challenge": 96.99999999999999,
     "test13": 85,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 93,
-   "score_corrected": 93,
-   "fire_drill": null,
+   "score_current": 87.33333333333333,
+   "score_corrected": 87.33333333333333,
    "challenge_detail": {
     "weighted": 4.85,
     "simple": 4.86,
@@ -2088,7 +2641,30 @@
     "final_w": 4.85,
     "score": 96.99999999999999
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "BlockNth",
+    "address": "g18x3jntrvu2jmwddsxtqpmzua5cs0fmtf9mda9j"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1cslm7hmyj7mclgs6000522hf53rf39rmzjlt52",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g17vly0hjcajzmxpc5qnl5ghrme3weq89am795k0",
      "tier": "Excellent",
@@ -2132,8 +2708,8 @@
      "missed": 0
     }
    },
-   "rank_current": 2,
-   "rank_corrected": 2
+   "rank_current": 10,
+   "rank_corrected": 10
   },
   {
    "moniker": "Sychonix",
@@ -2142,13 +2718,14 @@
     "challenge": 59,
     "test13": 69,
     "topaz": 77,
-    "sapphire": 95
+    "sapphire": 95,
+    "pearl": 100,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 75,
-   "score_corrected": 75,
-   "fire_drill": null,
+   "score_current": 75.33333333333333,
+   "score_corrected": 75.33333333333333,
    "challenge_detail": {
     "weighted": 3.45,
     "simple": 3.57,
@@ -2157,7 +2734,30 @@
     "final_w": 2.95,
     "score": 59
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Sychonix",
+    "address": "g1px2y5wuj8y0tfq59unwy90qrw7j5evsa9zs3vk"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1rhnk9lhajxmw4lsxwa7zshfr7c76vu8jvhnvnv",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1s9hhhtw2pfuj6hgdjyenlj369ymm93zzpwz2zr",
      "tier": "Excellent",
@@ -2201,8 +2801,8 @@
      "missed": 2641
     }
    },
-   "rank_current": 35,
-   "rank_corrected": 35
+   "rank_current": 34,
+   "rank_corrected": 34
   },
   {
    "moniker": "KonsorTech",
@@ -2211,13 +2811,14 @@
     "challenge": 53,
     "test13": 70,
     "topaz": 94,
-    "sapphire": 98
+    "sapphire": 98,
+    "pearl": 97,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 78.75,
-   "score_corrected": 78.75,
-   "fire_drill": null,
+   "score_current": 68.66666666666667,
+   "score_corrected": 68.66666666666667,
    "challenge_detail": {
     "weighted": 2.65,
     "simple": 2.71,
@@ -2227,6 +2828,20 @@
     "score": 53
    },
    "onchain": {
+    "pearl": {
+     "address": "g1yd75tc52xfm8zyllngzvul9cdum6med2par6h4",
+     "tier": "Excellent",
+     "score": 97,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 86.65572543261064,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1yd75tc52xfm8zyllngzvul9cdum6med2par6h4",
      "tier": "Excellent",
@@ -2270,8 +2885,8 @@
      "missed": 0
     }
    },
-   "rank_current": 27,
-   "rank_corrected": 27
+   "rank_current": 49,
+   "rank_corrected": 49
   },
   {
    "moniker": "MictoNode",
@@ -2280,13 +2895,14 @@
     "challenge": 88.00000000000001,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 8,
    "github_corrected": 8,
-   "score_current": 91.3,
-   "score_corrected": 91.3,
-   "fire_drill": null,
+   "score_current": 92.63333333333333,
+   "score_corrected": 92.63333333333333,
    "challenge_detail": {
     "weighted": 4.4,
     "simple": 4.43,
@@ -2295,7 +2911,29 @@
     "final_w": 4.4,
     "score": 88.00000000000001
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "MictoNode",
+    "address": "g13tx3jp4spy90dtpyxr7gjp2mfgvjnfxr7kt3ue"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1d8zrfvtfh60r4gpsp0qqksught5p3nuhssdx6e",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1d8zrfvtfh60r4gpsp0qqksught5p3nuhssdx6e",
      "tier": "Excellent",
@@ -2376,13 +3014,14 @@
     "challenge": 81,
     "test13": 84,
     "topaz": 98,
-    "sapphire": 60
+    "sapphire": 60,
+    "pearl": 92,
+    "firedrill": 71
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 80.75,
-   "score_corrected": 80.75,
-   "fire_drill": null,
+   "score_current": 81,
+   "score_corrected": 81,
    "challenge_detail": {
     "weighted": 4.05,
     "simple": 4.21,
@@ -2391,7 +3030,30 @@
     "final_w": 4.05,
     "score": 81
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "no recognizable timestamps · journalctl returned “-- No entries --”",
+    "portal_moniker": "GATA-HUB",
+    "address": "g12e22uqd4jjvvsk6g95re3a44sxuephd5kkrt7m"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g15e6xjjhnqyp3r0vdsg84kv5sewpp9alp5c9er2",
+     "tier": "Excellent",
+     "score": 92,
+     "sign": 99.99903097958274,
+     "vp": 5,
+     "proposer": 62.04025222423771,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 1
+    },
     "sapphire": {
      "address": "g15e6xjjhnqyp3r0vdsg84kv5sewpp9alp5c9er2",
      "tier": "Good",
@@ -2435,8 +3097,8 @@
      "missed": 0
     }
    },
-   "rank_current": 23,
-   "rank_corrected": 23
+   "rank_current": 20,
+   "rank_corrected": 20
   },
   {
    "moniker": "cunum",
@@ -2445,13 +3107,14 @@
     "challenge": 31.4,
     "test13": 76,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 56
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 74.35,
-   "score_corrected": 74.35,
-   "fire_drill": null,
+   "score_current": 75.56666666666666,
+   "score_corrected": 75.56666666666666,
    "challenge_detail": {
     "weighted": 1.57,
     "simple": 1.5,
@@ -2460,7 +3123,30 @@
     "final_w": 1.57,
     "score": 31.4
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 12,
+    "findings": "no recognizable timestamps · Explained the rotation loss inside the log file",
+    "portal_moniker": "cunum",
+    "address": "g1y5sclwdy8j6l5m8a5hzsx374k6rvege399zvy9"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1yxkhzstt05j88ckslxfgkd8nc67r5dj8chz4d3",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.99941132146557,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 1
+    },
     "sapphire": {
      "address": "g1yxkhzstt05j88ckslxfgkd8nc67r5dj8chz4d3",
      "tier": "Excellent",
@@ -2504,8 +3190,8 @@
      "missed": 0
     }
    },
-   "rank_current": 37,
-   "rank_corrected": 37
+   "rank_current": 32,
+   "rank_corrected": 32
   },
   {
    "moniker": "BoyGau",
@@ -2514,13 +3200,14 @@
     "challenge": 53.4,
     "test13": 82,
     "topaz": 61,
-    "sapphire": 7
+    "sapphire": 7,
+    "pearl": 79,
+    "firedrill": 59
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 50.85,
-   "score_corrected": 50.85,
-   "fire_drill": null,
+   "score_current": 56.9,
+   "score_corrected": 56.9,
    "challenge_detail": {
     "weighted": 2.67,
     "simple": 3,
@@ -2529,7 +3216,30 @@
     "final_w": 2.67,
     "score": 53.4
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "no recognizable timestamps · journalctl returned “-- No entries --”",
+    "portal_moniker": "BoyGau",
+    "address": "g1lyt8fg7e987jgh7kxa3fn8zlcx295kdzuj7d8d"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1em3e9e4437vjrzlya97e24r837hk5hng3xftqj",
+     "tier": "Good",
+     "score": 79,
+     "sign": 96.38575823205639,
+     "vp": 5,
+     "proposer": 86.03840949008091,
+     "critical": 2,
+     "warning": 1,
+     "freq": 2,
+     "freq_rate": 0.0569865031485936,
+     "downtime": 504,
+     "missed": 5240
+    },
     "sapphire": {
      "address": "g17jam3dz3carxshn7fgtq2l70txcrzhgmhexytn",
      "tier": "Critical",
@@ -2573,8 +3283,8 @@
      "missed": 5667
     }
    },
-   "rank_current": 68,
-   "rank_corrected": 68
+   "rank_current": 60,
+   "rank_corrected": 60
   },
   {
    "moniker": "UTSA",
@@ -2583,13 +3293,14 @@
     "challenge": 83.4,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 97,
+    "firedrill": 77
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 89.1,
-   "score_corrected": 89.1,
-   "fire_drill": null,
+   "score_current": 88.39999999999999,
+   "score_corrected": 88.39999999999999,
    "challenge_detail": {
     "weighted": 3.67,
     "simple": 3.86,
@@ -2598,7 +3309,29 @@
     "final_w": 4.17,
     "score": 83.4
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "UTSA",
+    "address": "g16mldrfu90pe5r97cjm3xk02m7a3d0z8g9g3r75"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1k6zz4jup7cdl0r9xcv5eg8kcm4qtsk3h4vrxs5",
+     "tier": "Excellent",
+     "score": 97,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 86.34706746134577,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1k6zz4jup7cdl0r9xcv5eg8kcm4qtsk3h4vrxs5",
      "tier": "Excellent",
@@ -2642,8 +3375,8 @@
      "missed": 0
     }
    },
-   "rank_current": 6,
-   "rank_corrected": 6
+   "rank_current": 8,
+   "rank_corrected": 8
   },
   {
    "moniker": "POSTHUMAN",
@@ -2652,13 +3385,14 @@
     "challenge": 74,
     "test13": 84,
     "topaz": 33,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 98,
+    "firedrill": 70
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 71.75,
-   "score_corrected": 71.75,
-   "fire_drill": null,
+   "score_current": 75.83333333333333,
+   "score_corrected": 75.83333333333333,
    "challenge_detail": {
     "weighted": 4.2,
     "simple": 4.21,
@@ -2667,7 +3401,29 @@
     "final_w": 3.7,
     "score": 74
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "POSTHUMAN",
+    "address": "g1geep7yqmgcvexukkfxe982pvyu98mtcj0wrhp4"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1nz65wuj25trmud0mc7u29k6lc8lh05n7zzmn57",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.43364717399443,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1ux6cj99sge5ew74e9aw5e7c7ugpa29a72hmhra",
      "tier": "Excellent",
@@ -2711,8 +3467,8 @@
      "missed": 58822
     }
    },
-   "rank_current": 44,
-   "rank_corrected": 44
+   "rank_current": 30,
+   "rank_corrected": 30
   },
   {
    "moniker": "1XP",
@@ -2721,13 +3477,14 @@
     "challenge": 55.4,
     "test13": 82,
     "topaz": 38,
-    "sapphire": 61
+    "sapphire": 61,
+    "pearl": 98,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 59.1,
-   "score_corrected": 59.1,
-   "fire_drill": null,
+   "score_current": 55.73333333333333,
+   "score_corrected": 55.73333333333333,
    "challenge_detail": {
     "weighted": 2.77,
     "simple": 3.14,
@@ -2737,6 +3494,20 @@
     "score": 55.4
    },
    "onchain": {
+    "pearl": {
+     "address": "g1kxk84laclc5zjy6shc8k4vnm7kv26mu7xdlc5w",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99793077761377,
+     "vp": 5,
+     "proposer": 89.51081166681064,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 3
+    },
     "sapphire": {
      "address": "g1pcm7l48vj4ptyluege59d3seq3stfdj932n5wh",
      "tier": "Good",
@@ -2781,7 +3552,7 @@
     }
    },
    "rank_current": 62,
-   "rank_corrected": 62
+   "rank_corrected": 61
   },
   {
    "moniker": "Nodeist",
@@ -2790,13 +3561,14 @@
     "challenge": 68,
     "test13": 69,
     "topaz": 72,
-    "sapphire": 77
+    "sapphire": 77,
+    "pearl": 77,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 71.5,
-   "score_corrected": 71.5,
-   "fire_drill": null,
+   "score_current": 69.16666666666667,
+   "score_corrected": 69.16666666666667,
    "challenge_detail": {
     "weighted": 3.4,
     "simple": 3.71,
@@ -2805,7 +3577,30 @@
     "final_w": 3.4,
     "score": 68
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Nodeist",
+    "address": "g1k4kum5pp4r297yx9v868j9578t6de5mm2atd2h"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1ck5d4srnc3vx7kj95gvg02pu5xfxleyzu79t9e",
+     "tier": "Good",
+     "score": 77,
+     "sign": 99.91861058614174,
+     "vp": 5,
+     "proposer": 89.20215369554577,
+     "critical": 0,
+     "warning": 12,
+     "freq": 12,
+     "freq_rate": 0.34191901889156157,
+     "downtime": 0,
+     "missed": 118
+    },
     "sapphire": {
      "address": "g14ux8g8n4mx8zmrzxp7cxeu4su9ud4aruv86cf6",
      "tier": "Good",
@@ -2849,8 +3644,8 @@
      "missed": 180
     }
    },
-   "rank_current": 45,
-   "rank_corrected": 45
+   "rank_current": 47,
+   "rank_corrected": 47
   },
   {
    "moniker": "ruangnode",
@@ -2859,13 +3654,14 @@
     "challenge": 86,
     "test13": 80,
     "topaz": 19,
-    "sapphire": 74
+    "sapphire": 74,
+    "pearl": 100,
+    "firedrill": 59
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 64.75,
-   "score_corrected": 64.75,
-   "fire_drill": null,
+   "score_current": 69.66666666666667,
+   "score_corrected": 69.66666666666667,
    "challenge_detail": {
     "weighted": 4.05,
     "simple": 4.07,
@@ -2874,7 +3670,30 @@
     "final_w": 4.3,
     "score": 86
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "validator.log.gz is empty",
+    "portal_moniker": "ruangnode",
+    "address": "g1l3fmz59rw8l6h29hslxt6gtna3th8s7m5vl88d"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1de3hfwfdl959gawmvxwl56h3q2tywgc5mxwqqa",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.99764528586229,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 4
+    },
     "sapphire": {
      "address": "g1nmqu4ed3fuv5xczhlwaf37yh04269dn737r5xp",
      "tier": "Good",
@@ -2918,8 +3737,8 @@
      "missed": 81404
     }
    },
-   "rank_current": 52,
-   "rank_corrected": 52
+   "rank_current": 46,
+   "rank_corrected": 46
   },
   {
    "moniker": "VinjanInc",
@@ -2928,13 +3747,14 @@
     "challenge": 73.4,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 98,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 86.85,
-   "score_corrected": 86.85,
-   "fire_drill": null,
+   "score_current": 82.89999999999999,
+   "score_corrected": 82.89999999999999,
    "challenge_detail": {
     "weighted": 4.42,
     "simple": 4.43,
@@ -2943,7 +3763,30 @@
     "final_w": 3.67,
     "score": 73.4
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "VinjanInc",
+    "address": "g1cm5z4slw83sa3x0gttkvv64nx5dc39n2yxk296"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1ft6vny4rzz0twl6u9s2tf2k44z447lnxdrujx8",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99931025920459,
+     "vp": 5,
+     "proposer": 89.43364717399443,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 1
+    },
     "sapphire": {
      "address": "g1qckg25rz3kq2npye7capawzcek4auq68er33ct",
      "tier": "Excellent",
@@ -2987,8 +3830,8 @@
      "missed": 5
     }
    },
-   "rank_current": 8,
-   "rank_corrected": 8
+   "rank_current": 16,
+   "rank_corrected": 16
   },
   {
    "moniker": "Chainbase",
@@ -2997,13 +3840,14 @@
     "challenge": 96.99999999999999,
     "test13": 69,
     "topaz": 84,
-    "sapphire": 95
+    "sapphire": 95,
+    "pearl": 98,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 86.25,
-   "score_corrected": 86.25,
-   "fire_drill": null,
+   "score_current": 82.5,
+   "score_corrected": 82.5,
    "challenge_detail": {
     "weighted": 4.85,
     "simple": 4.86,
@@ -3012,7 +3856,30 @@
     "final_w": 4.85,
     "score": 96.99999999999999
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Chainbase",
+    "address": "g1dhatg6m9svwh06fy5z4fqdeq6p6eduya3emm6a"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1pw8c4ktjquhvu5c3kf902gs3h0q0dvhmulm4ce",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 90.2824565949728,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1xzm3qvcsgq8g6ysr023sw8nyegdm8znlsuzmz0",
      "tier": "Excellent",
@@ -3056,8 +3923,8 @@
      "missed": 11956
     }
    },
-   "rank_current": 10,
-   "rank_corrected": 10
+   "rank_current": 17,
+   "rank_corrected": 17
   },
   {
    "moniker": "OnNode",
@@ -3066,13 +3933,14 @@
     "challenge": 68,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 48
+    "sapphire": 48,
+    "pearl": 52,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 73.25,
-   "score_corrected": 73.25,
-   "fire_drill": null,
+   "score_current": 57.5,
+   "score_corrected": 57.5,
    "challenge_detail": {
     "weighted": 3.4,
     "simple": 3.71,
@@ -3082,6 +3950,20 @@
     "score": 68
    },
    "onchain": {
+    "pearl": {
+     "address": "g1p6jh0ngwf39j34rsq823x8v6gj9nsy4s2ec9ce",
+     "tier": "Watch",
+     "score": 52,
+     "sign": 99.85341904492795,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 5,
+     "warning": 8,
+     "freq": 9,
+     "freq_rate": 0.2564392641686712,
+     "downtime": 156,
+     "missed": 249
+    },
     "sapphire": {
      "address": "g1p6jh0ngwf39j34rsq823x8v6gj9nsy4s2ec9ce",
      "tier": "Watch",
@@ -3125,8 +4007,8 @@
      "missed": 23
     }
    },
-   "rank_current": 42,
-   "rank_corrected": 42
+   "rank_current": 58,
+   "rank_corrected": 58
   },
   {
    "moniker": "zardozmonopoly",
@@ -3135,13 +4017,14 @@
     "challenge": 65.4,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 54
+    "sapphire": 54,
+    "pearl": 100,
+    "firedrill": 83
    },
    "github_current": 37,
    "github_corrected": 37,
-   "score_current": 77.8,
-   "score_corrected": 77.8,
-   "fire_drill": null,
+   "score_current": 83.6,
+   "score_corrected": 83.6,
    "challenge_detail": {
     "weighted": 3.27,
     "simple": 3.43,
@@ -3150,7 +4033,29 @@
     "final_w": 3.27,
     "score": 65.4
    },
+   "fire_drill_detail": {
+    "upload_time": 19,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "zardozmonopoly",
+    "address": "g16m0r7rm7fv5hx0ekr7gvx8g4fr7eu08nzhk6gt"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1ya93laydxx0lpsvya4srnt949tpeea48ph6d4d",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1897qj6rrpl65pjyfzqppudev8al7um6snf5uhc",
      "tier": "Watch",
@@ -3221,8 +4126,8 @@
      "comment_threads": 0
     }
    },
-   "rank_current": 30,
-   "rank_corrected": 30
+   "rank_current": 14,
+   "rank_corrected": 14
   },
   {
    "moniker": "pi69",
@@ -3231,13 +4136,14 @@
     "challenge": 93.00000000000001,
     "test13": 71,
     "topaz": 78,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 100,
+    "firedrill": 71
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 84.5,
-   "score_corrected": 84.5,
-   "fire_drill": null,
+   "score_current": 84.83333333333333,
+   "score_corrected": 84.83333333333333,
    "challenge_detail": {
     "weighted": 4.15,
     "simple": 4.14,
@@ -3246,7 +4152,30 @@
     "final_w": 4.65,
     "score": 93.00000000000001
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "validator.log.gz is empty",
+    "portal_moniker": "pi69",
+    "address": "g14dwr0qm5j054r9jpfkv0kwdn3z4ptcx9vn8kj9"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g175w7005uhewtvmm87mxm9qupd95uudmmzxcapg",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1jnz9lulq4fu0le2k78rzd88ghthrpwr64jvf5u",
      "tier": "Excellent",
@@ -3290,8 +4219,8 @@
      "missed": 107
     }
    },
-   "rank_current": 14,
-   "rank_corrected": 14
+   "rank_current": 12,
+   "rank_corrected": 12
   },
   {
    "moniker": "dnsarz",
@@ -3300,13 +4229,14 @@
     "challenge": 63.4,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 73
+    "sapphire": 73,
+    "pearl": 100,
+    "firedrill": 58
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 78.35,
-   "score_corrected": 78.35,
-   "fire_drill": null,
+   "score_current": 78.56666666666666,
+   "score_corrected": 78.56666666666666,
    "challenge_detail": {
     "weighted": 3.17,
     "simple": 3.43,
@@ -3315,7 +4245,30 @@
     "final_w": 3.17,
     "score": 63.4
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "dnsarz",
+    "address": "g1etf3rd7dqghksj8r5yunkgmvpupdfszdjhuzju"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1n8tpg806353drfqvuevcs0kxk6nuqfdumt6klr",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.99411321465574,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 10
+    },
     "sapphire": {
      "address": "g1cmulp45daq8kz4942rn0pkztkj35peq68genqf",
      "tier": "Good",
@@ -3359,8 +4312,8 @@
      "missed": 0
     }
    },
-   "rank_current": 29,
-   "rank_corrected": 29
+   "rank_current": 25,
+   "rank_corrected": 25
   },
   {
    "moniker": "Grand Valley",
@@ -3369,13 +4322,14 @@
     "challenge": 60,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 83.5,
-   "score_corrected": 83.5,
-   "fire_drill": null,
+   "score_current": 87.16666666666667,
+   "score_corrected": 87.16666666666667,
    "challenge_detail": {
     "weighted": 3,
     "simple": 3.07,
@@ -3384,7 +4338,29 @@
     "final_w": 3,
     "score": 60
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "GrandValley",
+    "address": "g19sqhfxveuzdmf244xsslmwd638l9mjcdq76hym"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1a2c4jdr7rk08vr5hv7w282m4q62u7wz5fuv27s",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1a2c4jdr7rk08vr5hv7w282m4q62u7wz5fuv27s",
      "tier": "Excellent",
@@ -3428,8 +4404,8 @@
      "missed": 3
     }
    },
-   "rank_current": 16,
-   "rank_corrected": 16
+   "rank_current": 11,
+   "rank_corrected": 11
   },
   {
    "moniker": "n1stake",
@@ -3438,13 +4414,14 @@
     "challenge": 74,
     "test13": 67,
     "topaz": 96,
-    "sapphire": 10
+    "sapphire": 10,
+    "pearl": 98,
+    "firedrill": 77
    },
    "github_current": 10,
    "github_corrected": 10,
-   "score_current": 62.75,
-   "score_corrected": 62.75,
-   "fire_drill": null,
+   "score_current": 71.33333333333333,
+   "score_corrected": 71.33333333333333,
    "challenge_detail": {
     "weighted": 4.2,
     "simple": 4.14,
@@ -3453,7 +4430,30 @@
     "final_w": 3.7,
     "score": 74
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window · Right day, started 38 minutes late — the least wrong of this group",
+    "portal_moniker": "n1stake",
+    "address": "g128jzzkpyryjg6h8yjpn774mnmskuehjgw9rp9z"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1leqwmea7ssdlpj35cwwnst407pkm26l2a6lsy2",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99586107399217,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 1,
+     "freq": 1,
+     "freq_rate": 0.0284932515742968,
+     "downtime": 0,
+     "missed": 7
+    },
     "sapphire": {
      "address": "g1u5x9lqeq6mg523d047gyxu3ptxq965j249uq8q",
      "tier": "Critical",
@@ -3524,8 +4524,8 @@
      "comment_threads": 1
     }
    },
-   "rank_current": 55,
-   "rank_corrected": 55
+   "rank_current": 42,
+   "rank_corrected": 42
   },
   {
    "moniker": "Ubik Capital",
@@ -3534,13 +4534,14 @@
     "challenge": 69,
     "test13": 84,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 10,
    "github_corrected": 10,
-   "score_current": 39.25,
-   "score_corrected": 39.25,
-   "fire_drill": null,
+   "score_current": 26.5,
+   "score_corrected": 26.5,
    "challenge_detail": {
     "weighted": 3.45,
     "simple": 3.57,
@@ -3592,8 +4593,8 @@
      "comment_threads": 5
     }
    },
-   "rank_current": 76,
-   "rank_corrected": 76
+   "rank_current": 80,
+   "rank_corrected": 80
   },
   {
    "moniker": "Sr20de",
@@ -3602,13 +4603,14 @@
     "challenge": 38,
     "test13": 69,
     "topaz": 62,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 92,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 66.25,
-   "score_corrected": 66.25,
-   "fire_drill": null,
+   "score_current": 59.5,
+   "score_corrected": 59.5,
    "challenge_detail": {
     "weighted": 2.4,
     "simple": 2.64,
@@ -3618,6 +4620,20 @@
     "score": 38
    },
    "onchain": {
+    "pearl": {
+     "address": "g1w376u3ae0tjuus9mtncsxmnwn59l8rpk72438f",
+     "tier": "Excellent",
+     "score": 92,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 62.04025222423771,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1heqrm9tv4rtk2zuky2a9dkfmu0gwk3gyk22nut",
      "tier": "Excellent",
@@ -3661,8 +4677,8 @@
      "missed": 3818
     }
    },
-   "rank_current": 51,
-   "rank_corrected": 51
+   "rank_current": 57,
+   "rank_corrected": 57
   },
   {
    "moniker": "ZeycaNode",
@@ -3671,13 +4687,14 @@
     "challenge": 74,
     "test13": 85,
     "topaz": 73,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 85,
+    "firedrill": 77
    },
    "github_current": 16,
    "github_corrected": 16,
-   "score_current": 83.85,
-   "score_corrected": 83.85,
-   "fire_drill": null,
+   "score_current": 83.43333333333332,
+   "score_corrected": 83.43333333333332,
    "challenge_detail": {
     "weighted": 3.7,
     "simple": 3.86,
@@ -3686,7 +4703,30 @@
     "final_w": 3.7,
     "score": 74
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "ZeycaNode",
+    "address": "g1eep2z6k5u0t5964a5fa6qtqplkt9pnk926kh34"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g18mry9teermryplhf6k3m2flxvyyjnxanqp87v2",
+     "tier": "Excellent",
+     "score": 85,
+     "sign": 99.87343411509842,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 2,
+     "warning": 1,
+     "freq": 2,
+     "freq_rate": 0.0569865031485936,
+     "downtime": 212,
+     "missed": 215
+    },
     "sapphire": {
      "address": "g18mry9teermryplhf6k3m2flxvyyjnxanqp87v2",
      "tier": "Excellent",
@@ -3767,13 +4807,14 @@
     "challenge": 80,
     "test13": 61,
     "topaz": 91,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 58,
-   "score_corrected": 58,
-   "fire_drill": null,
+   "score_current": 38.666666666666664,
+   "score_corrected": 38.666666666666664,
    "challenge_detail": {
     "weighted": 4,
     "simple": 3.86,
@@ -3812,8 +4853,8 @@
      "missed": 11
     }
    },
-   "rank_current": 63,
-   "rank_corrected": 63
+   "rank_current": 75,
+   "rank_corrected": 75
   },
   {
    "moniker": "NakoTurk",
@@ -3822,13 +4863,14 @@
     "challenge": 59,
     "test13": 47,
     "topaz": 91,
-    "sapphire": 93
+    "sapphire": 93,
+    "pearl": 83,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 72.5,
-   "score_corrected": 72.5,
-   "fire_drill": null,
+   "score_current": 62.166666666666664,
+   "score_corrected": 62.166666666666664,
    "challenge_detail": {
     "weighted": 3.7,
     "simple": 3.43,
@@ -3838,6 +4880,20 @@
     "score": 59
    },
    "onchain": {
+    "pearl": {
+     "address": "g1ggayrfdtatv772e6ye4ttkdehkwf42xkf6y5ce",
+     "tier": "Good",
+     "score": 83,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 12.654976821859435,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1an4yn754xkjqntw2ypa4uv3wdw73jm9c0erlxe",
      "tier": "Excellent",
@@ -3881,8 +4937,8 @@
      "missed": 20
     }
    },
-   "rank_current": 43,
-   "rank_corrected": 43
+   "rank_current": 55,
+   "rank_corrected": 55
   },
   {
    "moniker": "ChainTools",
@@ -3891,13 +4947,14 @@
     "challenge": 56.6,
     "test13": 82,
     "topaz": 89,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 81.15,
-   "score_corrected": 81.15,
-   "fire_drill": null,
+   "score_current": 70.76666666666667,
+   "score_corrected": 70.76666666666667,
    "challenge_detail": {
     "weighted": 3.33,
     "simple": 3.29,
@@ -3907,6 +4964,20 @@
     "score": 56.6
    },
    "onchain": {
+    "pearl": {
+     "address": "g1r9e239zxfdxwywyru8twpyh8dze5z0xh8kyt7s",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1r9e239zxfdxwywyru8twpyh8dze5z0xh8kyt7s",
      "tier": "Excellent",
@@ -3950,8 +5021,8 @@
      "missed": 35
     }
    },
-   "rank_current": 22,
-   "rank_corrected": 22
+   "rank_current": 44,
+   "rank_corrected": 44
   },
   {
    "moniker": "Vicky_Pulsican",
@@ -3960,13 +5031,14 @@
     "challenge": 75.4,
     "test13": 80,
     "topaz": 68,
-    "sapphire": 44
+    "sapphire": 44,
+    "pearl": 98,
+    "firedrill": 75
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 66.85,
-   "score_corrected": 66.85,
-   "fire_drill": null,
+   "score_current": 73.39999999999999,
+   "score_corrected": 73.39999999999999,
    "challenge_detail": {
     "weighted": 3.77,
     "simple": 3.86,
@@ -3975,7 +5047,30 @@
     "final_w": 3.77,
     "score": 75.4
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 20,
+    "findings": "logs do not fully cover the window · Gave the exact retention gap and asked before submitting",
+    "portal_moniker": "Vicky_Pulsican",
+    "address": "g19zqln3nnwcp4hqlvg7kv08p8ghe2cpk69qn0vs"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g18ap5zk2pgx74ucxplyhefrt44ujd8ssdpjfw63",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 92.05723992974578,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1hlqnpy20zs3n9cyev7kv32y2daq2qjj96gs43y",
      "tier": "Watch",
@@ -4019,8 +5114,8 @@
      "missed": 10999
     }
    },
-   "rank_current": 50,
-   "rank_corrected": 50
+   "rank_current": 37,
+   "rank_corrected": 37
   },
   {
    "moniker": "Inter Blockchain Services",
@@ -4029,13 +5124,14 @@
     "challenge": 0,
     "test13": 73,
     "topaz": 91,
-    "sapphire": 78
+    "sapphire": 78,
+    "pearl": 100,
+    "firedrill": 77
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 60.5,
-   "score_corrected": 60.5,
-   "fire_drill": null,
+   "score_current": 69.83333333333333,
+   "score_corrected": 69.83333333333333,
    "challenge_detail": {
     "weighted": 3.73,
     "simple": 3.71,
@@ -4044,7 +5140,30 @@
     "final_w": 0,
     "score": 0
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Inter_Blockchain_Services",
+    "address": "g1p2av3saw8h3s37w4d0cplcemmeqmmnxhpezx2g"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1veqx5xm2ssx9dfvw6s89fg8nwaprxgx5l2wwkr",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.63125916614288,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 616
+    },
     "sapphire": {
      "address": "g1veqx5xm2ssx9dfvw6s89fg8nwaprxgx5l2wwkr",
      "tier": "Good",
@@ -4088,8 +5207,8 @@
      "missed": 96
     }
    },
-   "rank_current": 60,
-   "rank_corrected": 60
+   "rank_current": 45,
+   "rank_corrected": 45
   },
   {
    "moniker": "ESERCKR",
@@ -4098,13 +5217,14 @@
     "challenge": 68.4,
     "test13": 67,
     "topaz": 85,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 100,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 79.1,
-   "score_corrected": 79.1,
-   "fire_drill": null,
+   "score_current": 78.06666666666666,
+   "score_corrected": 78.06666666666666,
    "challenge_detail": {
     "weighted": 3.42,
     "simple": 3.57,
@@ -4113,7 +5233,30 @@
     "final_w": 3.42,
     "score": 68.4
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "ESERCKR",
+    "address": "g19kz7kupu9l9lrkrw3nptqzz9tn3v3vv7crp796"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g17aw2zh2lfq99gcw8w9g0f2q6xsg7met58q0e66",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.99880215851037,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 2
+    },
     "sapphire": {
      "address": "g1svd0fuqrq23rwsnsj7gkf0f7ps4lf0t6q5pqvh",
      "tier": "Excellent",
@@ -4157,8 +5300,8 @@
      "missed": 5787
     }
    },
-   "rank_current": 25,
-   "rank_corrected": 25
+   "rank_current": 27,
+   "rank_corrected": 27
   },
   {
    "moniker": "2NH",
@@ -4167,13 +5310,14 @@
     "challenge": 72,
     "test13": 78,
     "topaz": 65,
-    "sapphire": 54
+    "sapphire": 54,
+    "pearl": 79,
+    "firedrill": 77
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 67.25,
-   "score_corrected": 67.25,
-   "fire_drill": null,
+   "score_current": 70.83333333333333,
+   "score_corrected": 70.83333333333333,
    "challenge_detail": {
     "weighted": 3.6,
     "simple": 3.71,
@@ -4182,7 +5326,30 @@
     "final_w": 3.6,
     "score": 72
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "2NH",
+    "address": "g15crxnxd79syggtha6ymfhy8m8a4ytqel58cwkg"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1xhnclaakglyge0p5d7dzz2h9trplqamas8numq",
+     "tier": "Good",
+     "score": 79,
+     "sign": 99.85632014001395,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 11,
+     "freq": 11,
+     "freq_rate": 0.3134257673172648,
+     "downtime": 0,
+     "missed": 243
+    },
     "sapphire": {
      "address": "g1xhnclaakglyge0p5d7dzz2h9trplqamas8numq",
      "tier": "Watch",
@@ -4226,8 +5393,8 @@
      "missed": 22113
     }
    },
-   "rank_current": 49,
-   "rank_corrected": 49
+   "rank_current": 43,
+   "rank_corrected": 43
   },
   {
    "moniker": "Kleomedes",
@@ -4236,13 +5403,14 @@
     "challenge": 85.6,
     "test13": 70,
     "topaz": 57,
-    "sapphire": 60
+    "sapphire": 60,
+    "pearl": 98,
+    "firedrill": 71
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 68.15,
-   "score_corrected": 68.15,
-   "fire_drill": null,
+   "score_current": 73.60000000000001,
+   "score_corrected": 73.60000000000001,
    "challenge_detail": {
     "weighted": 4.28,
     "simple": 4.36,
@@ -4251,7 +5419,30 @@
     "final_w": 4.28,
     "score": 85.6
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "validator.log.gz is empty",
+    "portal_moniker": "Kleomedes",
+    "address": "g1c5z9tqmcjendp46l8v6c2lu8xmrdyrk0tp5vn3"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g15880qg8rzel7kdefx6jeddpjvv68fchtxm9gav",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.99862051840918,
+     "vp": 5,
+     "proposer": 89.51081166681064,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 2
+    },
     "sapphire": {
      "address": "g1dsz7du0h9pcwv8l02gp08g6f6085g0zzrrem6m",
      "tier": "Good",
@@ -4295,8 +5486,8 @@
      "missed": 179
     }
    },
-   "rank_current": 47,
-   "rank_corrected": 47
+   "rank_current": 35,
+   "rank_corrected": 35
   },
   {
    "moniker": "BZE Community",
@@ -4305,13 +5496,14 @@
     "challenge": 28.6,
     "test13": 84,
     "topaz": 93,
-    "sapphire": 96
+    "sapphire": 96,
+    "pearl": 100,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 75.4,
-   "score_corrected": 75.4,
-   "fire_drill": null,
+   "score_current": 66.93333333333334,
+   "score_corrected": 66.93333333333334,
    "challenge_detail": {
     "weighted": 1.93,
     "simple": 2.07,
@@ -4321,6 +5513,20 @@
     "score": 28.6
    },
    "onchain": {
+    "pearl": {
+     "address": "g1rfu5paz2dt3pz77de6wgpg9wtuhdtlhnv42fem",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1rfu5paz2dt3pz77de6wgpg9wtuhdtlhnv42fem",
      "tier": "Excellent",
@@ -4364,8 +5570,8 @@
      "missed": 0
     }
    },
-   "rank_current": 34,
-   "rank_corrected": 34
+   "rank_current": 52,
+   "rank_corrected": 52
   },
   {
    "moniker": "TeoViTeoVi",
@@ -4374,13 +5580,14 @@
     "challenge": 37,
     "test13": 80,
     "topaz": 82,
-    "sapphire": 84
+    "sapphire": 84,
+    "pearl": 83,
+    "firedrill": 65
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 70.75,
-   "score_corrected": 70.75,
-   "fire_drill": null,
+   "score_current": 71.83333333333333,
+   "score_corrected": 71.83333333333333,
    "challenge_detail": {
     "weighted": 2.35,
     "simple": 2.79,
@@ -4389,7 +5596,30 @@
     "final_w": 1.85,
     "score": 37
    },
+   "fire_drill_detail": {
+    "upload_time": 19,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 8,
+    "findings": "validator.log.gz is empty",
+    "portal_moniker": "TeoViTeoVi",
+    "address": "g187qre9w8v90wp7fhgulwnwegarlulwn2da2gzp"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g14rew8r9h373unuema4vrqztntumt77u9ncu6ku",
+     "tier": "Good",
+     "score": 83,
+     "sign": 99.63719634161482,
+     "vp": 5,
+     "proposer": 89.20215369554577,
+     "critical": 2,
+     "warning": 1,
+     "freq": 2,
+     "freq_rate": 0.0569865031485936,
+     "downtime": 498,
+     "missed": 526
+    },
     "sapphire": {
      "address": "g142nsj74jv3m7zntvjxt9y52tel36r353snnkpx",
      "tier": "Good",
@@ -4433,8 +5663,8 @@
      "missed": 56
     }
    },
-   "rank_current": 46,
-   "rank_corrected": 46
+   "rank_current": 40,
+   "rank_corrected": 40
   },
   {
    "moniker": "offellNode",
@@ -4443,13 +5673,14 @@
     "challenge": 58.4,
     "test13": 82,
     "topaz": 58,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 98,
+    "firedrill": 77
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 73.85,
-   "score_corrected": 73.85,
-   "fire_drill": null,
+   "score_current": 78.39999999999999,
+   "score_corrected": 78.39999999999999,
    "challenge_detail": {
     "weighted": 2.92,
     "simple": 3.21,
@@ -4458,7 +5689,29 @@
     "final_w": 2.92,
     "score": 58.4
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "OffellNode",
+    "address": "g16dwv69e304eek3y0qn7tfdujtrq6m3wh9tcc9f"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1z3n4yw88m6x6w0ts8kkgh87464rgufjfhd9w0k",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.43364717399443,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g13flq4wk3prdna6v6eelsrdkykuhxkn4jeex4f6",
      "tier": "Excellent",
@@ -4502,8 +5755,8 @@
      "missed": 10596
     }
    },
-   "rank_current": 39,
-   "rank_corrected": 39
+   "rank_current": 26,
+   "rank_corrected": 26
   },
   {
    "moniker": "Trace",
@@ -4512,13 +5765,14 @@
     "challenge": 39.6,
     "test13": 84,
     "topaz": 0,
-    "sapphire": 93
+    "sapphire": 93,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 54.15,
-   "score_corrected": 54.15,
-   "fire_drill": null,
+   "score_current": 36.1,
+   "score_corrected": 36.1,
    "challenge_detail": {
     "weighted": 1.98,
     "simple": 2.36,
@@ -4557,8 +5811,8 @@
      "missed": 99
     }
    },
-   "rank_current": 67,
-   "rank_corrected": 67
+   "rank_current": 76,
+   "rank_corrected": 76
   },
   {
    "moniker": "Stella",
@@ -4567,13 +5821,14 @@
     "challenge": 55,
     "test13": 82,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 34.25,
-   "score_corrected": 34.25,
-   "fire_drill": null,
+   "score_current": 22.833333333333332,
+   "score_corrected": 22.833333333333332,
    "challenge_detail": {
     "weighted": 2.75,
     "simple": 3.14,
@@ -4598,8 +5853,8 @@
      "missed": 3
     }
    },
-   "rank_current": 81,
-   "rank_corrected": 80
+   "rank_current": 82,
+   "rank_corrected": 82
   },
   {
    "moniker": "HusoNode",
@@ -4608,13 +5863,14 @@
     "challenge": 58,
     "test13": 63,
     "topaz": 71,
-    "sapphire": 61
+    "sapphire": 61,
+    "pearl": 87,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 63.25,
-   "score_corrected": 63.25,
-   "fire_drill": null,
+   "score_current": 71.5,
+   "score_corrected": 71.5,
    "challenge_detail": {
     "weighted": 3.4,
     "simple": 3.5,
@@ -4623,7 +5879,29 @@
     "final_w": 2.9,
     "score": 58
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "HusoNode",
+    "address": "g12q9wd2vqsy40qh2nvsz6km6r8ac94y0j6r4ca9"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1vtsg2pnf0plejyddwfms9tympjqsph9xpuj6ts",
+     "tier": "Excellent",
+     "score": 87,
+     "sign": 99.96413347863873,
+     "vp": 5,
+     "proposer": 89.3564826811782,
+     "critical": 0,
+     "warning": 5,
+     "freq": 5,
+     "freq_rate": 0.14246625787148398,
+     "downtime": 0,
+     "missed": 52
+    },
     "sapphire": {
      "address": "g154zrpgrc4k94gudw9q0ue64mtuajgk3ujd40lx",
      "tier": "Good",
@@ -4667,8 +5945,8 @@
      "missed": 2494
     }
    },
-   "rank_current": 53,
-   "rank_corrected": 53
+   "rank_current": 41,
+   "rank_corrected": 41
   },
   {
    "moniker": "NodeSafe",
@@ -4677,13 +5955,14 @@
     "challenge": 37.6,
     "test13": 61,
     "topaz": 93,
-    "sapphire": 32
+    "sapphire": 32,
+    "pearl": 6,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 55.9,
-   "score_corrected": 55.9,
-   "fire_drill": null,
+   "score_current": 53.1,
+   "score_corrected": 53.1,
    "challenge_detail": {
     "weighted": 2.38,
     "simple": 2.71,
@@ -4692,7 +5971,29 @@
     "final_w": 1.88,
     "score": 37.6
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "NodeSafe",
+    "address": "g17xcvw4uvehrywupnhncgpm6llat69syhne8s56"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g17269vzp45g393067ulat4knr22wdkx6fukpd9w",
+     "tier": "Critical",
+     "score": 6,
+     "sign": 14.164782895356504,
+     "vp": 5,
+     "proposer": 13.88960870691889,
+     "critical": 1,
+     "warning": 1,
+     "freq": 1,
+     "freq_rate": 0.0284932515742968,
+     "downtime": 492,
+     "missed": 145810
+    },
     "sapphire": {
      "address": "g17269vzp45g393067ulat4knr22wdkx6fukpd9w",
      "tier": "Watch",
@@ -4736,8 +6037,8 @@
      "missed": 1714
     }
    },
-   "rank_current": 65,
-   "rank_corrected": 65
+   "rank_current": 68,
+   "rank_corrected": 67
   },
   {
    "moniker": "Node39",
@@ -4746,13 +6047,14 @@
     "challenge": 66.6,
     "test13": 69,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 33.9,
-   "score_corrected": 33.9,
-   "fire_drill": null,
+   "score_current": 22.599999999999998,
+   "score_corrected": 22.599999999999998,
    "challenge_detail": {
     "weighted": 3.33,
     "simple": 3.57,
@@ -4777,8 +6079,8 @@
      "missed": 486
     }
    },
-   "rank_current": 82,
-   "rank_corrected": 81
+   "rank_current": 83,
+   "rank_corrected": 83
   },
   {
    "moniker": "Shazoes",
@@ -4787,13 +6089,14 @@
     "challenge": 47.6,
     "test13": 84,
     "topaz": 55,
-    "sapphire": 60
+    "sapphire": 60,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 61.65,
-   "score_corrected": 61.65,
-   "fire_drill": null,
+   "score_current": 41.1,
+   "score_corrected": 41.1,
    "challenge_detail": {
     "weighted": 2.38,
     "simple": 2.79,
@@ -4846,8 +6149,8 @@
      "missed": 3613
     }
    },
-   "rank_current": 56,
-   "rank_corrected": 56
+   "rank_current": 72,
+   "rank_corrected": 72
   },
   {
    "moniker": "PrimeStake",
@@ -4856,13 +6159,14 @@
     "challenge": 45,
     "test13": 82,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 31.75,
-   "score_corrected": 31.75,
-   "fire_drill": null,
+   "score_current": 21.166666666666668,
+   "score_corrected": 21.166666666666668,
    "challenge_detail": {
     "weighted": 2.25,
     "simple": 2.64,
@@ -4887,8 +6191,8 @@
      "missed": 2
     }
    },
-   "rank_current": 83,
-   "rank_corrected": 82
+   "rank_current": 84,
+   "rank_corrected": 84
   },
   {
    "moniker": "Nodedog",
@@ -4897,13 +6201,14 @@
     "challenge": 38,
     "test13": 82,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 30,
-   "score_corrected": 30,
-   "fire_drill": null,
+   "score_current": 20,
+   "score_corrected": 20,
    "challenge_detail": {
     "weighted": 1.9,
     "simple": 2.36,
@@ -4928,8 +6233,8 @@
      "missed": 0
     }
    },
-   "rank_current": 84,
-   "rank_corrected": 83
+   "rank_current": 85,
+   "rank_corrected": 85
   },
   {
    "moniker": "LuckyStar",
@@ -4938,13 +6243,14 @@
     "challenge": 78.4,
     "test13": 38,
     "topaz": 45,
-    "sapphire": 30
+    "sapphire": 30,
+    "pearl": 54,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 47.85,
-   "score_corrected": 47.85,
-   "fire_drill": null,
+   "score_current": 55.73333333333333,
+   "score_corrected": 55.73333333333333,
    "challenge_detail": {
     "weighted": 3.67,
     "simple": 3.57,
@@ -4953,7 +6259,29 @@
     "final_w": 3.92,
     "score": 78.4
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "LuckyStar",
+    "address": "g1pskxvnzkawh4hze3tdn8u7jj59pcs4ukku7fv5"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1l0v7hy7rvnrd07xl5yk7vxx2dvxdxfzj647qwy",
+     "tier": "Watch",
+     "score": 54,
+     "sign": 99.841056795705,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 4,
+     "warning": 13,
+     "freq": 15,
+     "freq_rate": 0.427398773614452,
+     "downtime": 160,
+     "missed": 270
+    },
     "sapphire": {
      "address": "g1mnu365y3lrams3gff862r0pqjye3y4dw5z8vmz",
      "tier": "Watch",
@@ -4997,8 +6325,8 @@
      "missed": 8216
     }
    },
-   "rank_current": 69,
-   "rank_corrected": 69
+   "rank_current": 63,
+   "rank_corrected": 62
   },
   {
    "moniker": "Nodeshub",
@@ -5007,13 +6335,14 @@
     "challenge": 76,
     "test13": 0,
     "topaz": 91,
-    "sapphire": 17
+    "sapphire": 17,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 46,
-   "score_corrected": 46,
-   "fire_drill": null,
+   "score_current": 30.666666666666668,
+   "score_corrected": 30.666666666666668,
    "challenge_detail": {
     "weighted": 4.3,
     "simple": 4.29,
@@ -5066,8 +6395,8 @@
      "missed": 12
     }
    },
-   "rank_current": 70,
-   "rank_corrected": 70
+   "rank_current": 79,
+   "rank_corrected": 79
   },
   {
    "moniker": "MIPEnode",
@@ -5076,13 +6405,14 @@
     "challenge": 57,
     "test13": 43,
     "topaz": 58,
-    "sapphire": 5
+    "sapphire": 5,
+    "pearl": 98,
+    "firedrill": 65
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 40.75,
-   "score_corrected": 40.75,
-   "fire_drill": null,
+   "score_current": 54.333333333333336,
+   "score_corrected": 54.333333333333336,
    "challenge_detail": {
     "weighted": 2.85,
     "simple": 2.93,
@@ -5091,7 +6421,30 @@
     "final_w": 2.85,
     "score": 57
    },
+   "fire_drill_detail": {
+    "upload_time": 13,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "MIPEnode",
+    "address": "g1e3vld469ekks28mhtd4aqua3mdaz64qgdtz29k"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1pqq5mha7v4zxe9dn3aptj6dq4r3yvnx7eg73r2",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.51081166681064,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1gk3aqn5hh3fn3nsh6zj560l9apa806k2ws3ufy",
      "tier": "Critical",
@@ -5135,8 +6488,8 @@
      "missed": 715
     }
    },
-   "rank_current": 74,
-   "rank_corrected": 74
+   "rank_current": 65,
+   "rank_corrected": 64
   },
   {
    "moniker": "Oneiric Stake",
@@ -5145,13 +6498,14 @@
     "challenge": 43,
     "test13": 57,
     "topaz": 58,
-    "sapphire": 11
+    "sapphire": 11,
+    "pearl": 6,
+    "firedrill": 69
    },
    "github_current": 5,
    "github_corrected": 5,
-   "score_current": 42.75,
-   "score_corrected": 42.75,
-   "fire_drill": null,
+   "score_current": 41.166666666666664,
+   "score_corrected": 41.166666666666664,
    "challenge_detail": {
     "weighted": 2.15,
     "simple": 2.57,
@@ -5160,7 +6514,30 @@
     "final_w": 2.15,
     "score": 43
    },
+   "fire_drill_detail": {
+    "upload_time": 19,
+    "metadata": 25,
+    "log_quality": 13,
+    "incident": 12,
+    "findings": "no recognizable timestamps · Persisted publicly through the signing failures; shipped a 613-byte header",
+    "portal_moniker": "OneiricStake",
+    "address": "g14m0n559xdj00qwvp6ck0xesprrq26kgprgjt4j"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1svwt7l54jmg0dq0wkzr8u09mn5pp9yyx3kgsj9",
+     "tier": "Critical",
+     "score": 6,
+     "sign": 91.76438730338137,
+     "vp": 5,
+     "proposer": 99.54219573291873,
+     "critical": 25,
+     "warning": 25,
+     "freq": 32,
+     "freq_rate": 0.9117840503774975,
+     "downtime": 1857,
+     "missed": 13990
+    },
     "sapphire": {
      "address": "g1svwt7l54jmg0dq0wkzr8u09mn5pp9yyx3kgsj9",
      "tier": "Critical",
@@ -5231,8 +6608,8 @@
      "comment_threads": 0
     }
    },
-   "rank_current": 73,
-   "rank_corrected": 73
+   "rank_current": 71,
+   "rank_corrected": 71
   },
   {
    "moniker": "TheGoodEscobar",
@@ -5241,13 +6618,14 @@
     "challenge": 57.6,
     "test13": 0,
     "topaz": 94,
-    "sapphire": 26
+    "sapphire": 26,
+    "pearl": 98,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 44.4,
-   "score_corrected": 44.4,
-   "fire_drill": null,
+   "score_current": 54.6,
+   "score_corrected": 54.6,
    "challenge_detail": {
     "weighted": 2.88,
     "simple": 2.93,
@@ -5256,7 +6634,30 @@
     "final_w": 2.88,
     "score": 57.6
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "TheGoodEscobar",
+    "address": "g18dw5qfv2zlh372hh3wvdv9k4ywu7jcgmrnnsep"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g159qmqn8mdnz4rsvycxh7xnw6h055kj976m2dyg",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 89.43364717399443,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g159qmqn8mdnz4rsvycxh7xnw6h055kj976m2dyg",
      "tier": "Critical",
@@ -5300,8 +6701,8 @@
      "missed": 14
     }
    },
-   "rank_current": 72,
-   "rank_corrected": 72
+   "rank_current": 64,
+   "rank_corrected": 63
   },
   {
    "moniker": "doresa",
@@ -5310,13 +6711,14 @@
     "challenge": 45.4,
     "test13": 71,
     "topaz": 35,
-    "sapphire": 100
+    "sapphire": 100,
+    "pearl": 100,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 62.85,
-   "score_corrected": 62.85,
-   "fire_drill": null,
+   "score_current": 67.23333333333333,
+   "score_corrected": 67.23333333333333,
    "challenge_detail": {
     "weighted": 2.77,
     "simple": 2.93,
@@ -5325,7 +6727,30 @@
     "final_w": 2.27,
     "score": 45.4
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "doresa",
+    "address": "g18lnmr5td4g5td0w0e3cmt5lvgd8xwzekat0dhy"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g139sha43j4qdxqj2wmrezzj336tc255r25yu0uz",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g139sha43j4qdxqj2wmrezzj336tc255r25yu0uz",
      "tier": "Excellent",
@@ -5369,8 +6794,8 @@
      "missed": 54117
     }
    },
-   "rank_current": 54,
-   "rank_corrected": 54
+   "rank_current": 51,
+   "rank_corrected": 51
   },
   {
    "moniker": "CrypTech",
@@ -5379,13 +6804,14 @@
     "challenge": 68,
     "test13": 0,
     "topaz": 82,
-    "sapphire": 11
+    "sapphire": 11,
+    "pearl": 94,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 40.25,
-   "score_corrected": 40.25,
-   "fire_drill": null,
+   "score_current": 57.333333333333336,
+   "score_corrected": 57.333333333333336,
    "challenge_detail": {
     "weighted": 3.4,
     "simple": 3.5,
@@ -5394,7 +6820,30 @@
     "final_w": 3.4,
     "score": 68
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "findings": "VERSION",
+    "portal_moniker": "Cryptech",
+    "address": "g1703mrzj3yvwsa0xfwkhf425qafjtyxv6f007rd"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1jrna6v8fs956cld8al6klwfuw8daqu329cnlkk",
+     "tier": "Excellent",
+     "score": 94,
+     "sign": 99.98689492488722,
+     "vp": 5,
+     "proposer": 89.74230514525928,
+     "critical": 0,
+     "warning": 2,
+     "freq": 2,
+     "freq_rate": 0.0569865031485936,
+     "downtime": 0,
+     "missed": 19
+    },
     "sapphire": {
      "address": "g19k5nmxeempzrnqtl6s90nw9hjzvgf7qpwx94er",
      "tier": "Critical",
@@ -5438,8 +6887,8 @@
      "missed": 59
     }
    },
-   "rank_current": 75,
-   "rank_corrected": 75
+   "rank_current": 59,
+   "rank_corrected": 59
   },
   {
    "moniker": "tanjira",
@@ -5448,13 +6897,14 @@
     "challenge": 70,
     "test13": 38,
     "topaz": 38,
-    "sapphire": 6
+    "sapphire": 6,
+    "pearl": 100,
+    "firedrill": 71
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 38,
-   "score_corrected": 38,
-   "fire_drill": null,
+   "score_current": 53.833333333333336,
+   "score_corrected": 53.833333333333336,
    "challenge_detail": {
     "weighted": 3.75,
     "simple": 3.71,
@@ -5463,7 +6913,30 @@
     "final_w": 3.5,
     "score": 70
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 25,
+    "findings": "Declared his own lateness, read his log for us, and named what running at warn level cannot prove",
+    "portal_moniker": "tanjira",
+    "address": "g138mdf0gqzue3ra2r335upclngn8t8r0n72cn3h"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g15vs6ghwtz80wa044te8lyqr4scjsxvpfyll8p2",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 99.99823396439672,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 3
+    },
     "sapphire": {
      "address": "g15vs6ghwtz80wa044te8lyqr4scjsxvpfyll8p2",
      "tier": "Critical",
@@ -5507,8 +6980,8 @@
      "missed": 44618
     }
    },
-   "rank_current": 77,
-   "rank_corrected": 77
+   "rank_current": 67,
+   "rank_corrected": 66
   },
   {
    "moniker": "Tecnodes",
@@ -5517,13 +6990,14 @@
     "challenge": 45.4,
     "test13": 0,
     "topaz": 96,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 35.35,
-   "score_corrected": 35.35,
-   "fire_drill": null,
+   "score_current": 23.566666666666666,
+   "score_corrected": 23.566666666666666,
    "challenge_detail": {
     "weighted": 2.02,
     "simple": 2.14,
@@ -5576,8 +7050,8 @@
      "missed": 2
     }
    },
-   "rank_current": 79,
-   "rank_corrected": 79
+   "rank_current": 81,
+   "rank_corrected": 81
   },
   {
    "moniker": "Fluxen",
@@ -5586,13 +7060,14 @@
     "challenge": 56,
     "test13": 0,
     "topaz": 84,
-    "sapphire": 97
+    "sapphire": 97,
+    "pearl": 100,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 59.25,
-   "score_corrected": 59.25,
-   "fire_drill": null,
+   "score_current": 64.83333333333333,
+   "score_corrected": 64.83333333333333,
    "challenge_detail": {
     "weighted": 3.3,
     "simple": 3.43,
@@ -5601,7 +7076,30 @@
     "final_w": 2.8,
     "score": 56
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "Fluxen",
+    "address": "g15g0la8fyn4mvulrw39vmngs3z9vzhefkyyef9y"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1evusy2vs2swkc2znq7kzc2ltp6zkxzdwlp72un",
+     "tier": "Excellent",
+     "score": 100,
+     "sign": 100,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 0
+    },
     "sapphire": {
      "address": "g1r0wplyxnk6xkxj78ssp4ycu39ttujy38jejqkj",
      "tier": "Excellent",
@@ -5645,8 +7143,8 @@
      "missed": 1866
     }
    },
-   "rank_current": 61,
-   "rank_corrected": 61
+   "rank_current": 53,
+   "rank_corrected": 53
   },
   {
    "moniker": "NyanCat",
@@ -5655,13 +7153,14 @@
     "challenge": 44.00000000000001,
     "test13": 0,
     "topaz": 91,
-    "sapphire": 94
+    "sapphire": 94,
+    "pearl": 40,
+    "firedrill": 89
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 57.25,
-   "score_corrected": 57.25,
-   "fire_drill": null,
+   "score_current": 59.666666666666664,
+   "score_corrected": 59.666666666666664,
    "challenge_detail": {
     "weighted": 2.7,
     "simple": 2.79,
@@ -5670,7 +7169,29 @@
     "final_w": 2.2,
     "score": 44.00000000000001
    },
+   "fire_drill_detail": {
+    "upload_time": 25,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "NyanCat",
+    "address": "g1apx2ktj0tc7gqzaqtgl9xluflnqehgpqla0anv"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1zql5jwmtj0cn3xrkedacm4q79v7a7v2eux930l",
+     "tier": "Watch",
+     "score": 40,
+     "sign": 99.0574626778565,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 6,
+     "warning": 12,
+     "freq": 12,
+     "freq_rate": 0.34191901889156157,
+     "downtime": 643,
+     "missed": 1615
+    },
     "sapphire": {
      "address": "g1zql5jwmtj0cn3xrkedacm4q79v7a7v2eux930l",
      "tier": "Excellent",
@@ -5714,8 +7235,8 @@
      "missed": 9
     }
    },
-   "rank_current": 64,
-   "rank_corrected": 64
+   "rank_current": 56,
+   "rank_corrected": 56
   },
   {
    "moniker": "KalpaTech",
@@ -5724,13 +7245,14 @@
     "challenge": 59.6,
     "test13": 0,
     "topaz": 70,
-    "sapphire": 52
+    "sapphire": 52,
+    "pearl": 73,
+    "firedrill": 70
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 45.4,
-   "score_corrected": 45.4,
-   "fire_drill": null,
+   "score_current": 54.1,
+   "score_corrected": 54.1,
    "challenge_detail": {
     "weighted": 2.98,
     "simple": 2.71,
@@ -5739,7 +7261,29 @@
     "final_w": 2.98,
     "score": 59.6
    },
+   "fire_drill_detail": {
+    "upload_time": 6,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "portal_moniker": "KalpaTech",
+    "address": "g1f363suf6h7trgyshs5gmf80f2ee9lfzjs3hr03"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1r3hst33nz5txj5rp3scvf4uzvcd2kylhyq8lxq",
+     "tier": "Good",
+     "score": 73,
+     "sign": 99.84115652329109,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 1,
+     "warning": 12,
+     "freq": 12,
+     "freq_rate": 0.34191901889156157,
+     "downtime": 34,
+     "missed": 267
+    },
     "sapphire": {
      "address": "g1r3hst33nz5txj5rp3scvf4uzvcd2kylhyq8lxq",
      "tier": "Watch",
@@ -5783,8 +7327,8 @@
      "missed": 94
     }
    },
-   "rank_current": 71,
-   "rank_corrected": 71
+   "rank_current": 66,
+   "rank_corrected": 65
   },
   {
    "moniker": "validatorsg",
@@ -5793,13 +7337,14 @@
     "challenge": 54,
     "test13": 17,
     "topaz": 34,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 32,
+    "firedrill": 52
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 26.25,
-   "score_corrected": 26.25,
-   "fire_drill": null,
+   "score_current": 31.5,
+   "score_corrected": 31.5,
    "challenge_detail": {
     "weighted": 3.45,
     "simple": 3.29,
@@ -5808,7 +7353,30 @@
     "final_w": 2.7,
     "score": 54
    },
+   "fire_drill_detail": {
+    "upload_time": 0,
+    "metadata": 25,
+    "log_quality": 17,
+    "incident": 10,
+    "findings": "logs do not fully cover the window",
+    "portal_moniker": "ValidatorSG",
+    "address": "g1nqvsxzcgagsps3qe4ffs0stxxzxxaj2nmuem07"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g1t0zn3xvn533wruntk5wqqzptjxf98hvf5g7mt4",
+     "tier": "Watch",
+     "score": 32,
+     "sign": 98.73918710747719,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 7,
+     "warning": 26,
+     "freq": 28,
+     "freq_rate": 0.7978110440803103,
+     "downtime": 1133,
+     "missed": 2128
+    },
     "sapphire": {
      "address": "g1lvyzn5gmyatf6gu75375lxsmrtrqrrfsy96nes",
      "tier": "Critical",
@@ -5852,8 +7420,8 @@
      "missed": 2886
     }
    },
-   "rank_current": 85,
-   "rank_corrected": 85
+   "rank_current": 78,
+   "rank_corrected": 78
   },
   {
    "moniker": "OwlStake",
@@ -5862,13 +7430,14 @@
     "challenge": 52.4,
     "test13": 30,
     "topaz": 19,
-    "sapphire": 46
+    "sapphire": 46,
+    "pearl": 62,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 36.85,
-   "score_corrected": 36.85,
-   "fire_drill": null,
+   "score_current": 34.9,
+   "score_corrected": 34.9,
    "challenge_detail": {
     "weighted": 2.62,
     "simple": 2.86,
@@ -5878,6 +7447,20 @@
     "score": 52.4
    },
    "onchain": {
+    "pearl": {
+     "address": "g1fnycs89p0k3y4z5a5cm6a2l8ps80kc8fv79xyy",
+     "tier": "Good",
+     "score": 62,
+     "sign": 99.8593058302722,
+     "vp": 5,
+     "proposer": 100,
+     "critical": 4,
+     "warning": 6,
+     "freq": 7,
+     "freq_rate": 0.19945276102007758,
+     "downtime": 162,
+     "missed": 239
+    },
     "sapphire": {
      "address": "g1fnycs89p0k3y4z5a5cm6a2l8ps80kc8fv79xyy",
      "tier": "Watch",
@@ -5921,8 +7504,8 @@
      "missed": 20261
     }
    },
-   "rank_current": 78,
-   "rank_corrected": 78
+   "rank_current": 77,
+   "rank_corrected": 77
   },
   {
    "moniker": "Roomit",
@@ -5931,13 +7514,14 @@
     "challenge": 88.4,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 22.1,
-   "score_corrected": 22.1,
-   "fire_drill": null,
+   "score_current": 14.733333333333334,
+   "score_corrected": 14.733333333333334,
    "challenge_detail": {
     "weighted": 4.42,
     "simple": 4.43,
@@ -5976,8 +7560,8 @@
      "missed": 193548
     }
    },
-   "rank_current": 86,
-   "rank_corrected": 86
+   "rank_current": 87,
+   "rank_corrected": 87
   },
   {
    "moniker": "Santala-Research",
@@ -5986,13 +7570,14 @@
     "challenge": 62.4,
     "test13": 14,
     "topaz": 11,
-    "sapphire": 24
+    "sapphire": 24,
+    "pearl": 98,
+    "firedrill": 83
    },
    "github_current": 72,
    "github_corrected": 0,
-   "score_current": 35.050000000000004,
-   "score_corrected": 27.85,
-   "fire_drill": null,
+   "score_current": 55.93333333333333,
+   "score_corrected": 48.73333333333333,
    "challenge_detail": {
     "weighted": 3.12,
     "simple": 3.21,
@@ -6001,7 +7586,30 @@
     "final_w": 3.12,
     "score": 62.4
    },
+   "fire_drill_detail": {
+    "upload_time": 19,
+    "metadata": 25,
+    "log_quality": 21,
+    "incident": 18,
+    "findings": "no sentry.log.gz (sentry_enabled true)",
+    "portal_moniker": "Santala-Research",
+    "address": "g1078xslm886lv9ad4w5zxxfg8nt07gprk5kwcak"
+   },
    "onchain": {
+    "pearl": {
+     "address": "g183nsa0sxn2jwnv8uccextstsrpsys7llgjn6pg",
+     "tier": "Excellent",
+     "score": 98,
+     "sign": 99.92067980852795,
+     "vp": 5,
+     "proposer": 89.04782470991334,
+     "critical": 0,
+     "warning": 0,
+     "freq": 0,
+     "freq_rate": 0,
+     "downtime": 0,
+     "missed": 115
+    },
     "sapphire": {
      "address": "g183nsa0sxn2jwnv8uccextstsrpsys7llgjn6pg",
      "tier": "Critical",
@@ -6075,8 +7683,8 @@
      "comment_threads": 0
     }
    },
-   "rank_current": 80,
-   "rank_corrected": 84
+   "rank_current": 61,
+   "rank_corrected": 69
   },
   {
    "moniker": "Validatus",
@@ -6085,13 +7693,14 @@
     "challenge": 77,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 19.25,
-   "score_corrected": 19.25,
-   "fire_drill": null,
+   "score_current": 12.833333333333334,
+   "score_corrected": 12.833333333333334,
    "challenge_detail": {
     "weighted": 4.35,
     "simple": 4.21,
@@ -6101,8 +7710,8 @@
     "score": 77
    },
    "onchain": {},
-   "rank_current": 88,
-   "rank_corrected": 88
+   "rank_current": 89,
+   "rank_corrected": 89
   },
   {
    "moniker": "VALIDARIOS",
@@ -6111,13 +7720,14 @@
     "challenge": 54.6,
     "test13": 20,
     "topaz": 0,
-    "sapphire": 7
+    "sapphire": 7,
+    "pearl": 25,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 20.4,
-   "score_corrected": 20.4,
-   "fire_drill": null,
+   "score_current": 17.766666666666666,
+   "score_corrected": 17.766666666666666,
    "challenge_detail": {
     "weighted": 3.23,
     "simple": 3.29,
@@ -6127,6 +7737,20 @@
     "score": 54.6
    },
    "onchain": {
+    "pearl": {
+     "address": "g1k86n3hwdnfpffsam6hwsdxpk99x6lzn37n9ra5",
+     "tier": "Critical",
+     "score": 25,
+     "sign": 93.27709646714764,
+     "vp": 5,
+     "proposer": 85.18960006910254,
+     "critical": 7,
+     "warning": 23,
+     "freq": 26,
+     "freq_rate": 0.7408245409317168,
+     "downtime": 1404,
+     "missed": 9747
+    },
     "sapphire": {
      "address": "g1k86n3hwdnfpffsam6hwsdxpk99x6lzn37n9ra5",
      "tier": "Critical",
@@ -6170,8 +7794,8 @@
      "missed": 15740
     }
    },
-   "rank_current": 87,
-   "rank_corrected": 87
+   "rank_current": 86,
+   "rank_corrected": 86
   },
   {
    "moniker": "AstroStake",
@@ -6180,13 +7804,14 @@
     "challenge": 72.4,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 18.1,
-   "score_corrected": 18.1,
-   "fire_drill": null,
+   "score_current": 12.066666666666668,
+   "score_corrected": 12.066666666666668,
    "challenge_detail": {
     "weighted": 3.62,
     "simple": 3.71,
@@ -6196,8 +7821,8 @@
     "score": 72.4
    },
    "onchain": {},
-   "rank_current": 89,
-   "rank_corrected": 89
+   "rank_current": 90,
+   "rank_corrected": 90
   },
   {
    "moniker": "HaruNode",
@@ -6206,13 +7831,14 @@
     "challenge": 65.4,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 16,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 16.35,
-   "score_corrected": 16.35,
-   "fire_drill": null,
+   "score_current": 13.566666666666668,
+   "score_corrected": 13.566666666666668,
    "challenge_detail": {
     "weighted": 3.77,
     "simple": 3.71,
@@ -6222,6 +7848,20 @@
     "score": 65.4
    },
    "onchain": {
+    "pearl": {
+     "address": "g16rp80efvrkcw8gp8zeskuvhu2rny8z6mna9jcx",
+     "tier": "Critical",
+     "score": 16,
+     "sign": 81.59894427241912,
+     "vp": 5,
+     "proposer": 56.17575077020529,
+     "critical": 6,
+     "warning": 117,
+     "freq": 117,
+     "freq_rate": 3.3337104341927257,
+     "downtime": 647,
+     "missed": 21334
+    },
     "sapphire": {
      "address": "g1qjuw3ma5cnt6kxax2drdea9znmtnazzmgc8emj",
      "tier": "Critical",
@@ -6265,8 +7905,8 @@
      "missed": 34593
     }
    },
-   "rank_current": 90,
-   "rank_corrected": 90
+   "rank_current": 88,
+   "rank_corrected": 88
   },
   {
    "moniker": "johnwiard",
@@ -6275,13 +7915,14 @@
     "challenge": 57,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 14.25,
-   "score_corrected": 14.25,
-   "fire_drill": null,
+   "score_current": 9.5,
+   "score_corrected": 9.5,
    "challenge_detail": {
     "weighted": 3.35,
     "simple": 3.43,
@@ -6301,13 +7942,14 @@
     "challenge": 48,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 12,
-   "score_corrected": 12,
-   "fire_drill": null,
+   "score_current": 8,
+   "score_corrected": 8,
    "challenge_detail": {
     "weighted": 3.9,
     "simple": 3.71,
@@ -6327,13 +7969,14 @@
     "challenge": 44.6,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 11.15,
-   "score_corrected": 11.15,
-   "fire_drill": null,
+   "score_current": 7.433333333333334,
+   "score_corrected": 7.433333333333334,
    "challenge_detail": {
     "weighted": 3.73,
     "simple": 3.57,
@@ -6353,13 +7996,14 @@
     "challenge": 39,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 9.75,
-   "score_corrected": 9.75,
-   "fire_drill": null,
+   "score_current": 6.5,
+   "score_corrected": 6.5,
    "challenge_detail": {
     "weighted": 3.45,
     "simple": 3.29,
@@ -6379,13 +8023,14 @@
     "challenge": 32,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 8,
-   "score_corrected": 8,
-   "fire_drill": null,
+   "score_current": 5.333333333333333,
+   "score_corrected": 5.333333333333333,
    "challenge_detail": {
     "weighted": 1.6,
     "simple": 2,
@@ -6405,13 +8050,14 @@
     "challenge": 19,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
-   "score_current": 4.75,
-   "score_corrected": 4.75,
-   "fire_drill": null,
+   "score_current": 3.1666666666666665,
+   "score_corrected": 3.1666666666666665,
    "challenge_detail": {
     "weighted": 2.45,
     "simple": 2.43,
@@ -6431,13 +8077,14 @@
     "challenge": 0,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
    "score_current": 0,
    "score_corrected": 0,
-   "fire_drill": null,
    "challenge_detail": {
     "weighted": 1.27,
     "simple": 1.5,
@@ -6457,13 +8104,14 @@
     "challenge": 0,
     "test13": 0,
     "topaz": 0,
-    "sapphire": 0
+    "sapphire": 0,
+    "pearl": 0,
+    "firedrill": 0
    },
    "github_current": 0,
    "github_corrected": 0,
    "score_current": 0,
    "score_corrected": 0,
-   "fire_drill": null,
    "challenge_detail": {
     "weighted": 0.95,
     "simple": 1.21,
