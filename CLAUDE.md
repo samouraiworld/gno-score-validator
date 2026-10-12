@@ -25,15 +25,22 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 
 ./bin/scoresheet -id $ID audit                 # numbers stored as text (read-only)
 ./bin/scoresheet -id $ID dump "Bilan!A1:L3"    # inspect cells      (read-only)
-./bin/scoresheet -id $ID refresh -dry          # network tab from the live API
 ./bin/scoresheet -id $ID dashboard             # rebuild the Dashboard tab
-./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + re-embed in the page
+./bin/scoresheet -id $ID freeze -dry           # final tabs -> data/frozen/*.csv
+./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + page + scoreboard/
+./bin/scoresheet render                        # scoreboard/ only, offline, no -id
 ```
 
-There are no tests. Verification is `go build`, `go vet ./...`, `gofmt -l .`,
+Verification is `go build`, `go vet ./...`, `gofmt -l .`, `go test ./...`,
 then `-dry` on every writing command before running it for real.
 
-**Run order after changing any network tab:** `refresh` → `dashboard` → `snapshot`.
+**Every arena is final** (challenge, test13, topaz, sapphire, pearl, fire
+drill): `refresh` and `firedrill` refuse their tabs without `-force`
+(`scoring.FrozenTabs`). Only mainnet `gnoland-1` is expected to move; it has 6
+validators and is not scored yet.
+
+**Run order after changing any tab:** `dashboard` → `snapshot` (which also
+renders `scoreboard/`). Commit `scoreboard/` with `data/scorecard.json`.
 `bilan` only needs re-running when `data/github-links.csv` or the scoring formula
 changes.
 
@@ -89,7 +96,8 @@ Only **`sapphire-1`** and **`pearl-1`** are served by
 `topaz-1` returns just the two remaining core validators, and `test13` is a
 `400 invalid chain ID` — so the frozen CSVs under `gno-monitoring-metrics/` are
 the only surviving record of those two chains. Never point `refresh` at
-`topaz-1`: it would wipe 85 rows down to 2.
+`topaz-1`: it would wipe 85 rows down to 2. The frozen-tab and shrink guards
+now refuse that too.
 
 ## Live pearl chain and the fire drill
 

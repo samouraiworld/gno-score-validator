@@ -44,9 +44,9 @@ func runBilan(e *env, args []string) error {
 	githubIndex := int(scoring.ColGitHub[0] - 'A')
 	for i, row := range cur.Values {
 		r := scoring.FirstRow + i
-		moniker := fmt.Sprint(row[0])
+		moniker := cell(row, 0)
 
-		link, linked := links[moniker]
+		link, linked := links[scoring.Key(moniker)]
 		var newScore float64
 		var login, confidence string
 		if linked {

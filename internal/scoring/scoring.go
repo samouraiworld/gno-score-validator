@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 // The Bilan tab: header on row 1, one validator per row from FirstRow to
@@ -42,6 +43,30 @@ const (
 	TabChallenge = "Test13-challenge"
 	TabFireDrill = "Score-firedrill"
 )
+
+// FrozenTabs are the arenas whose scores are final. The testnets are over and
+// the fire drill has closed, so nothing may rewrite them: a refresh would only
+// replace a final result with whatever the API serves today, or with nothing.
+// Mainnet is the one arena expected to move, and it is not scored yet.
+var FrozenTabs = append([]string{TabChallenge, TabFireDrill}, Networks...)
+
+// IsFrozen reports whether a tab holds a final arena result.
+func IsFrozen(tab string) bool {
+	for _, t := range FrozenTabs {
+		if strings.EqualFold(t, tab) {
+			return true
+		}
+	}
+	return false
+}
+
+// Key is how every join matches a moniker: trimmed and case-insensitive, the
+// way Bilan's VLOOKUP does. A tab can spell a validator "offellnode" where
+// Bilan says "offellNode", and the address column is useless as a key because
+// validators rotate keys between chains.
+func Key(moniker string) string {
+	return strings.ToLower(strings.TrimSpace(moniker))
+}
 
 // The scoring rule.
 //
@@ -90,7 +115,7 @@ type Link struct {
 	Score      float64 // participation score, contributions from CutoffYear on
 }
 
-// LoadLinks reads data/github-links.csv.
+// LoadLinks reads data/github-links.csv, keyed by Key(moniker).
 //
 // A moniker can carry several accounts: AviaOne has the brand account plus a
 // team member. Only a non-weak row is the operator's own identity; weak rows
@@ -124,8 +149,8 @@ func LoadLinks(path string) (map[string]Link, error) {
 			return nil, fmt.Errorf("%s: bad score %q for %s", path, r[4], r[0])
 		}
 		l := Link{Moniker: r[0], Discord: r[1], Login: r[2], Confidence: r[3], Score: score}
-		if cur, ok := out[l.Moniker]; !ok || rank[l.Confidence] < rank[cur.Confidence] {
-			out[l.Moniker] = l
+		if cur, ok := out[Key(l.Moniker)]; !ok || rank[l.Confidence] < rank[cur.Confidence] {
+			out[Key(l.Moniker)] = l
 		}
 	}
 	return out, nil

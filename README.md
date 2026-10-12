@@ -4,6 +4,12 @@ Scoring for gno.land test13 validator candidates: a Go tool that computes and
 formats the **Score Gno-Validator** Google Sheet, and a standalone HTML
 scorecard built from the same numbers.
 
+**Scores: [scoreboard/](scoreboard/README.md)** — the ranking and one page per
+validator, generated from `data/scorecard.json` and readable right here on GitHub.
+
+Every arena is final: the testnets (test13, topaz, sapphire, pearl) have ended
+and the fire drill has closed. Mainnet (`gnoland-1`) is not scored yet.
+
 ## The score
 
 ```
@@ -41,14 +47,18 @@ costs points.
 
 | Path | Contents |
 | --- | --- |
-| `cmd/scoresheet` | the CLI: audit, dump, coerce, bilan, refresh, snapshot, dashboard, export |
+| `cmd/scoresheet` | the CLI: audit, dump, coerce, bilan, refresh, firedrill, freeze, snapshot, render, dashboard, export |
 | `internal/scoring` | the scoring rule and the Bilan schema, shared by every command |
 | `internal/sheetx` | Sheets API helpers, and the locale rules that break formulas |
 | `internal/monitoring` | the gnomonitoring report client |
 | `gno-monitoring-metrics/` | dated CSV snapshots of those reports, one per chain |
 | `data/github-links.csv` | moniker → GitHub account, confidence, participation score |
 | `data/github-evidence.csv` | the evidence behind each match, for review |
-| `data/scorecard.json` | the merged snapshot the HTML page embeds |
+| `data/scorecard.json` | the merged snapshot the HTML page and the scoreboard are built from |
+| `data/frozen/` | CSV copies of the final arena tabs and Bilan, written by `freeze` |
+| `data/fire-drill-2026-09-02.csv` | the fire drill rubric, built by `firedrill` from the portal exports |
+| `scores.json`, `submissions.jsonl` | the fire drill portal exports |
+| `scoreboard/` | generated Markdown: the ranking and one page per validator |
 | `web/validator-scorecard.html` | self-contained interactive scorecard |
 
 ## Usage
@@ -70,8 +80,10 @@ ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID dump "Bilan!A1:L3" # inspect cells    (read-only)
 ./bin/scoresheet -id $ID coerce -dry        # plan the text→number fix
 ./bin/scoresheet -id $ID bilan -dry         # plan the Score rewrite
-./bin/scoresheet -id $ID refresh -dry       # plan a network tab refresh
+./bin/scoresheet -id $ID refresh -dry -chain <id> -tab <tab>  # plan a network tab refresh
+./bin/scoresheet -id $ID freeze -dry        # plan the copy of the final tabs to data/frozen/
 ./bin/scoresheet -id $ID snapshot -dry      # plan the scorecard.json rebuild
+./bin/scoresheet render                     # regenerate scoreboard/ (offline, no -id)
 ./bin/scoresheet -id $ID dashboard          # rebuild the Dashboard tab
 ./bin/scoresheet -id $ID export Dashboard out.pdf
 ```
@@ -79,9 +91,14 @@ ID=<spreadsheet-id>
 Every writing command takes `-dry`. Start there — `bilan` rewrites the generated
 score and GitHub columns.
 
-`refresh` rewrites a network tab from the live gnomonitoring report. It
-defaults to `-chain sapphire-1 -tab Score-sapphire -period current_year`, and
-prints the moniker-level diff before writing anything.
+`refresh` rewrites a network tab from the live gnomonitoring report. It needs
+both `-chain` and `-tab`, and prints the moniker-level diff before writing
+anything. It refuses an empty report, a report that would drop more than a
+fifth of the tab, and any frozen arena tab, unless given `-force`. `firedrill`
+refuses to rewrite the fire drill without `-force` too.
+
+`freeze` copies Bilan and every final arena tab into `data/frozen/`, so the
+scores live in git and not only in an editable spreadsheet.
 
 `snapshot` mirrors the sheet into `data/scorecard.json` and re-embeds it in the
 HTML page, so the two can never disagree about a score. It **merges rather than
@@ -89,6 +106,13 @@ regenerates**: every field the sheet holds is rewritten from the sheet, and the
 `github` evidence blocks are carried over untouched. They have to be — the
 page's all-time versus since-2025 contribution split exists in neither the sheet
 nor the CSVs, and rebuilding the file from scratch would silently drop it.
+It stops on a formula error or a number stored as text in Bilan, on a moniker
+listed twice, and on a column J that disagrees with the scoring rule. Equal
+scores share a rank. It ends by regenerating the scoreboard.
+
+`render` builds `scoreboard/` from `data/scorecard.json` alone, without the
+sheet or the key. It writes public fields only — no Discord handle, no GitHub
+identity.
 
 `dashboard` is idempotent: it clears the tab's cells, charts, banding and
 conditional rules before rebuilding, so repeated runs do not stack duplicates.

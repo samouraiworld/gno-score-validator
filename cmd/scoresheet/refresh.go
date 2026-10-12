@@ -9,6 +9,7 @@ import (
 	"google.golang.org/api/sheets/v4"
 
 	"github.com/louisb/score-validator/internal/monitoring"
+	"github.com/louisb/score-validator/internal/scoring"
 	"github.com/louisb/score-validator/internal/sheetx"
 )
 
@@ -43,16 +44,30 @@ func runRefresh(e *env, args []string) error {
 	// before the parse or -chain is an unknown flag.
 	fs := flag.NewFlagSet("refresh", flag.ExitOnError)
 	dry := fs.Bool("dry", false, "print the plan without writing")
-	chain := fs.String("chain", "sapphire-1", "gnomonitoring chain id")
-	tab := fs.String("tab", "Score-sapphire", "tab to rewrite")
+	chain := fs.String("chain", "", "gnomonitoring chain id (required)")
+	tab := fs.String("tab", "", "tab to rewrite (required)")
 	period := fs.String("period", monitoring.PeriodYear, "report period to write")
+	force := fs.Bool("force", false, "rewrite a frozen arena, or accept a report that shrank")
 	if err := fs.Parse(args); err != nil {
 		return err
+	}
+	// No defaults: a default tab let "refresh -chain pearl-1" silently
+	// rewrite Score-sapphire with pearl data.
+	if *chain == "" || *tab == "" {
+		return fmt.Errorf("refresh needs both -chain and -tab")
+	}
+	if !*dry {
+		if err := guardFrozen(*tab, *force); err != nil {
+			return err
+		}
 	}
 
 	report, err := monitoring.Fetch(e.ctx, *chain)
 	if err != nil {
 		return err
+	}
+	if len(report) == 0 {
+		return fmt.Errorf("%s: empty report, refusing to wipe %s", *chain, *tab)
 	}
 	sort.Slice(report, func(i, j int) bool { return report[i].Address < report[j].Address })
 
@@ -130,6 +145,12 @@ func runRefresh(e *env, args []string) error {
 		fmt.Println("-dry — nothing written.")
 		return nil
 	}
+	// topaz-1 once answered with 2 validators where the tab held 85: a report
+	// that loses a fifth of the tab is an outage or a retired chain, not news.
+	if len(dropped)*5 > len(current) && !*force {
+		return fmt.Errorf("%d of %d validators would drop out of %s; rerun with -force if that is real",
+			len(dropped), len(current), *tab)
+	}
 
 	ref := sheetx.Ref(*tab)
 	if _, err := e.svc.Spreadsheets.Values.Update(e.id,
@@ -166,6 +187,14 @@ func runRefresh(e *env, args []string) error {
 	}
 
 	fmt.Printf("%s rewritten from %s.\n", *tab, *chain)
+	return nil
+}
+
+// guardFrozen refuses to rewrite a final arena result unless forced.
+func guardFrozen(tab string, force bool) error {
+	if scoring.IsFrozen(tab) && !force {
+		return fmt.Errorf("%s holds a final arena result and is frozen; rerun with -force only to correct it", tab)
+	}
 	return nil
 }
 

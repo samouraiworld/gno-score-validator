@@ -13,7 +13,7 @@
 //     the reference parses as the subtraction Score minus test13!A1 and yields
 //     a plausible-looking wrong number instead of an error.
 //
-// Weights are written as fractions (/4, /10) rather than 0.25 and 0.1 so the
+// Weights are written as fractions (/6, /10) rather than 0.25 and 0.1 so the
 // decimal separator never enters a formula at all.
 package sheetx
 

@@ -38,8 +38,14 @@ func runFiredrill(e *env, args []string) error {
 	scoresPath := fs.String("scores", "scores.json", "portal scores export")
 	subsPath := fs.String("submissions", "submissions.jsonl", "portal submissions export")
 	csvPath := fs.String("csv", "", "rubric CSV (default data/fire-drill-2026-09-02.csv)")
+	force := fs.Bool("force", false, "rewrite the frozen fire drill result")
 	if err := fs.Parse(args); err != nil {
 		return err
+	}
+	if !*dry {
+		if err := guardFrozen(scoring.TabFireDrill, *force); err != nil {
+			return err
+		}
 	}
 	if *csvPath == "" {
 		*csvPath = e.data("fire-drill-2026-09-02.csv")

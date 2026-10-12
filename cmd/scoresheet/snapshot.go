@@ -126,9 +126,9 @@ func runSnapshot(e *env, args []string) error {
 	before := map[string]float64{}
 	for _, v := range prev.Validators {
 		if len(v.Github) > 0 {
-			carried[v.Moniker] = v.Github
+			carried[scoring.Key(v.Moniker)] = v.Github
 		}
-		before[v.Moniker] = v.ScoreCorrected
+		before[scoring.Key(v.Moniker)] = v.ScoreCorrected
 	}
 
 	rows, err := e.sheetValues(fmt.Sprintf("%s!A%d:L%d",
@@ -150,31 +150,52 @@ func runSnapshot(e *env, args []string) error {
 	}
 
 	next := snapshot{
-		GeneratedAt:   time.Now().Format("2006-01-02"),
+		GeneratedAt:   time.Now().UTC().Format("2006-01-02"),
 		Source:        prev.Source,
 		Weights:       prev.Weights,
 		GithubWeights: prev.GithubWeights,
 	}
 
-	for _, row := range rows {
+	seen := map[string]int{}
+	for i, row := range rows {
 		moniker := cell(row, 0)
 		if moniker == "" {
 			continue
+		}
+		sheetRow := scoring.FirstRow + i
+		if first, dup := seen[scoring.Key(moniker)]; dup {
+			return fmt.Errorf("%s rows %d and %d: moniker %q appears twice, VLOOKUP would answer for both",
+				scoring.TabBilan, first, sheetRow, moniker)
+		}
+		seen[scoring.Key(moniker)] = sheetRow
+
+		// Columns C-J are scores. A formula error or a number stored as text
+		// must stop the snapshot rather than publish as a 0.
+		var nums [8]float64
+		for c := range nums {
+			f, err := strictNumber(row, 2+c)
+			if err != nil {
+				return fmt.Errorf("%s row %d (%s): %w", scoring.TabBilan, sheetRow, moniker, err)
+			}
+			nums[c] = f
 		}
 		v := snapValidator{
 			Moniker: moniker,
 			Discord: cell(row, 1),
 			Components: snapComponents{
-				Challenge: number(row, 2), Test13: number(row, 3),
-				Topaz: number(row, 4), Sapphire: number(row, 5), Pearl: number(row, 6),
-				FireDrill: number(row, 7),
+				Challenge: nums[0], Test13: nums[1], Topaz: nums[2],
+				Sapphire: nums[3], Pearl: nums[4], FireDrill: nums[5],
 			},
-			GithubCorrected: number(row, 8),
-			ScoreCorrected:  number(row, 9),
+			GithubCorrected: nums[6],
+			ScoreCorrected:  nums[7],
 			Onchain:         map[string]snapOnchain{},
-			Github:          carried[moniker],
+			Github:          carried[scoring.Key(moniker)],
 		}
-		if d, ok := challenge[moniker]; ok {
+		if want := total(v.Components, v.GithubCorrected); absDiff(want, v.ScoreCorrected) > 0.005 {
+			return fmt.Errorf("%s row %d (%s): column %s holds %g, the scoring rule gives %g",
+				scoring.TabBilan, sheetRow, moniker, scoring.ColScore, v.ScoreCorrected, want)
+		}
+		if d, ok := challenge[scoring.Key(moniker)]; ok {
 			v.Challenge = &d
 		}
 		if d, ok := firedrill[strings.ToLower(moniker)]; ok {
@@ -208,7 +229,7 @@ func runSnapshot(e *env, args []string) error {
 
 	changed := 0
 	for _, v := range next.Validators {
-		if old, ok := before[v.Moniker]; ok && absDiff(old, v.ScoreCorrected) > 0.005 {
+		if old, ok := before[scoring.Key(v.Moniker)]; ok && absDiff(old, v.ScoreCorrected) > 0.005 {
 			changed++
 			fmt.Printf("  %-26s %6.2f -> %-6.2f  rank %d\n",
 				v.Moniker, old, v.ScoreCorrected, v.RankCorrected)
@@ -250,7 +271,7 @@ func runSnapshot(e *env, args []string) error {
 	}
 
 	fmt.Printf("wrote %s and re-embedded it in %s\n", *out, *page)
-	return nil
+	return render(next, e.root)
 }
 
 func loadSnapshot(path string) (snapshot, error) {
@@ -281,8 +302,9 @@ func total(c snapComponents, github float64) float64 {
 	return t
 }
 
-// rank fills both rank fields, highest score first. Ties keep spreadsheet row
-// order, which is the order the candidates were entered.
+// rank fills both rank fields, highest score first, with competition ranking:
+// equal scores share a rank and the next one skips (1, 2, 2, 4). Ten candidates
+// share a score, and row order is no reason to put one above another.
 func rank(vs []snapValidator) {
 	for _, spec := range []struct {
 		by  func(snapValidator) float64
@@ -300,8 +322,12 @@ func rank(vs []snapValidator) {
 		sort.SliceStable(idx, func(a, b int) bool {
 			return spec.by(vs[idx[a]]) > spec.by(vs[idx[b]])
 		})
+		shared := 0
 		for r, i := range idx {
-			spec.set(&vs[i], r+1)
+			if r == 0 || absDiff(spec.by(vs[i]), spec.by(vs[idx[r-1]])) > 1e-9 {
+				shared = r + 1
+			}
+			spec.set(&vs[i], shared)
 		}
 	}
 }
@@ -324,7 +350,7 @@ func (e *env) sheetValues(rng string) ([][]interface{}, error) {
 	return vr.Values, nil
 }
 
-// challengeDetail reads the onboarding breakdown, keyed by moniker.
+// challengeDetail reads the onboarding breakdown, keyed by scoring.Key.
 func (e *env) challengeDetail() (map[string]snapChallenge, error) {
 	rows, err := e.sheetValues(fmt.Sprintf("%s!B2:H1000", sheetx.Ref(scoring.TabChallenge)))
 	if err != nil {
@@ -336,7 +362,7 @@ func (e *env) challengeDetail() (map[string]snapChallenge, error) {
 		if moniker == "" {
 			continue
 		}
-		out[moniker] = snapChallenge{
+		out[scoring.Key(moniker)] = snapChallenge{
 			Weighted: number(r, 1), Simple: number(r, 2), Penalty: number(r, 3),
 			Bonus: number(r, 4), FinalW: number(r, 5), Score: number(r, 6),
 		}
@@ -410,7 +436,11 @@ func (e *env) onchainByNetwork() (map[string]map[string]snapOnchain, error) {
 					o.Proposer = &f
 				}
 			}
-			byMoniker[moniker] = o
+			// VLOOKUP answers with the first match, so the detail must too, or
+			// the page would describe a different node than the one scored.
+			if _, dup := byMoniker[moniker]; !dup {
+				byMoniker[moniker] = o
+			}
 		}
 		out[net] = byMoniker
 	}
@@ -423,6 +453,23 @@ func cell(row []interface{}, i int) string {
 		return ""
 	}
 	return strings.TrimSpace(fmt.Sprint(row[i]))
+}
+
+// strictNumber returns a column as a float, 0 when it is blank, and an error
+// for anything else: "#N/A", "#REF!" or a number stored as text.
+func strictNumber(row []interface{}, i int) (float64, error) {
+	if i >= len(row) || row[i] == nil {
+		return 0, nil
+	}
+	switch v := row[i].(type) {
+	case float64:
+		return v, nil
+	case string:
+		if strings.TrimSpace(v) == "" {
+			return 0, nil
+		}
+	}
+	return 0, fmt.Errorf("column %c holds %q, not a number", rune('A'+i), fmt.Sprint(row[i]))
 }
 
 // number returns a column as a float, or 0 when it is blank or not numeric.

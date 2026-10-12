@@ -9,12 +9,16 @@
 //	coerce      convert those text numbers into real numbers
 //	bilan       rewrite the Score column and the GitHub audit columns
 //	refresh     rewrite a network tab from the live gnomonitoring report
-//	snapshot    mirror the sheet into scorecard.json and the HTML page
+//	firedrill   rebuild the fire drill CSV and tab from the portal exports
+//	freeze      copy the final arena tabs into data/frozen/ (reads the sheet)
+//	snapshot    mirror the sheet into scorecard.json, the HTML page and the scoreboard
+//	render      regenerate the Markdown scoreboard from scorecard.json (offline)
 //	dashboard   build the Dashboard tab from scratch
 //	export      save a tab as PDF, to eyeball the result
 //
 // Every writing command accepts -dry, which prints the plan and changes
-// nothing. Start there.
+// nothing. Start there. The arena tabs are final: refresh and firedrill
+// refuse to rewrite them without -force.
 package main
 
 import (
@@ -48,6 +52,13 @@ func main() {
 		usage()
 		os.Exit(2)
 	}
+	// render works from the committed snapshot alone: no sheet, no key.
+	if args[0] == "render" {
+		if err := runRender(*root, args[1:]); err != nil {
+			fatal(err)
+		}
+		return
+	}
 	if *id == "" {
 		fmt.Fprintln(os.Stderr, "error: -id is required")
 		os.Exit(2)
@@ -74,6 +85,8 @@ func main() {
 		err = runRefresh(e, rest)
 	case "firedrill":
 		err = runFiredrill(e, rest)
+	case "freeze":
+		err = runFreeze(e, rest)
 	case "snapshot":
 		err = runSnapshot(e, rest)
 	case "dashboard":
@@ -99,12 +112,18 @@ func usage() {
   dump        print cell ranges, e.g. dump "Bilan!A1:L3"  (read-only)
   coerce      convert text numbers into real numbers      [-dry]
   bilan       rewrite Score + GitHub audit columns         [-dry]
-  refresh     rewrite a network tab from gnomonitoring      [-dry]
-              [-chain sapphire-1] [-tab Score-sapphire] [-period current_year]
-  firedrill   rebuild the fire drill CSV + tab from the portal exports [-dry]
-  snapshot    rebuild data/scorecard.json + re-embed it in the page  [-dry]
+  refresh     rewrite a network tab from gnomonitoring      [-dry] [-force]
+              -chain <id> -tab <tab> [-period current_year]
+  firedrill   rebuild the fire drill CSV + tab from the portal exports [-dry] [-force]
+  freeze      copy the final arena tabs and Bilan to data/frozen/*.csv [-dry]
+  snapshot    rebuild data/scorecard.json, re-embed it in the page and
+              regenerate the scoreboard                               [-dry]
+  render      regenerate scoreboard/ from data/scorecard.json (no -id needed)
   dashboard   rebuild the Dashboard tab
   export      save a tab as PDF, e.g. export Dashboard out.pdf
+
+Arena tabs are final. refresh and firedrill refuse to rewrite them without
+-force.
 
 The spreadsheet must be shared with the service account's client_email as an
 Editor. Read it from the key file with:

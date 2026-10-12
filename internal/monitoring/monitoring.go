@@ -3,8 +3,8 @@
 // The service exposes one report per chain, each validator carrying the same
 // eleven metrics over four periods. The CSV snapshots under
 // gno-monitoring-metrics/ are this payload flattened, one column per
-// period-metric pair; only sapphire-1 is still live, so the other files are
-// frozen backups that no request can refresh.
+// period-metric pair. test13 and topaz-1 are no longer served, so those files
+// are the only record of them; every testnet arena is final either way.
 package monitoring
 
 import (
