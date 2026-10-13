@@ -10,9 +10,9 @@ import (
 
 // The HTML page is meant to be shared, so it embeds a public copy of the
 // snapshot rather than the snapshot itself. data/scorecard.json keeps the
-// identity evidence — real names, bios, blogs, notes quoting e-mail addresses
-// and Discord handles — because it is the only record of how each GitHub
-// account was matched; none of that may leave the private repository.
+// identity evidence — real names, bios, blogs, match notes and Discord
+// handles — because it is the only record of how each GitHub account was
+// matched; none of that goes into the shared page.
 
 // payloadRe matches the one-line JSON island the HTML page reads at startup.
 var payloadRe = regexp.MustCompile(

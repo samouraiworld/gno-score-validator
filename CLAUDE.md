@@ -100,8 +100,8 @@ writes only I, J, K, L.
   as its "vs uncorrected" delta, which is why `score_current` and
   `score_corrected` both exist.
 - `github-evidence.csv` holds real names, blogs, bios and Discord handles for 98
-  people. The GitHub repo is private and must stay private — for that reason,
-  not because of any key.
+  people. The repo is public (owner decision 2026-10-13): each of those facts is
+  public on its own, but keep personal e-mail addresses out of the notes.
 - The HTML page embeds `publicPayload`, never `scorecard.json` as is: Discord
   handles and the github `name`, `bio`, `blog`, `note`, `evidence` fields stay
   out. Widen the allowlist in `cmd/scoresheet/page.go` only on purpose.

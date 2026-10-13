@@ -256,7 +256,7 @@
     "confidence": "certain",
     "match_rule": "brand in name, company, blog and org repo",
     "evidence": "moniker found in GitHub blog URL — Cumulo ∈ Mon | Cumulo / https://cumulo.pro/",
-    "note": "GitHub name 'Mon | Cumulo', company 'Cumulo', blog cumulo.pro, email moncho.santosdios@gmail.com; Discord handle is literally mon.cumulo.pro; org repo Cumulo-pro/Cumulo-Front-Chain contains the valoper address.",
+    "note": "GitHub name 'Mon | Cumulo', company 'Cumulo', blog cumulo.pro, e-mail on the profile; Discord handle is literally mon.cumulo.pro; org repo Cumulo-pro/Cumulo-Front-Chain contains the valoper address.",
     "name": "Mon | Cumulo",
     "blog": "https://cumulo.pro/",
     "bio": "",
