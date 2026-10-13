@@ -12,6 +12,7 @@
 //	firedrill   rebuild the fire drill CSV and tab from the portal exports
 //	freeze      copy the arena tabs into data/arenas/ (reads the sheet)
 //	snapshot    mirror the sheet into scorecard.json, the HTML page and the scoreboard
+//	score       compute scorecard.json, the page and the scoreboard from the repo files (offline)
 //	render      regenerate the scoreboard and the page payload from scorecard.json (offline)
 //	mainnet     fetch gnoland-1 into scorecard.json, shown beside the totals (no sheet)
 //	dashboard   build the Dashboard tab from scratch
@@ -53,6 +54,13 @@ func main() {
 	if len(args) == 0 {
 		usage()
 		os.Exit(2)
+	}
+	// score works from the files in the repo alone: no sheet, no key.
+	if args[0] == "score" {
+		if err := runScore(*root, args[1:]); err != nil {
+			fatal(err)
+		}
+		return
 	}
 	// render works from the committed snapshot alone: no sheet, no key.
 	if args[0] == "render" {
@@ -132,6 +140,8 @@ func usage() {
   freeze      copy the arena tabs to data/arenas/*.csv and Bilan A:B to data/candidates.csv [-dry]
   snapshot    rebuild data/scorecard.json, re-embed it in the page and
               regenerate the scoreboard                               [-dry]
+  score       compute data/scorecard.json from config/ and data/ alone, re-embed it
+              in the page and regenerate the scoreboard (no -id needed) [-dry]
   render      regenerate scoreboard/ and the page payload from data/scorecard.json (no -id needed)
   mainnet     fetch gnoland-1 into data/scorecard.json, shown but not scored
               (no -id needed)           [-dry] [-force] [-chain gnoland-1] [-period current_year]

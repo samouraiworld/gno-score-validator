@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
-	"strconv"
 
 	"github.com/louisb/score-validator/internal/scoring"
 	"github.com/louisb/score-validator/internal/sheetx"
@@ -65,22 +64,7 @@ func writeFrozenCSV(path string, rows [][]interface{}) error {
 		return err
 	}
 	w := csv.NewWriter(f)
-	for _, r := range rows {
-		rec := make([]string, len(r))
-		for i, c := range r {
-			if v, ok := c.(float64); ok {
-				rec[i] = strconv.FormatFloat(v, 'f', -1, 64)
-			} else {
-				rec[i] = fmt.Sprint(c)
-			}
-		}
-		if err := w.Write(rec); err != nil {
-			f.Close()
-			return err
-		}
-	}
-	w.Flush()
-	if err := w.Error(); err != nil {
+	if err := w.WriteAll(textRows(rows)); err != nil {
 		f.Close()
 		return err
 	}

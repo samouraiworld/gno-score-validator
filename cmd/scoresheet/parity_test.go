@@ -11,18 +11,6 @@ import (
 	"github.com/louisb/score-validator/internal/scoring"
 )
 
-// componentSetters routes each arena id in config/arenas.json to its field of
-// the scorecard. An arena missing here fails the test rather than vanishing
-// from the comparison.
-var componentSetters = map[string]func(*snapComponents, float64){
-	"challenge": func(c *snapComponents, s float64) { c.Challenge = s },
-	"test13":    func(c *snapComponents, s float64) { c.Test13 = s },
-	"topaz":     func(c *snapComponents, s float64) { c.Topaz = s },
-	"sapphire":  func(c *snapComponents, s float64) { c.Sapphire = s },
-	"pearl":     func(c *snapComponents, s float64) { c.Pearl = s },
-	"firedrill": func(c *snapComponents, s float64) { c.FireDrill = s },
-}
-
 // TestParityWithRepoCSVs recomputes every total from the CSVs in git alone
 // and checks it against data/scorecard.json. It is the acceptance test for
 // moving the scoring out of the Sheet: as long as it passes, the repo holds
@@ -129,7 +117,7 @@ func TestParityWithRepoCSVs(t *testing.T) {
 			if err := json.Unmarshal(block, &g); err != nil {
 				t.Fatalf("%s: github block: %v", moniker, err)
 			}
-			current = githubScore(g.AllTime)
+			current = scoring.GithubScore(g.AllTime)
 		}
 		checks := []struct {
 			field     string

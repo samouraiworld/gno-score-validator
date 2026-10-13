@@ -8,7 +8,8 @@
    "moniker_column": "Moniker",
    "score_column": "Score",
    "colour": "#eb6834",
-   "in_total": true
+   "in_total": true,
+   "detail": "challenge"
   },
   {
    "id": "test13",
@@ -18,7 +19,8 @@
    "moniker_column": "moniker",
    "score_column": "Score",
    "colour": "#1baf7a",
-   "in_total": true
+   "in_total": true,
+   "detail": "onchain"
   },
   {
    "id": "topaz",
@@ -28,7 +30,8 @@
    "moniker_column": "moniker",
    "score_column": "Score",
    "colour": "#eda100",
-   "in_total": true
+   "in_total": true,
+   "detail": "onchain"
   },
   {
    "id": "sapphire",
@@ -38,7 +41,8 @@
    "moniker_column": "moniker",
    "score_column": "current_year_score",
    "colour": "#2a78d6",
-   "in_total": true
+   "in_total": true,
+   "detail": "onchain"
   },
   {
    "id": "pearl",
@@ -48,7 +52,8 @@
    "moniker_column": "moniker",
    "score_column": "current_year_score",
    "colour": "#8b5fd6",
-   "in_total": true
+   "in_total": true,
+   "detail": "onchain"
   },
   {
    "id": "firedrill",
@@ -58,7 +63,8 @@
    "moniker_column": "moniker",
    "score_column": "score",
    "colour": "#d64545",
-   "in_total": true
+   "in_total": true,
+   "detail": "firedrill"
   }
  ]
 }

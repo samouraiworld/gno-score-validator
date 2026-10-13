@@ -5,10 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"sort"
 	"strings"
 	"time"
 
+	"github.com/louisb/score-validator/internal/arena"
 	"github.com/louisb/score-validator/internal/scoring"
 	"github.com/louisb/score-validator/internal/sheetx"
 )
@@ -124,26 +124,18 @@ func runSnapshot(e *env, args []string) error {
 	if err != nil {
 		return err
 	}
-	used := map[string]bool{}
-	before := map[string]float64{}
-	for _, v := range prev.Validators {
-		before[scoring.Key(v.Moniker)] = v.ScoreCorrected
+	cfg, err := e.arenas()
+	if err != nil {
+		return err
 	}
+	used := map[string]bool{}
 
 	rows, err := e.sheetValues(fmt.Sprintf("%s!A%d:L%d",
 		sheetx.Ref(scoring.TabBilan), scoring.FirstRow, scoring.LastRow))
 	if err != nil {
 		return err
 	}
-	challenge, err := e.challengeDetail()
-	if err != nil {
-		return err
-	}
-	firedrill, err := e.firedrillDetail()
-	if err != nil {
-		return err
-	}
-	onchain, err := e.onchainByNetwork()
+	det, err := loadDetails(cfg, e.tabRows)
 	if err != nil {
 		return err
 	}
@@ -196,17 +188,7 @@ func runSnapshot(e *env, args []string) error {
 			return fmt.Errorf("%s row %d (%s): column %s holds %g, the scoring rule gives %g",
 				scoring.TabBilan, sheetRow, moniker, scoring.ColScore, v.ScoreCorrected, want)
 		}
-		if d, ok := challenge[scoring.Key(moniker)]; ok {
-			v.Challenge = &d
-		}
-		if d, ok := firedrill[strings.ToLower(moniker)]; ok {
-			v.FireDrillDetail = &d
-		}
-		for net, byMoniker := range onchain {
-			if o, ok := byMoniker[strings.ToLower(moniker)]; ok {
-				v.Onchain[net] = o
-			}
-		}
+		det.attach(&v)
 
 		// The uncorrected pair is what the score would be with no cutoff year
 		// applied to GitHub. It is the page's "vs uncorrected" delta, and only
@@ -219,7 +201,7 @@ func runSnapshot(e *env, args []string) error {
 			if err := json.Unmarshal(v.Github, &g); err != nil {
 				return fmt.Errorf("%s: github block: %w", moniker, err)
 			}
-			v.GithubCurrent = githubScore(g.AllTime)
+			v.GithubCurrent = scoring.GithubScore(g.AllTime)
 		}
 		v.ScoreCurrent = total(v.Components, v.GithubCurrent)
 
@@ -235,7 +217,16 @@ func runSnapshot(e *env, args []string) error {
 	}
 
 	rank(next.Validators)
+	return publish(prev, next, *out, *page, *dry, e.root)
+}
 
+// publish prints how the scores moved since prev, then writes next to out,
+// re-embeds it in the page and regenerates the scoreboard — unless dry.
+func publish(prev, next snapshot, out, page string, dry bool, root string) error {
+	before := map[string]float64{}
+	for _, v := range prev.Validators {
+		before[scoring.Key(v.Moniker)] = v.ScoreCorrected
+	}
 	changed := 0
 	for _, v := range next.Validators {
 		if old, ok := before[scoring.Key(v.Moniker)]; ok && absDiff(old, v.ScoreCorrected) > 0.005 {
@@ -246,21 +237,36 @@ func runSnapshot(e *env, args []string) error {
 	}
 	fmt.Printf("\n%d validators, %d scores changed, generated_at %s -> %s\n",
 		len(next.Validators), changed, prev.GeneratedAt, next.GeneratedAt)
-	if *dry {
+	if dry {
 		fmt.Println("-dry — nothing written.")
 		return nil
 	}
 
-	if err := saveSnapshot(*out, next); err != nil {
+	if err := saveSnapshot(out, next); err != nil {
 		return err
 	}
-
-	if err := embedPage(next, *page); err != nil {
+	if err := embedPage(next, page); err != nil {
 		return err
 	}
+	fmt.Printf("wrote %s and re-embedded it in %s\n", out, page)
+	return render(next, root)
+}
 
-	fmt.Printf("wrote %s and re-embedded it in %s\n", *out, *page)
-	return render(next, e.root)
+// attach copies a validator's challenge, fire drill and onchain detail onto
+// it, if the arenas hold any.
+func (d details) attach(v *snapValidator) {
+	k := scoring.Key(v.Moniker)
+	if c, ok := d.challenge[k]; ok {
+		v.Challenge = &c
+	}
+	if f, ok := d.firedrill[k]; ok {
+		v.FireDrillDetail = &f
+	}
+	for net, byMoniker := range d.onchain {
+		if o, ok := byMoniker[k]; ok {
+			v.Onchain[net] = o
+		}
+	}
 }
 
 func loadSnapshot(path string) (snapshot, error) {
@@ -272,52 +278,21 @@ func loadSnapshot(path string) (snapshot, error) {
 	return s, json.Unmarshal(b, &s)
 }
 
-// githubScore applies the participation weights to a contribution breakdown.
-func githubScore(c map[string]float64) float64 {
-	return scoring.WeightMergedPR*c["merged_prs"] +
-		scoring.WeightUnmergedPR*c["unmerged_prs"] +
-		scoring.WeightIssue*c["issues"] +
-		scoring.WeightCommit*c["commits"] +
-		scoring.WeightComment*c["comment_threads"]
-}
-
-// total is the scoring rule, in Go rather than in fr_FR formula syntax.
+// total is the scoring rule over the scorecard's six components.
 func total(c snapComponents, github float64) float64 {
-	t := (c.Challenge+c.Test13+c.Topaz+c.Sapphire+c.Pearl+c.FireDrill)/scoring.ArenaDivisor +
-		github/scoring.BonusDivisor
-	if t > scoring.MaxScore {
-		return scoring.MaxScore
-	}
-	return t
+	return scoring.Total([]float64{c.Challenge, c.Test13, c.Topaz, c.Sapphire, c.Pearl, c.FireDrill}, github)
 }
 
-// rank fills both rank fields, highest score first, with competition ranking:
-// equal scores share a rank and the next one skips (1, 2, 2, 4). Ten candidates
-// share a score, and row order is no reason to put one above another.
+// rank fills both rank fields with scoring.Rank.
 func rank(vs []snapValidator) {
-	for _, spec := range []struct {
-		by  func(snapValidator) float64
-		set func(*snapValidator, int)
-	}{
-		{func(v snapValidator) float64 { return v.ScoreCurrent },
-			func(v *snapValidator, r int) { v.RankCurrent = r }},
-		{func(v snapValidator) float64 { return v.ScoreCorrected },
-			func(v *snapValidator, r int) { v.RankCorrected = r }},
-	} {
-		idx := make([]int, len(vs))
-		for i := range idx {
-			idx[i] = i
-		}
-		sort.SliceStable(idx, func(a, b int) bool {
-			return spec.by(vs[idx[a]]) > spec.by(vs[idx[b]])
-		})
-		shared := 0
-		for r, i := range idx {
-			if r == 0 || absDiff(spec.by(vs[i]), spec.by(vs[idx[r-1]])) > 1e-9 {
-				shared = r + 1
-			}
-			spec.set(&vs[i], shared)
-		}
+	current := make([]float64, len(vs))
+	corrected := make([]float64, len(vs))
+	for i, v := range vs {
+		current[i], corrected[i] = v.ScoreCurrent, v.ScoreCorrected
+	}
+	rc, rk := scoring.Rank(current), scoring.Rank(corrected)
+	for i := range vs {
+		vs[i].RankCurrent, vs[i].RankCorrected = rc[i], rk[i]
 	}
 }
 
@@ -339,101 +314,17 @@ func (e *env) sheetValues(rng string) ([][]interface{}, error) {
 	return vr.Values, nil
 }
 
-// challengeDetail reads the onboarding breakdown, keyed by scoring.Key.
-func (e *env) challengeDetail() (map[string]snapChallenge, error) {
-	rows, err := e.sheetValues(fmt.Sprintf("%s!B2:H1000", sheetx.Ref(scoring.TabChallenge)))
+// tabRows reads an arena's whole tab as text, header excluded, the way freeze
+// writes it to CSV.
+func (e *env) tabRows(a arena.Arena) ([][]string, error) {
+	rows, err := e.sheetValues(sheetx.Ref(a.Tab))
 	if err != nil {
 		return nil, err
 	}
-	out := map[string]snapChallenge{}
-	for _, r := range rows {
-		moniker := cell(r, 0)
-		if moniker == "" {
-			continue
-		}
-		out[scoring.Key(moniker)] = snapChallenge{
-			Weighted: number(r, 1), Simple: number(r, 2), Penalty: number(r, 3),
-			Bonus: number(r, 4), FinalW: number(r, 5), Score: number(r, 6),
-		}
+	if len(rows) == 0 {
+		return nil, nil
 	}
-	return out, nil
-}
-
-// firedrillDetail reads the exercise rubric, keyed case-insensitively by the
-// scorecard moniker. Portal spelling and the rotated exercise address are kept
-// for provenance, never for joining.
-func (e *env) firedrillDetail() (map[string]snapFireDrill, error) {
-	rows, err := e.sheetValues(fmt.Sprintf("%s!A2:I1000", sheetx.Ref(scoring.TabFireDrill)))
-	if err != nil {
-		return nil, err
-	}
-	out := map[string]snapFireDrill{}
-	for _, r := range rows {
-		moniker := strings.ToLower(strings.TrimSpace(cell(r, 0)))
-		if moniker == "" {
-			continue
-		}
-		out[moniker] = snapFireDrill{
-			UploadTime: optNumber(r, 3), Metadata: optNumber(r, 4), LogQuality: optNumber(r, 5),
-			Incident: number(r, 6), Findings: cell(r, 7),
-			PortalMoniker: cell(r, 1), Address: cell(r, 8),
-		}
-	}
-	return out, nil
-}
-
-// optNumber is number for a column that is legitimately blank: it returns nil
-// rather than 0, so a cell nobody has filled in cannot pass for a score of 0.
-func optNumber(row []interface{}, i int) *float64 {
-	if i >= len(row) {
-		return nil
-	}
-	f, ok := row[i].(float64)
-	if !ok {
-		return nil
-	}
-	return &f
-}
-
-// onchainByNetwork reads the network tabs into network -> moniker -> row.
-// The moniker key is lowercased because that is how Bilan's VLOOKUP matches it,
-// and a tab can spell a validator "offellnode" where Bilan says "offellNode".
-func (e *env) onchainByNetwork() (map[string]map[string]snapOnchain, error) {
-	out := map[string]map[string]snapOnchain{}
-	for _, tab := range scoring.Networks {
-		rows, err := e.sheetValues(fmt.Sprintf("%s!A2:M1000", sheetx.Ref(tab)))
-		if err != nil {
-			return nil, err
-		}
-		net := strings.TrimPrefix(tab, "Score-")
-		byMoniker := map[string]snapOnchain{}
-		for _, r := range rows {
-			moniker := strings.ToLower(strings.TrimSpace(cell(r, 0)))
-			if moniker == "" {
-				continue
-			}
-			o := snapOnchain{
-				Address: cell(r, 1), Score: number(r, 2), Tier: cell(r, 3),
-				Sign: number(r, 4), VP: number(r, 5),
-				Critical: number(r, 7), Warning: number(r, 8), Freq: number(r, 9),
-				FreqRate: number(r, 10), Downtime: number(r, 11), Missed: number(r, 12),
-			}
-			// A blank proposer means the validator was never asked to propose.
-			// The page renders null as an em dash; a zero would read as failure.
-			if len(r) > 6 {
-				if f, ok := r[6].(float64); ok {
-					o.Proposer = &f
-				}
-			}
-			// VLOOKUP answers with the first match, so the detail must too, or
-			// the page would describe a different node than the one scored.
-			if _, dup := byMoniker[moniker]; !dup {
-				byMoniker[moniker] = o
-			}
-		}
-		out[net] = byMoniker
-	}
-	return out, nil
+	return textRows(rows[1:]), nil
 }
 
 // cell returns a column as trimmed text, or "" when the row is short.
@@ -459,13 +350,4 @@ func strictNumber(row []interface{}, i int) (float64, error) {
 		}
 	}
 	return 0, fmt.Errorf("column %c holds %q, not a number", rune('A'+i), fmt.Sprint(row[i]))
-}
-
-// number returns a column as a float, or 0 when it is blank or not numeric.
-func number(row []interface{}, i int) float64 {
-	if i >= len(row) {
-		return 0
-	}
-	f, _ := row[i].(float64)
-	return f
 }

@@ -43,9 +43,10 @@ func TestRepoConfigMatchesTheScoringRule(t *testing.T) {
 func TestLoadConfigRejects(t *testing.T) {
 	ok := `{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}`
 	for name, body := range map[string]string{
-		"duplicate id":  `{"arenas":[` + ok + `,` + ok + `]}`,
-		"missing label": `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
-		"nothing total": `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
+		"duplicate id":   `{"arenas":[` + ok + `,` + ok + `]}`,
+		"missing label":  `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
+		"nothing total":  `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
+		"unknown detail": `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"detail":"x"}]}`,
 	} {
 		path := filepath.Join(t.TempDir(), "arenas.json")
 		write(t, path, body)

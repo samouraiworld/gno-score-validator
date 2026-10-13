@@ -33,7 +33,19 @@ type Arena struct {
 
 	Colour  string `json:"colour"`
 	InTotal bool   `json:"in_total"` // false: shown, not scored
+
+	// Detail names how the scorecard reads the rest of the CSV: the rubric
+	// breakdown of a challenge or fire drill, or the onchain metrics of a
+	// network. Empty means the arena publishes its score alone.
+	Detail string `json:"detail,omitempty"`
 }
+
+// The detail kinds an arena can carry.
+const (
+	DetailChallenge = "challenge"
+	DetailFireDrill = "firedrill"
+	DetailOnchain   = "onchain"
+)
 
 // Config is config/arenas.json.
 type Config struct {
@@ -59,6 +71,11 @@ func LoadConfig(path string) (Config, error) {
 			if strings.TrimSpace(v) == "" {
 				return c, fmt.Errorf("%s: arena %d has no %s", path, i+1, field)
 			}
+		}
+		switch a.Detail {
+		case "", DetailChallenge, DetailFireDrill, DetailOnchain:
+		default:
+			return c, fmt.Errorf("%s: arena %q has unknown detail %q", path, a.ID, a.Detail)
 		}
 		if seen[a.ID] {
 			return c, fmt.Errorf("%s: arena %q is listed twice", path, a.ID)
@@ -122,6 +139,13 @@ func LoadScores(dataDir string, a Arena) (map[string]float64, error) {
 		out[k] = s
 	}
 	return out, nil
+}
+
+// Rows returns an arena's CSV data rows, header excluded, cells untrimmed.
+// Rows may be shorter than the header.
+func (a Arena) Rows(dataDir string) ([][]string, error) {
+	_, rows, err := readCSV(a.File(dataDir))
+	return rows, err
 }
 
 // Candidate is one row of data/candidates.csv: a validator in the scored
