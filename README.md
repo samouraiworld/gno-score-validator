@@ -90,7 +90,7 @@ ID=<spreadsheet-id>
 ./bin/scoresheet -id $ID freeze -dry        # plan the copy of the arena tabs to data/arenas/
 ./bin/scoresheet -id $ID snapshot -dry      # plan the scorecard.json rebuild
 ./bin/scoresheet render                     # regenerate scoreboard/ and the page payload (offline, no -id)
-./bin/scoresheet mainnet -dry               # plan the gnoland-1 fetch (shown, not scored; no -id)
+./bin/scoresheet fetch -chain gnoland-1 -dry  # plan the gnoland-1 fetch (shown, not scored; no -id)
 ./bin/scoresheet -id $ID dashboard          # rebuild the Dashboard tab
 ./bin/scoresheet -id $ID export Dashboard out.pdf
 ```
@@ -114,8 +114,8 @@ it disagrees with `data/scorecard.json`.
 copy of it in the HTML page, so the two can never disagree about a score. It **merges rather than
 regenerates**: every field the sheet holds is rewritten from the sheet, the
 `github` evidence blocks are copied untouched from `data/github/evidence.json`,
-and the weights and the `mainnet` block are carried over from the existing
-file. The evidence file is the only record of the page's all-time versus
+the `mainnet` block is built from `data/arenas/mainnet.csv` (written by
+`fetch`), and `source` is carried over from the existing file. The evidence file is the only record of the page's all-time versus
 since-2025 contribution split. `snapshot` stops if one of its monikers matches
 no Bilan row, so a block cannot vanish from the page unnoticed.
 It stops on a formula error or a number stored as text in Bilan, on a moniker

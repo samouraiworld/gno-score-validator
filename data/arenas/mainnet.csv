@@ -1,0 +1,7 @@
+moniker,address,current_year_score,current_year_tier,current_year_sign,current_year_vp,current_year_proposer,current_year_critical,current_year_warning,current_year_freq,current_year_freq_rate,current_year_downtime,current_year_missed,fetched_at
+berty-validator-1,g1l983yy3kpmapyzcfy53y5charfxupa5czjalea,100,Excellent,99.999604704543,60,100,0,0,0,0,0,3,2026-10-12
+gno-core-validator-1,g1mmgvcssjw6x4fzphupfg6mtxqt36v000c5rf2a,53,Watch,99.89050315841071,60,100,4,3,6,0.1474517555616212,672,831,2026-10-12
+Mithrandir,g1h97x8geqqwhh0prepcwrqskcd35g6gy5s39eny,65,Good,99.85735034754643,60,2.304572514316284,0,5,5,0.12287646296801769,0,55,2026-10-12
+moul,g1g0yrmdhney8pcaf9rfut4604equz604pszdsyt,30,Watch,99.5268394945081,60,41.00874130020582,3,20,21,0.5160811444656742,456,1282,2026-10-12
+onbloc-validator-1,g1hqhetnnz0raw5hps6yxexl7q09a6f8w3anlptt,79,Good,99.97022107557258,60,100,2,1,2,0.04915058518720707,217,226,2026-10-12
+samourai-crew-validator-1,g15t7f9q6km3ldt885duwl8xu5dncs98528amk4f,69,Good,99.94650334815252,60,100,0,44,44,1.0813128741185556,0,406,2026-10-12

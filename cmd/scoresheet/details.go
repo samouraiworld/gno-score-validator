@@ -100,18 +100,24 @@ func parseOnchain(rows [][]string) map[string]snapOnchain {
 		if _, dup := out[k]; dup {
 			continue
 		}
-		out[k] = snapOnchain{
-			Address: text(r, 1), Score: textNumber(r, 2), Tier: text(r, 3),
-			Sign: textNumber(r, 4), VP: textNumber(r, 5),
-			// A blank proposer means the validator was never asked to
-			// propose. The page renders null as an em dash; a zero would read
-			// as failure.
-			Proposer: textOptNumber(r, 6),
-			Critical: textNumber(r, 7), Warning: textNumber(r, 8), Freq: textNumber(r, 9),
-			FreqRate: textNumber(r, 10), Downtime: textNumber(r, 11), Missed: textNumber(r, 12),
-		}
+		out[k] = onchainRow(r)
 	}
 	return out
+}
+
+// onchainRow reads one row of a network tab or of a CSV written by fetch:
+// moniker, address, then the metrics in refreshColumns order.
+func onchainRow(r []string) snapOnchain {
+	return snapOnchain{
+		Address: text(r, 1), Score: textNumber(r, 2), Tier: text(r, 3),
+		Sign: textNumber(r, 4), VP: textNumber(r, 5),
+		// A blank proposer means the validator was never asked to
+		// propose. The page renders null as an em dash; a zero would read
+		// as failure.
+		Proposer: textOptNumber(r, 6),
+		Critical: textNumber(r, 7), Warning: textNumber(r, 8), Freq: textNumber(r, 9),
+		FreqRate: textNumber(r, 10), Downtime: textNumber(r, 11), Missed: textNumber(r, 12),
+	}
 }
 
 // textRows renders sheet cells the way freeze writes them to CSV: numbers with

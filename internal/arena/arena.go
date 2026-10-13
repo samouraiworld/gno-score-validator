@@ -34,6 +34,10 @@ type Arena struct {
 	Colour  string `json:"colour"`
 	InTotal bool   `json:"in_total"` // false: shown, not scored
 
+	// Chain is the gnomonitoring chain id `fetch` reads this arena from.
+	// Empty for an arena that is not an API chain.
+	Chain string `json:"chain,omitempty"`
+
 	// Detail names how the scorecard reads the rest of the CSV: the rubric
 	// breakdown of a challenge or fire drill, or the onchain metrics of a
 	// network. Empty means the arena publishes its score alone.
@@ -47,16 +51,26 @@ const (
 	DetailOnchain   = "onchain"
 )
 
+// MainnetID is the config entry for the mainnet chain. It is shown on the
+// page's own mainnet section, beside the scorecard and never in a total, so
+// LoadConfig moves it out of Arenas into Config.Mainnet.
+const MainnetID = "mainnet"
+
 // Config is config/arenas.json.
 type Config struct {
 	Arenas []Arena `json:"arenas"`
+
+	// Mainnet is the MainnetID entry, or nil. It is not one of Arenas: it
+	// has no component, no tab and no weight.
+	Mainnet *Arena `json:"-"`
 }
 
-// LoadConfig reads and checks config/arenas.json.
 // reservedIDs are the page's own sections. An arena named after one would get
 // the same nav entry and section id, and the page would open the wrong one.
-var reservedIDs = map[string]bool{"overview": true, "profile": true, "github": true, "mainnet": true}
+// MainnetID is the exception: its entry feeds the mainnet section itself.
+var reservedIDs = map[string]bool{"overview": true, "profile": true, "github": true}
 
+// LoadConfig reads and checks config/arenas.json.
 func LoadConfig(path string) (Config, error) {
 	var c Config
 	b, err := os.ReadFile(path)
@@ -66,7 +80,14 @@ func LoadConfig(path string) (Config, error) {
 	if err := json.Unmarshal(b, &c); err != nil {
 		return c, fmt.Errorf("%s: %w", path, err)
 	}
+	if err := c.takeMainnet(path); err != nil {
+		return c, err
+	}
 	seen := map[string]bool{}
+	chains := map[string]bool{}
+	if c.Mainnet != nil {
+		chains[c.Mainnet.Chain] = true
+	}
 	for i, a := range c.Arenas {
 		for field, v := range map[string]string{
 			"id": a.ID, "label": a.Label, "tab": a.Tab,
@@ -88,11 +109,61 @@ func LoadConfig(path string) (Config, error) {
 			return c, fmt.Errorf("%s: arena %q is listed twice", path, a.ID)
 		}
 		seen[a.ID] = true
+		if a.Chain != "" {
+			// fetch picks the arena by chain; two would be a coin toss.
+			if chains[a.Chain] {
+				return c, fmt.Errorf("%s: chain %q is fetched by two arenas", path, a.Chain)
+			}
+			chains[a.Chain] = true
+		}
 	}
 	if c.Divisor() == 0 {
 		return c, fmt.Errorf("%s: no arena counts toward the total", path)
 	}
 	return c, nil
+}
+
+// takeMainnet moves the MainnetID entry out of Arenas. It must be shown, not
+// scored, and fetched from a chain with its onchain metrics, since the
+// mainnet section is a gnomonitoring report and nothing else.
+func (c *Config) takeMainnet(path string) error {
+	kept := c.Arenas[:0]
+	for _, a := range c.Arenas {
+		if a.ID != MainnetID {
+			kept = append(kept, a)
+			continue
+		}
+		if c.Mainnet != nil {
+			return fmt.Errorf("%s: arena %q is listed twice", path, a.ID)
+		}
+		switch {
+		case a.InTotal:
+			return fmt.Errorf("%s: %s is shown, not scored, and needs in_total false", path, a.ID)
+		case strings.TrimSpace(a.Chain) == "":
+			return fmt.Errorf("%s: %s has no chain", path, a.ID)
+		case a.Detail != DetailOnchain:
+			return fmt.Errorf("%s: %s needs detail %q", path, a.ID, DetailOnchain)
+		case strings.TrimSpace(a.MonikerColumn) == "" || strings.TrimSpace(a.ScoreColumn) == "":
+			return fmt.Errorf("%s: %s needs moniker_column and score_column", path, a.ID)
+		}
+		m := a
+		c.Mainnet = &m
+	}
+	c.Arenas = kept
+	return nil
+}
+
+// ByChain returns the arena, mainnet included, that fetch reads from chain.
+func (c Config) ByChain(chain string) (Arena, bool) {
+	if c.Mainnet != nil && c.Mainnet.Chain == chain {
+		return *c.Mainnet, true
+	}
+	for _, a := range c.Arenas {
+		if a.Chain != "" && a.Chain == chain {
+			return a, true
+		}
+	}
+	return Arena{}, false
 }
 
 // Divisor is the number of arenas that count toward the total. Each one
@@ -154,6 +225,14 @@ func (a Arena) Rows(dataDir string) ([][]string, error) {
 	_, rows, err := readCSV(a.File(dataDir))
 	return rows, err
 }
+
+// Table returns an arena's CSV header and data rows, as Rows does.
+func (a Arena) Table(dataDir string) ([]string, [][]string, error) {
+	return readCSV(a.File(dataDir))
+}
+
+// Column returns the index of a header cell, or -1.
+func Column(header []string, name string) int { return column(header, name) }
 
 // Candidate is one row of data/candidates.csv: a validator in the scored
 // window, and the Discord handle it signed up with.

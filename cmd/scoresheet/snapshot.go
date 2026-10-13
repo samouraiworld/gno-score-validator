@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -247,8 +248,6 @@ func runSnapshot(e *env, args []string) error {
 		Arenas:        arenas,
 		Weights:       weights,
 		GithubWeights: prev.GithubWeights,
-		// The sheet has no mainnet tab; the block is fetched by `mainnet`.
-		Mainnet: prev.Mainnet,
 	}
 
 	seen := map[string]int{}
@@ -320,6 +319,10 @@ func runSnapshot(e *env, args []string) error {
 	}
 
 	rank(next.Validators)
+	// The sheet has no mainnet tab; the block comes from fetch's CSV.
+	if next.Mainnet, err = loadMainnet(cfg, filepath.Join(e.root, "data"), next.Validators); err != nil {
+		return err
+	}
 	return publish(prev, next, *out, *page, *dry, e.root)
 }
 

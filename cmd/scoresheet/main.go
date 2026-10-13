@@ -14,7 +14,7 @@
 //	snapshot    mirror the sheet into scorecard.json, the HTML page and the scoreboard
 //	score       compute scorecard.json, the page and the scoreboard from the repo files (offline)
 //	render      regenerate the scoreboard and the page payload from scorecard.json (offline)
-//	mainnet     fetch gnoland-1 into scorecard.json, shown beside the totals (no sheet)
+//	fetch       write a chain's live gnomonitoring report to data/arenas/ (no sheet)
 //	dashboard   build the Dashboard tab from scratch
 //	export      save a tab as PDF, to eyeball the result
 //
@@ -69,9 +69,9 @@ func main() {
 		}
 		return
 	}
-	// mainnet reads gnomonitoring, which is public, and writes the snapshot.
-	if args[0] == "mainnet" {
-		if err := runMainnet(*root, args[1:]); err != nil {
+	// fetch reads gnomonitoring, which is public, and writes a CSV.
+	if args[0] == "fetch" {
+		if err := runFetch(*root, args[1:]); err != nil {
 			fatal(err)
 		}
 		return
@@ -143,8 +143,9 @@ func usage() {
   score       compute data/scorecard.json from config/ and data/ alone, re-embed it
               in the page and regenerate the scoreboard (no -id needed) [-dry]
   render      regenerate scoreboard/ and the page payload from data/scorecard.json (no -id needed)
-  mainnet     fetch gnoland-1 into data/scorecard.json, shown but not scored
-              (no -id needed)           [-dry] [-force] [-chain gnoland-1] [-period current_year]
+  fetch       write a chain's live gnomonitoring report to its data/arenas/ CSV,
+              chosen by the chain field of config/arenas.json; then run score
+              (no -id needed)           -chain <id> [-dry] [-force]
   dashboard   rebuild the Dashboard tab
   export      save a tab as PDF, e.g. export Dashboard out.pdf
 

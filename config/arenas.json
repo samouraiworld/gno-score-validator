@@ -38,6 +38,7 @@
    "label": "Score · sapphire",
    "source": "gnomonitoring `sapphire-1`, final report",
    "tab": "Score-sapphire",
+   "chain": "sapphire-1",
    "moniker_column": "moniker",
    "score_column": "current_year_score",
    "colour": "#2a78d6",
@@ -49,6 +50,7 @@
    "label": "Score · pearl",
    "source": "gnomonitoring `pearl-1`, final report",
    "tab": "Score-pearl",
+   "chain": "pearl-1",
    "moniker_column": "moniker",
    "score_column": "current_year_score",
    "colour": "#8b5fd6",
@@ -65,6 +67,16 @@
    "colour": "#d64545",
    "in_total": true,
    "detail": "firedrill"
+  },
+  {
+   "id": "mainnet",
+   "label": "Mainnet · gnoland-1",
+   "source": "gnomonitoring `gnoland-1`, live report",
+   "chain": "gnoland-1",
+   "moniker_column": "moniker",
+   "score_column": "current_year_score",
+   "in_total": false,
+   "detail": "onchain"
   }
  ]
 }

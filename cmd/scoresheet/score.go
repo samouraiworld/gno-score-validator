@@ -16,8 +16,9 @@ import (
 // data/github-links.csv and data/github/evidence.json — then re-embeds it in
 // the page and regenerates the scoreboard. No sheet, no key.
 //
-// Source and the mainnet block are not in those files yet, so they are carried
-// over from the existing scorecard.json. Arenas and weights come from config.
+// Source is not in those files yet, so it is carried over from the existing
+// scorecard.json. Arenas and weights come from config, the mainnet block from
+// data/arenas/mainnet.csv.
 func runScore(root string, args []string) error {
 	fs := flag.NewFlagSet("score", flag.ExitOnError)
 	dry := fs.Bool("dry", false, "print the plan without writing")
@@ -115,7 +116,6 @@ func buildScorecard(root string, prev snapshot) (snapshot, error) {
 		Source:        prev.Source,
 		Arenas:        snapshotArenas(cfg),
 		GithubWeights: prev.GithubWeights,
-		Mainnet:       prev.Mainnet,
 	}
 	next.Weights, err = snapshotWeights(cfg)
 	if err != nil {
@@ -139,6 +139,10 @@ func buildScorecard(root string, prev snapshot) (snapshot, error) {
 		}
 		det.attach(&v)
 		next.Validators = append(next.Validators, v)
+	}
+	next.Mainnet, err = loadMainnet(cfg, data, next.Validators)
+	if err != nil {
+		return snapshot{}, err
 	}
 	return next, nil
 }

@@ -1,16 +1,12 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"os"
-	"path/filepath"
 	"sort"
-	"time"
 
-	"github.com/louisb/score-validator/internal/monitoring"
+	"github.com/louisb/score-validator/internal/arena"
 	"github.com/louisb/score-validator/internal/scoring"
 )
 
@@ -20,9 +16,9 @@ import (
 // published score down by a seventh. Its weight is to be decided when a
 // candidate first joins it. Until then no total reads this block.
 //
-// The report is fetched straight into data/scorecard.json: the sheet holds no
-// mainnet tab, so snapshot carries the block across untouched, like the
-// GitHub evidence.
+// `fetch -chain gnoland-1` writes the report to data/arenas/mainnet.csv, and
+// score and snapshot both build the block from that file, so it is derived
+// like everything else in scorecard.json.
 
 // snapMainnet is one fetched mainnet report.
 type snapMainnet struct {
@@ -40,122 +36,68 @@ type snapMainnetRow struct {
 	snapOnchain
 }
 
-func runMainnet(root string, args []string) error {
-	fs := flag.NewFlagSet("mainnet", flag.ExitOnError)
-	dry := fs.Bool("dry", false, "print the report without writing")
-	force := fs.Bool("force", false, "accept a report that loses more than a fifth of the validators")
-	chain := fs.String("chain", "gnoland-1", "gnomonitoring chain id")
-	period := fs.String("period", monitoring.PeriodYear, "report period, as for the testnet arenas")
-	in := fs.String("in", "", "snapshot file (default data/scorecard.json)")
-	page := fs.String("html", "", "page to re-embed the public payload in (default web/validator-scorecard.html)")
-	if err := fs.Parse(args); err != nil {
-		return err
+// loadMainnet builds the mainnet block from the config's mainnet entry and its
+// CSV, ordered by score then moniker so a refetch diffs cleanly. vs are the
+// scorecard's validators, which say who is a candidate. No mainnet entry in
+// config means no block.
+func loadMainnet(cfg arena.Config, dataDir string, vs []snapValidator) (*snapMainnet, error) {
+	a := cfg.Mainnet
+	if a == nil {
+		return nil, nil
 	}
-	if *in == "" {
-		*in = filepath.Join(root, "data", "scorecard.json")
-	}
-	if *page == "" {
-		*page = filepath.Join(root, "web", "validator-scorecard.html")
-	}
-
-	s, err := loadSnapshot(*in)
+	header, rows, err := a.Table(dataDir)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
-	defer cancel()
-	report, err := monitoring.Fetch(ctx, *chain)
+	period, err := fetchPeriod(*a)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	m, err := mainnetFromReport(report, *chain, *period, s.Validators)
-	if err != nil {
-		return err
+	path := a.File(dataDir)
+	// parseOnchain reads by position, so the layout must be fetch's own.
+	if len(header) < len(fetchHeader(period)) || header[0] != a.MonikerColumn || header[2] != a.ScoreColumn {
+		return nil, fmt.Errorf("%s: header %v is not the layout fetch writes", path, header)
 	}
-	m.FetchedAt = time.Now().UTC().Format("2006-01-02")
-
-	candidates := 0
-	for _, r := range m.Validators {
-		mark := ""
-		if r.Candidate {
-			candidates++
-			mark = "  candidate"
-		}
-		fmt.Printf("  %-28s %-10s score %g%s\n", r.Moniker, r.Tier, r.Score, mark)
-	}
-	fmt.Printf("\n%s/%s: %d validators, %d of them candidates — not part of any total\n",
-		*chain, *period, len(m.Validators), candidates)
-
-	if s.Mainnet != nil && s.Mainnet.Chain == *chain {
-		seen := map[string]bool{}
-		for _, r := range m.Validators {
-			seen[scoring.Key(r.Moniker)] = true
-		}
-		dropped := 0
-		for _, r := range s.Mainnet.Validators {
-			if !seen[scoring.Key(r.Moniker)] {
-				dropped++
-				fmt.Printf("  - %s gone from the report\n", r.Moniker)
-			}
-		}
-		// Same rule as refresh: losing a fifth of the set is an outage, not news.
-		if dropped*5 > len(s.Mainnet.Validators) && !*force && !*dry {
-			return fmt.Errorf("%d of %d mainnet validators would drop out; rerun with -force if that is real",
-				dropped, len(s.Mainnet.Validators))
-		}
-	}
-	if *dry {
-		fmt.Println("-dry — nothing written.")
-		return nil
+	fi := arena.Column(header, fetchedAtColumn)
+	if fi < 0 {
+		return nil, fmt.Errorf("%s: no %s column", path, fetchedAtColumn)
 	}
 
-	s.Mainnet = m
-	if err := saveSnapshot(*in, s); err != nil {
-		return err
-	}
-	if err := embedPage(s, *page); err != nil {
-		return err
-	}
-	fmt.Printf("wrote the mainnet block to %s and re-embedded %s\n", *in, *page)
-	return render(s, root)
-}
-
-// mainnetFromReport turns a gnomonitoring report into the mainnet block,
-// ordered by score then moniker so a refetch diffs cleanly. An empty report
-// is refused: it is an outage, and writing it would erase the last good one.
-func mainnetFromReport(report []monitoring.Validator, chain, period string, vs []snapValidator) (*snapMainnet, error) {
-	if len(report) == 0 {
-		return nil, fmt.Errorf("%s: empty report", chain)
-	}
 	candidate := map[string]bool{}
 	for _, v := range vs {
 		candidate[scoring.Key(v.Moniker)] = true
 	}
-	m := &snapMainnet{Chain: chain, Period: period}
+	m := &snapMainnet{Chain: a.Chain, Period: period}
 	seen := map[string]bool{}
-	for _, v := range report {
-		k := scoring.Key(v.Moniker)
+	for n, r := range rows {
+		moniker := text(r, 0)
+		k := scoring.Key(moniker)
+		if k == "" {
+			continue
+		}
 		if seen[k] {
-			return nil, fmt.Errorf("%s: moniker %q listed twice", chain, v.Moniker)
+			return nil, fmt.Errorf("%s line %d: %s is listed twice", path, n+2, moniker)
 		}
 		seen[k] = true
-		p, ok := v.Periods[period]
-		if !ok {
-			return nil, fmt.Errorf("%s: %s has no period %q", chain, v.Moniker, period)
+		// One fetch, one date: a file stitched from two fetches would show
+		// a date only some of its rows are true for.
+		switch at := text(r, fi); {
+		case at == "":
+			return nil, fmt.Errorf("%s line %d: %s has no %s", path, n+2, moniker, fetchedAtColumn)
+		case m.FetchedAt == "":
+			m.FetchedAt = at
+		case at != m.FetchedAt:
+			return nil, fmt.Errorf("%s line %d: fetched %s, earlier rows %s", path, n+2, at, m.FetchedAt)
 		}
 		m.Validators = append(m.Validators, snapMainnetRow{
-			Moniker:   v.Moniker,
-			Candidate: candidate[k],
-			snapOnchain: snapOnchain{
-				Address: v.Address, Tier: p.Tier, Score: p.Score, Sign: p.SignRate,
-				VP: p.VotingPower, Proposer: p.Proposer, Critical: p.Critical,
-				Warning: p.Warning, Freq: p.Incidents, FreqRate: p.IncidentRate,
-				Downtime: p.Downtime, Missed: p.Missed,
-			},
+			Moniker: moniker, Candidate: candidate[k], snapOnchain: onchainRow(r),
 		})
 	}
-	sort.SliceStable(m.Validators, func(a, b int) bool {
-		x, y := m.Validators[a], m.Validators[b]
+	if len(m.Validators) == 0 {
+		return nil, fmt.Errorf("%s: no validators", path)
+	}
+	sort.SliceStable(m.Validators, func(i, j int) bool {
+		x, y := m.Validators[i], m.Validators[j]
 		if x.Score != y.Score {
 			return x.Score > y.Score
 		}

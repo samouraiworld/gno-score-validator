@@ -38,16 +38,54 @@ func TestRepoConfigMatchesTheScoringRule(t *testing.T) {
 	if _, err := LoadCandidates(filepath.Join(data, "candidates.csv")); err != nil {
 		t.Error(err)
 	}
+	if c.Mainnet == nil || c.Mainnet.InTotal || c.Mainnet.Chain != "gnoland-1" {
+		t.Fatalf("mainnet entry %+v, want gnoland-1 shown, not scored", c.Mainnet)
+	}
+	if _, err := LoadScores(data, *c.Mainnet); err != nil {
+		t.Error(err)
+	}
+}
+
+// The mainnet entry leaves Arenas, so no component, divisor or tab reads it.
+func TestLoadConfigTakesMainnetOut(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "arenas.json")
+	write(t, path, `{"arenas":[
+		{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"chain":"c-1"},
+		{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"gnoland-1","detail":"onchain"}]}`)
+	c, err := LoadConfig(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(c.Arenas) != 1 || c.Arenas[0].ID != "a" || c.Divisor() != 1 {
+		t.Errorf("arenas %+v, want a alone", c.Arenas)
+	}
+	if c.Mainnet == nil || c.Mainnet.ID != MainnetID {
+		t.Fatalf("mainnet %+v", c.Mainnet)
+	}
+	if a, ok := c.ByChain("gnoland-1"); !ok || a.ID != MainnetID {
+		t.Errorf("ByChain(gnoland-1) = %+v, %v", a, ok)
+	}
+	if a, ok := c.ByChain("c-1"); !ok || a.ID != "a" {
+		t.Errorf("ByChain(c-1) = %+v, %v", a, ok)
+	}
+	if _, ok := c.ByChain(""); ok {
+		t.Error("ByChain(\"\") matched an arena without a chain")
+	}
 }
 
 func TestLoadConfigRejects(t *testing.T) {
 	ok := `{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}`
 	for name, body := range map[string]string{
-		"duplicate id":   `{"arenas":[` + ok + `,` + ok + `]}`,
-		"missing label":  `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
-		"nothing total":  `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
-		"unknown detail": `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"detail":"x"}]}`,
-		"reserved id":    `{"arenas":[{"id":"github","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
+		"duplicate id":     `{"arenas":[` + ok + `,` + ok + `]}`,
+		"missing label":    `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
+		"nothing total":    `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
+		"unknown detail":   `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"detail":"x"}]}`,
+		"reserved id":      `{"arenas":[{"id":"github","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
+		"mainnet scored":   `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","in_total":true,"detail":"onchain"}]}`,
+		"mainnet no chain": `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","detail":"onchain"}]}`,
+		"mainnet detail":   `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"challenge"}]}`,
+		"mainnet twice":    `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"},{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
+		"chain twice":      `{"arenas":[` + strings.Replace(ok, "}", `,"chain":"g-1"}`, 1) + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
 	} {
 		path := filepath.Join(t.TempDir(), "arenas.json")
 		write(t, path, body)

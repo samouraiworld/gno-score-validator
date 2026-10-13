@@ -29,7 +29,7 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 ./bin/scoresheet -id $ID freeze -dry           # arena tabs -> data/arenas/*.csv
 ./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + page + scoreboard/
 ./bin/scoresheet render                        # scoreboard/ + page payload, offline, no -id
-./bin/scoresheet mainnet -dry                  # gnoland-1, shown not scored, no -id
+./bin/scoresheet fetch -chain gnoland-1 -dry  # live report -> data/arenas/mainnet.csv, no -id
 ```
 
 Verification is `go build`, `go vet ./...`, `gofmt -l .`, `go test ./...`,
@@ -41,13 +41,18 @@ drill): `refresh` and `firedrill` refuse their tabs without `-force`
 **shown, not scored** (owner decision 2026-10-12): on that date its 6
 validators were all team nodes, none of the 98 candidates, so a 7th arena would
 only have scaled every score down by 1/7. Its weight gets decided when a
-candidate first joins it. `mainnet` (no `-id`, `current_year` like the
-testnets) fetches it into the `mainnet` block of `data/scorecard.json`, which
-`snapshot` carries across like the github blocks; no total reads it.
+candidate first joins it. Its `config/arenas.json` entry (id `mainnet`,
+`in_total: false`, `chain: gnoland-1`) is taken out of the arena list, so it
+has no component and no weight. `fetch -chain gnoland-1` (no `-id`,
+`current_year` like the testnets) writes `data/arenas/mainnet.csv`, and both
+`score` and `snapshot` build the `mainnet` block of `data/scorecard.json`
+from that file; no total reads it. `fetch` picks its CSV by the `chain` field
+of config and keeps `refresh`'s guards: frozen arenas and a report losing a
+fifth of the file need `-force`.
 
 **Run order after changing any tab:** `dashboard` → `snapshot` (which also
 renders `scoreboard/`). Commit `scoreboard/` and the page with
-`data/scorecard.json`. To update mainnet: `mainnet -dry`, then `mainnet`.
+`data/scorecard.json`. To update mainnet: `fetch -chain gnoland-1 -dry`, then without `-dry`, then `score`.
 `bilan` only needs re-running when `data/github-links.csv` or the scoring formula
 changes.
 
@@ -79,8 +84,8 @@ validators carry an all-time versus since-2025 contribution split that exists
 in neither the sheet nor the CSVs. `snapshot` copies each block as
 `json.RawMessage`, keyed by moniker, and refuses a block whose moniker matches
 no Bilan row. Edit that file, not the blocks in `scorecard.json`, which
-`snapshot` overwrites. The weights and the `mainnet` block are still carried
-over from the previous `scorecard.json`.
+`snapshot` overwrites. Only `source` and the github weights are still
+carried over from the previous `scorecard.json`.
 
 **Columns A–H of Bilan are human-curated and must never be written.** The tool
 writes only I, J, K, L.
