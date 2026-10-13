@@ -106,7 +106,7 @@ func parseOnchain(rows [][]string) map[string]snapOnchain {
 }
 
 // onchainRow reads one row of a network tab or of a CSV written by fetch:
-// moniker, address, then the metrics in refreshColumns order.
+// moniker, address, then the metrics in onchainColumns order.
 func onchainRow(r []string) snapOnchain {
 	return snapOnchain{
 		Address: text(r, 1), Score: textNumber(r, 2), Tier: text(r, 3),

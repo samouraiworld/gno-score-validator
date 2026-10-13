@@ -70,6 +70,10 @@ type Config struct {
 // MainnetID is the exception: its entry feeds the mainnet section itself.
 var reservedIDs = map[string]bool{"overview": true, "profile": true, "github": true}
 
+// reservedTabs are the spreadsheet tabs `sheet push` writes itself. Sheets
+// compares tab titles without case, so these are lower-cased.
+var reservedTabs = map[string]bool{"bilan": true, "dashboard": true}
+
 // LoadConfig reads and checks config/arenas.json.
 func LoadConfig(path string) (Config, error) {
 	var c Config
@@ -84,6 +88,7 @@ func LoadConfig(path string) (Config, error) {
 		return c, err
 	}
 	seen := map[string]bool{}
+	tabs := map[string]bool{}
 	chains := map[string]bool{}
 	if c.Mainnet != nil {
 		chains[c.Mainnet.Chain] = true
@@ -109,6 +114,14 @@ func LoadConfig(path string) (Config, error) {
 			return c, fmt.Errorf("%s: arena %q is listed twice", path, a.ID)
 		}
 		seen[a.ID] = true
+		// sheet push writes each arena to its tab: two arenas on one tab
+		// would overwrite each other, and Bilan or the Dashboard would be
+		// replaced by an arena.
+		tab := strings.ToLower(strings.TrimSpace(a.Tab))
+		if reservedTabs[tab] || tabs[tab] {
+			return c, fmt.Errorf("%s: arena %q cannot use tab %q: it is taken", path, a.ID, a.Tab)
+		}
+		tabs[tab] = true
 		if a.Chain != "" {
 			// fetch picks the arena by chain; two would be a coin toss.
 			if chains[a.Chain] {

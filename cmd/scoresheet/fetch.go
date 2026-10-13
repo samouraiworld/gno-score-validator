@@ -159,7 +159,7 @@ func fetchPeriod(a arena.Arena) (string, error) {
 // writes, which parseOnchain reads by position, then the fetch date.
 func fetchHeader(period string) []string {
 	h := []string{"moniker", "address"}
-	for _, c := range refreshColumns {
+	for _, c := range onchainColumns {
 		h = append(h, period+"_"+c)
 	}
 	return append(h, fetchedAtColumn)
@@ -222,4 +222,20 @@ func writeCSV(path string, rows [][]string) error {
 		return err
 	}
 	return os.Rename(tmp, path)
+}
+
+// guardFrozen refuses to rewrite a final arena result unless forced.
+func guardFrozen(tab string, force bool) error {
+	if scoring.IsFrozen(tab) && !force {
+		return fmt.Errorf("%s holds a final arena result and is frozen; rerun with -force only to correct it", tab)
+	}
+	return nil
+}
+
+// onchainColumns name the metrics of an onchain arena CSV in file order,
+// after moniker and address. The header is written from these, prefixed by
+// the period, so a file can never claim to hold a window it does not.
+var onchainColumns = []string{
+	"score", "tier", "sign", "vp", "proposer",
+	"critical", "warning", "freq", "freq_rate", "downtime", "missed",
 }

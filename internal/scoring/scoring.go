@@ -10,29 +10,11 @@ import (
 	"strings"
 )
 
-// The Bilan tab: header on row 1, one validator per row from FirstRow to
-// LastRow, columns A-L.
+// The Bilan tab: header on row 1, one validator per row from FirstRow on.
+// Its columns follow config/arenas.json; `sheet push` lays them out.
 const (
 	TabBilan = "Bilan"
 	FirstRow = 2
-	LastRow  = 99
-	NumRows  = LastRow - FirstRow + 1
-)
-
-// Bilan columns, by A1 letter.
-const (
-	ColMoniker    = "A"
-	ColDiscord    = "B"
-	ColChallenge  = "C"
-	ColTest13     = "D"
-	ColTopaz      = "E"
-	ColSapphire   = "F"
-	ColPearl      = "G"
-	ColFireDrill  = "H"
-	ColGitHub     = "I"
-	ColScore      = "J"
-	ColGitHubUser = "K" // added by this tool
-	ColConfidence = "L" // added by this tool
 )
 
 // Network tabs, in the order they are presented.
@@ -70,14 +52,14 @@ func Key(moniker string) string {
 
 // The scoring rule.
 //
-//	Score = ( challenge + test13 + topaz + sapphire + pearl + fire drill ) / ArenaDivisor
+//	Score = ( sum of the arenas in the total ) / their count
 //	      + GitHub / BonusDivisor,  capped at MaxScore
 //
-// The six arenas carry equal weight, so each contributes at most 100/6 points.
-// GitHub is a bonus on top worth at most 10: it can lift a candidate, never
-// sink one. The cap matters — without it the formula reaches 110.
+// The arenas, and which count toward the total, are listed in
+// config/arenas.json. They carry equal weight. GitHub is a bonus on top worth
+// at most 10: it can lift a candidate, never sink one. The cap matters —
+// without it the formula reaches 110.
 const (
-	ArenaDivisor = 6
 	BonusDivisor = 10
 	MaxScore     = 100
 )
@@ -97,14 +79,6 @@ const (
 // bonus. Contributions predating test13 are real, but they say nothing about
 // a candidate's involvement in the testnet being scored.
 const CutoffYear = 2025
-
-// ScoreFormula is the capped total for one Bilan row, in fr_FR syntax.
-func ScoreFormula(row int) string {
-	return fmt.Sprintf("=MIN(%d; (%s%d+%s%d+%s%d+%s%d+%s%d+%s%d)/%d + %s%d/%d)",
-		MaxScore,
-		ColChallenge, row, ColTest13, row, ColTopaz, row, ColSapphire, row, ColPearl, row, ColFireDrill, row,
-		ArenaDivisor, ColGitHub, row, BonusDivisor)
-}
 
 // Link ties a validator to the GitHub account operating it.
 type Link struct {

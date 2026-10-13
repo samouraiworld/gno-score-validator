@@ -23,20 +23,25 @@ as an Editor.
 go build -o bin/scoresheet ./cmd/scoresheet
 ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 
+./bin/scoresheet score -dry                     # scorecard.json + page + scoreboard/, offline
+./bin/scoresheet render                        # scoreboard/ + page payload, offline
+./bin/scoresheet fetch -chain gnoland-1 -dry   # live report -> data/arenas/mainnet.csv, offline
+./bin/scoresheet -id $ID sheet diff            # sheet vs repo, cell by cell (read-only)
+./bin/scoresheet -id $ID sheet push -dry       # repo -> Bilan, arena tabs, Dashboard, lock
+./bin/scoresheet -id $ID sheet lock -dry       # protect every tab (service account only)
+./bin/scoresheet -id $ID freeze -dry           # arena tabs -> data/arenas/*.csv (import an edit)
 ./bin/scoresheet -id $ID audit                 # numbers stored as text (read-only)
 ./bin/scoresheet -id $ID dump "Bilan!A1:L3"    # inspect cells      (read-only)
-./bin/scoresheet -id $ID dashboard             # rebuild the Dashboard tab
-./bin/scoresheet -id $ID freeze -dry           # arena tabs -> data/arenas/*.csv
-./bin/scoresheet -id $ID snapshot -dry         # scorecard.json + page + scoreboard/
-./bin/scoresheet render                        # scoreboard/ + page payload, offline, no -id
-./bin/scoresheet fetch -chain gnoland-1 -dry  # live report -> data/arenas/mainnet.csv, no -id
 ```
+
+`snapshot`, `bilan`, `refresh`, `coerce` and `dashboard` are retired: each
+prints what replaces it.
 
 Verification is `go build`, `go vet ./...`, `gofmt -l .`, `go test ./...`,
 then `-dry` on every writing command before running it for real.
 
 **Every arena is final** (challenge, test13, topaz, sapphire, pearl, fire
-drill): `refresh` and `firedrill` refuse their tabs without `-force`
+drill): `fetch` and `firedrill` refuse them without `-force`
 (`scoring.FrozenTabs`). Only mainnet `gnoland-1` is expected to move. It is
 **shown, not scored** (owner decision 2026-10-12): on that date its 6
 validators were all team nodes, none of the 98 candidates, so a 7th arena would
@@ -45,16 +50,17 @@ candidate first joins it. Its `config/arenas.json` entry (id `mainnet`,
 `in_total: false`, `chain: gnoland-1`) is taken out of the arena list, so it
 has no component and no weight. `fetch -chain gnoland-1` (no `-id`,
 `current_year` like the testnets) writes `data/arenas/mainnet.csv`, and both
-`score` and `snapshot` build the `mainnet` block of `data/scorecard.json`
+`score` builds the `mainnet` block of `data/scorecard.json`
 from that file; no total reads it. `fetch` picks its CSV by the `chain` field
-of config and keeps `refresh`'s guards: frozen arenas and a report losing a
+of config and guards it: frozen arenas and a report losing a
 fifth of the file need `-force`.
 
-**Run order after changing any tab:** `dashboard` → `snapshot` (which also
-renders `scoreboard/`). Commit `scoreboard/` and the page with
-`data/scorecard.json`. To update mainnet: `fetch -chain gnoland-1 -dry`, then without `-dry`, then `score`.
-`bilan` only needs re-running when `data/github-links.csv` or the scoring formula
-changes.
+**Run order after changing any CSV** (an arena, `candidates.csv`,
+`github-links.csv`, `evidence.json`): `score` (which also renders
+`scoreboard/`), commit `scoreboard/` and the page with `data/scorecard.json`,
+then `sheet push -dry` and `sheet push`. To update mainnet: `fetch -chain
+gnoland-1 -dry`, then without `-dry`, then `score`. `sheet push` refuses to
+run while `scorecard.json` is stale, and while `sheet diff` finds anything.
 
 To eyeball the page, screenshot it rather than assuming — this is how the stale
 hardcoded footer date was caught:
@@ -67,12 +73,15 @@ hardcoded footer date was caught:
 
 ## Architecture
 
-**Bilan is the hub, and it is mostly formulas.** Columns C–G pull each arena
-with `=IFERROR(VLOOKUP(A2;'Score-pearl'!A:C;3;FALSE);0)` and column J is
-`=MIN(100; (C+D+E+F+G+H)/6 + I/10)`. So rewriting a network tab makes Bilan and
-the Dashboard recompute **on their own** — no command needed. Only
-`data/scorecard.json` and the HTML page are static and must be regenerated with
-`snapshot`.
+**The repo is the source of truth; the sheet is an output.** Every score is
+computed in Go from `config/arenas.json` and the CSVs under `data/`. `sheet
+push` writes Bilan and every arena tab as values (JSON numbers under RAW,
+never text, never formulas), rebuilds the Dashboard (formulas over Bilan, so
+its dropdown and charts stay live), leaves a note on A1 of each tab it writes
+and protects every tab so only the service account can edit it. The file
+owner can always edit regardless; `sheet push` runs `sheet diff` first and
+refuses to overwrite a difference without `-force`. To keep a sheet edit,
+`freeze` copies the tabs back to the CSVs for a pull request.
 
 **The join is by moniker, case-insensitively — never by address.** Validators
 rotate addresses between chains and between runs: only 17 of 86 sapphire
@@ -81,14 +90,18 @@ silently drop most rows.
 
 **The `github` blocks come from `data/github/evidence.json`.** The 12 linked
 validators carry an all-time versus since-2025 contribution split that exists
-in neither the sheet nor the CSVs. `snapshot` copies each block as
+in neither the sheet nor the CSVs. `score` copies each block as
 `json.RawMessage`, keyed by moniker, and refuses a block whose moniker matches
-no Bilan row. Edit that file, not the blocks in `scorecard.json`, which
-`snapshot` overwrites. Only `source` and the github weights are still
+no candidate. Edit that file, not the blocks in `scorecard.json`, which
+`score` overwrites. Only `source` and the github weights are still
 carried over from the previous `scorecard.json`.
 
-**Columns A–H of Bilan are human-curated and must never be written.** The tool
-writes only I, J, K, L.
+**Bilan is fully generated** (owner decision 2026-10-13, replacing "columns
+A–H are human-curated"). Its layout follows the config: moniker and Discord
+from `data/candidates.csv`, one column per arena in config order, then GitHub,
+Score, GitHub login and confidence. With six arenas that is A–L as before; a
+seventh shifts the last four right. Every cell is a value. Change a cell by
+editing its CSV in a pull request, never in the sheet.
 
 ## Settled decisions — do not "fix" these
 
@@ -112,9 +125,9 @@ Only **`sapphire-1`** and **`pearl-1`** are served by
 `https://gnomonitoring.samourai.live/api/reports/validators?chain=<id>`.
 `topaz-1` returns just the two remaining core validators, and `test13` is a
 `400 invalid chain ID` — so the frozen CSVs under `gno-monitoring-metrics/` are
-the only surviving record of those two chains. Never point `refresh` at
-`topaz-1`: it would wipe 85 rows down to 2. The frozen-tab and shrink guards
-now refuse that too.
+the only surviving record of those two chains. `fetch` refuses `topaz-1` (no
+config arena has that chain): its report would wipe 85 rows down to 2. The
+frozen and shrink guards refuse it too.
 
 ## Live pearl chain and the fire drill
 

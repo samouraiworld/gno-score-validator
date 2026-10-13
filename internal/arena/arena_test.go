@@ -5,8 +5,6 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-
-	"github.com/louisb/score-validator/internal/scoring"
 )
 
 func write(t *testing.T, path, body string) {
@@ -19,15 +17,11 @@ func write(t *testing.T, path, body string) {
 	}
 }
 
-// The committed config must agree with the divisor the sheet formula still
-// uses, until the formula is generated from the config too.
-func TestRepoConfigMatchesTheScoringRule(t *testing.T) {
+// The committed config and every file it names must load.
+func TestRepoConfigLoads(t *testing.T) {
 	c, err := LoadConfig(filepath.Join("..", "..", "config", "arenas.json"))
 	if err != nil {
 		t.Fatal(err)
-	}
-	if c.Divisor() != scoring.ArenaDivisor {
-		t.Errorf("config divides by %d, scoring.ArenaDivisor is %d", c.Divisor(), scoring.ArenaDivisor)
 	}
 	data := filepath.Join("..", "..", "data")
 	for _, a := range c.Arenas {
@@ -85,6 +79,9 @@ func TestLoadConfigRejects(t *testing.T) {
 		"mainnet no chain": `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","detail":"onchain"}]}`,
 		"mainnet detail":   `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"challenge"}]}`,
 		"mainnet twice":    `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"},{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
+		"tab twice":        `{"arenas":[` + ok + `,` + strings.Replace(ok, `"id":"a"`, `"id":"b"`, 1) + `]}`,
+		"tab Bilan":        `{"arenas":[` + strings.Replace(ok, `"tab":"T"`, `"tab":"bilan"`, 1) + `]}`,
+		"tab Dashboard":    `{"arenas":[` + strings.Replace(ok, `"tab":"T"`, `"tab":"Dashboard"`, 1) + `]}`,
 		"chain twice":      `{"arenas":[` + strings.Replace(ok, "}", `,"chain":"g-1"}`, 1) + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
 	} {
 		path := filepath.Join(t.TempDir(), "arenas.json")

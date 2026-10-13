@@ -6,13 +6,6 @@ import (
 	"testing"
 )
 
-func TestScoreFormula(t *testing.T) {
-	want := "=MIN(100; (C7+D7+E7+F7+G7+H7)/6 + I7/10)"
-	if got := ScoreFormula(7); got != want {
-		t.Errorf("ScoreFormula(7) = %s, want %s", got, want)
-	}
-}
-
 func TestFrozenTabs(t *testing.T) {
 	for _, tab := range []string{"Score-test13", "score-pearl", "Score-firedrill", "Test13-challenge"} {
 		if !IsFrozen(tab) {

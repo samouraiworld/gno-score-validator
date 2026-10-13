@@ -178,3 +178,31 @@ func TestLockRequests(t *testing.T) {
 		}
 	}
 }
+
+// With the committed six arenas, the computed layout must land every block
+// where the hard-coded Dashboard had it, so the tab looks the same.
+func TestDashLayoutMatchesSixArenaDashboard(t *testing.T) {
+	cfg, err := arena.LoadConfig(filepath.Join("..", "..", "config", "arenas.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	d := newDashLayout(cfg, 98)
+	got := []int{d.bilan.GitHub, d.bilan.Score, d.bilan.Login, d.bilan.Confidence,
+		d.profRows, d.onchBar, d.stdBar, d.stdFirst, d.helperRow,
+		d.stdScore, d.stdLogin, d.stdSpark, d.dashCols, d.chartCol, d.helperCol, d.gridCols, len(d.onchain)}
+	want := []int{8, 9, 10, 11, 8, 25, 39, 41, 150, 10, 11, 12, 13, 13, 14, 16, 4}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Fatalf("layout field %d = %d, want %d (all: %v)", i, got[i], want[i], got)
+		}
+	}
+	if r := d.bilanRange(d.bilan.Score); r != "'Bilan'!$J$2:$J$99" {
+		t.Fatalf("score range %s", r)
+	}
+
+	cfg.Arenas = append(cfg.Arenas, arena.Arena{ID: "x", Label: "X", Tab: "Score-x", InTotal: true})
+	d = newDashLayout(cfg, 120)
+	if d.stdScore != 11 || d.dashCols != 14 || d.profRows != 9 || d.helperRow != d.stdFirst+122 {
+		t.Fatalf("seven arenas: %+v", d)
+	}
+}

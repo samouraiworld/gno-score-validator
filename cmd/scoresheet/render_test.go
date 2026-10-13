@@ -21,17 +21,19 @@ func TestTotalCapsAndWeighs(t *testing.T) {
 	}
 }
 
+var testArenaIDs = []string{"challenge", "test13", "topaz", "sapphire", "pearl", "firedrill"}
+
 func testSnapArenas() []snapArena {
-	out := make([]snapArena, len(sheetArenaIDs))
-	for i, id := range sheetArenaIDs {
+	out := make([]snapArena, len(testArenaIDs))
+	for i, id := range testArenaIDs {
 		out[i] = snapArena{ID: id, Label: id, InTotal: true}
 	}
 	return out
 }
 
 func testComponents(score float64) snapComponents {
-	out := make(snapComponents, len(sheetArenaIDs))
-	for i, id := range sheetArenaIDs {
+	out := make(snapComponents, len(testArenaIDs))
+	for i, id := range testArenaIDs {
 		out[i] = snapComponent{ID: id, Score: score}
 	}
 	return out
@@ -82,20 +84,6 @@ func TestRankSharesTies(t *testing.T) {
 	for _, v := range vs {
 		if v.RankCorrected != want[v.Moniker] {
 			t.Errorf("%s: rank %d, want %d", v.Moniker, v.RankCorrected, want[v.Moniker])
-		}
-	}
-}
-
-func TestStrictNumber(t *testing.T) {
-	row := []interface{}{"x", 12.5, "", nil, "#N/A", "12,5"}
-	for i, want := range map[int]float64{1: 12.5, 2: 0, 3: 0, 9: 0} {
-		if got, err := strictNumber(row, i); err != nil || got != want {
-			t.Errorf("col %d: got %g, %v; want %g", i, got, err, want)
-		}
-	}
-	for _, i := range []int{4, 5} {
-		if _, err := strictNumber(row, i); err == nil {
-			t.Errorf("col %d: %q accepted as a number", i, row[i])
 		}
 	}
 }

@@ -44,8 +44,7 @@ func runFreeze(e *env, args []string) error {
 		}
 	}
 
-	rows, err := e.sheetValues(fmt.Sprintf("%s!%s%d:%s%d", sheetx.Ref(scoring.TabBilan),
-		scoring.ColMoniker, scoring.FirstRow, scoring.ColDiscord, scoring.LastRow))
+	rows, err := e.sheetValues(fmt.Sprintf("%s!A%d:B", sheetx.Ref(scoring.TabBilan), scoring.FirstRow))
 	if err != nil {
 		return err
 	}
