@@ -70,19 +70,21 @@ func TestLoadConfigTakesMainnetOut(t *testing.T) {
 func TestLoadConfigRejects(t *testing.T) {
 	ok := `{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}`
 	for name, body := range map[string]string{
-		"duplicate id":     `{"arenas":[` + ok + `,` + ok + `]}`,
-		"missing label":    `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
-		"nothing total":    `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
-		"unknown detail":   `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"detail":"x"}]}`,
-		"reserved id":      `{"arenas":[{"id":"github","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
-		"mainnet scored":   `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","in_total":true,"detail":"onchain"}]}`,
-		"mainnet no chain": `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","detail":"onchain"}]}`,
-		"mainnet detail":   `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"challenge"}]}`,
-		"mainnet twice":    `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"},{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
-		"tab twice":        `{"arenas":[` + ok + `,` + strings.Replace(ok, `"id":"a"`, `"id":"b"`, 1) + `]}`,
-		"tab Bilan":        `{"arenas":[` + strings.Replace(ok, `"tab":"T"`, `"tab":"bilan"`, 1) + `]}`,
-		"tab Dashboard":    `{"arenas":[` + strings.Replace(ok, `"tab":"T"`, `"tab":"Dashboard"`, 1) + `]}`,
-		"chain twice":      `{"arenas":[` + strings.Replace(ok, "}", `,"chain":"g-1"}`, 1) + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
+		"duplicate id":      `{"arenas":[` + ok + `,` + ok + `]}`,
+		"missing label":     `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
+		"nothing total":     `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
+		"unknown detail":    `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"detail":"x"}]}`,
+		"reserved id":       `{"arenas":[{"id":"github","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
+		"mainnet scored":    `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","in_total":true,"detail":"onchain"}]}`,
+		"mainnet no chain":  `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","detail":"onchain"}]}`,
+		"mainnet detail":    `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"challenge"}]}`,
+		"mainnet twice":     `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"},{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
+		"tab twice":         `{"arenas":[` + ok + `,` + strings.Replace(ok, `"id":"a"`, `"id":"b"`, 1) + `]}`,
+		"tab Bilan":         `{"arenas":[` + strings.Replace(ok, `"tab":"T"`, `"tab":"bilan"`, 1) + `]}`,
+		"tab Dashboard":     `{"arenas":[` + strings.Replace(ok, `"tab":"T"`, `"tab":"Dashboard"`, 1) + `]}`,
+		"mainnet on Bilan":  `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","tab":"Bilan","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
+		"mainnet tab taken": `{"arenas":[` + ok + `,{"id":"mainnet","label":"M","tab":"t","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
+		"chain twice":       `{"arenas":[` + strings.Replace(ok, "}", `,"chain":"g-1"}`, 1) + `,{"id":"mainnet","label":"M","moniker_column":"m","score_column":"s","chain":"g-1","detail":"onchain"}]}`,
 	} {
 		path := filepath.Join(t.TempDir(), "arenas.json")
 		write(t, path, body)

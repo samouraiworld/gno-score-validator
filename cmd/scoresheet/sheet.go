@@ -95,6 +95,15 @@ func expectedTabs(root string) (arena.Config, []sheetTab, error) {
 		}
 		tabs = append(tabs, t)
 	}
+	// Mainnet is shown, not scored: its tab is the fetched report, and
+	// neither Bilan nor the Dashboard reads it.
+	if m := cfg.Mainnet; m != nil && m.Tab != "" {
+		t, err := arenaTab(data, *m)
+		if err != nil {
+			return cfg, nil, err
+		}
+		tabs = append(tabs, t)
+	}
 	return cfg, tabs, nil
 }
 

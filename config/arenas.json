@@ -72,6 +72,7 @@
    "id": "mainnet",
    "label": "Mainnet · gnoland-1",
    "source": "gnomonitoring `gnoland-1`, live report",
+   "tab": "Score-mainnet",
    "chain": "gnoland-1",
    "moniker_column": "moniker",
    "score_column": "current_year_score",

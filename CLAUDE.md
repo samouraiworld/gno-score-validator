@@ -11,7 +11,8 @@ order to run things, and which decisions are already settled.
 `Score Gno-Validator`, id `1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA`
 (owner `lours@samourai.coop`). It is deliberately not hardcoded — every command
 takes `-id`. Tabs: `Dashboard`, `Bilan`, `Test13-challenge`, `Score-test13`,
-`Score-topaz`, `Score-sapphire`, `Score-pearl`, `Score-firedrill`, `Github`.
+`Score-topaz`, `Score-sapphire`, `Score-pearl`, `Score-firedrill`, `Score-mainnet`,
+`Github`.
 
 `service-account.json` is a **symlink** to `../gno-onboarding-bot/service-account.json`
 and is gitignored. The sheet must be shared with that account's `client_email`
@@ -47,8 +48,9 @@ drill): `fetch` and `firedrill` refuse them without `-force`
 validators were all team nodes, none of the 98 candidates, so a 7th arena would
 only have scaled every score down by 1/7. Its weight gets decided when a
 candidate first joins it. Its `config/arenas.json` entry (id `mainnet`,
-`in_total: false`, `chain: gnoland-1`) is taken out of the arena list, so it
-has no component and no weight. `fetch -chain gnoland-1` (no `-id`,
+`in_total: false`, `chain: gnoland-1`, `tab: Score-mainnet`) is taken out of
+the arena list, so it has no component, no Bilan column and no weight; `sheet
+push` writes its CSV as is to `Score-mainnet`. `fetch -chain gnoland-1` (no `-id`,
 `current_year` like the testnets) writes `data/arenas/mainnet.csv`, and `score`
 builds the `mainnet` block of `data/scorecard.json` from that file; no total
 reads it. `fetch` picks its CSV by the `chain` field of config and guards it:
