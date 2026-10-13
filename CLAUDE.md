@@ -38,7 +38,8 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 prints what replaces it.
 
 Verification is `go build`, `go vet ./...`, `gofmt -l .`, `go test ./...`,
-then `-dry` on every writing command before running it for real.
+then `-dry` on every writing command before running it for real (`export`
+ignores `-dry` and always saves its local PDF).
 
 **Every arena is final** (challenge, test13, topaz, sapphire, pearl, fire
 drill): `fetch` and `firedrill` refuse them without `-force`
@@ -49,18 +50,20 @@ only have scaled every score down by 1/7. Its weight gets decided when a
 candidate first joins it. Its `config/arenas.json` entry (id `mainnet`,
 `in_total: false`, `chain: gnoland-1`) is taken out of the arena list, so it
 has no component and no weight. `fetch -chain gnoland-1` (no `-id`,
-`current_year` like the testnets) writes `data/arenas/mainnet.csv`, and both
-`score` builds the `mainnet` block of `data/scorecard.json`
-from that file; no total reads it. `fetch` picks its CSV by the `chain` field
-of config and guards it: frozen arenas and a report losing a
-fifth of the file need `-force`.
+`current_year` like the testnets) writes `data/arenas/mainnet.csv`, and `score`
+builds the `mainnet` block of `data/scorecard.json` from that file; no total
+reads it. `fetch` picks its CSV by the `chain` field of config and guards it:
+frozen arenas and a report losing a fifth of the file need `-force`.
 
 **Run order after changing any CSV** (an arena, `candidates.csv`,
 `github-links.csv`, `evidence.json`): `score` (which also renders
 `scoreboard/`), commit `scoreboard/` and the page with `data/scorecard.json`,
-then `sheet push -dry` and `sheet push`. To update mainnet: `fetch -chain
-gnoland-1 -dry`, then without `-dry`, then `score`. `sheet push` refuses to
-run while `scorecard.json` is stale, and while `sheet diff` finds anything.
+then `sheet push -dry` and `sheet push -force`. `sheet push` refuses to run
+while `scorecard.json` is stale, and while `sheet diff` finds anything. The
+diff cannot tell a repo change from a sheet edit, so `-dry` lists the change
+being published too: force only when every listed cell is one the repo
+changed. To update mainnet: `fetch -chain gnoland-1 -dry`, then without
+`-dry`, then `score`.
 
 To eyeball the page, screenshot it rather than assuming — this is how the stale
 hardcoded footer date was caught:
@@ -138,23 +141,14 @@ candidates). It is an equal-weight arena; a candidate absent from its
 report scores zero there, with no last-known-value fallback.
 
 The fire drill is **not** an API chain. Its 2026-09-02 results are frozen in
-`data/fire-drill-2026-09-02.csv` and join to the scorecard by `moniker`.
+`data/arenas/firedrill.csv` (rebuilt by `firedrill` from the portal exports
+`scores.json` and `submissions.jsonl`) and join to the scorecard by `moniker`.
 `portal_moniker` preserves spellings altered by the portal's filename rules,
 while the exercise addresses are provenance only: none matches Score-pearl
 because validators rotated keys between exercises.
 
-**The divisor is the trap.** The fire drill creates six arenas, so
-`ArenaDivisor` is 6 or totals run past 100. The places that must move together
-are:
-
-| Where | What |
-| --- | --- |
-| `internal/scoring/scoring.go` | `ArenaDivisor = 6`, `ScoreFormula`, and `ColFireDrill = "H"` |
-| `config/arenas.json` | one entry per arena; a test fails if its count of `in_total` arenas differs from `ArenaDivisor` |
-| `cmd/scoresheet/snapshot.go` | `total()`, `snapComponents` (and `componentSetters` in `parity_test.go`) |
-| `cmd/scoresheet/dashboard.go` | the component list and its colour |
-| `web/validator-scorecard.html` | `SERIES`, `ARENA_WEIGHT`, the formula line in the static markup, and a nav button + page for the new arena |
-
-Bilan's column J formula is generated, so it follows `ScoreFormula`. Filling the
-reserved fire-drill column does not shift later columns, but `snapshot` reads
-Bilan by fixed index and must gain the new component explicitly.
+**The divisor follows the config.** It is the number of `in_total: true`
+arenas in `config/arenas.json`; nothing else hardcodes it. Adding an arena is
+one config entry plus `data/arenas/<id>.csv` — see `CONTRIBUTING.md`. The page,
+the scoreboard, Bilan's columns and the Dashboard all follow, and every total
+shifts by the new weight.
