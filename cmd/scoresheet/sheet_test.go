@@ -5,6 +5,8 @@ import (
 	"strings"
 	"testing"
 
+	"google.golang.org/api/sheets/v4"
+
 	"github.com/louisb/score-validator/internal/arena"
 	"github.com/louisb/score-validator/internal/scoring"
 )
@@ -146,5 +148,33 @@ func TestScorecardStaleIsRefused(t *testing.T) {
 	card.Validators[3].Components[4].Score += 1
 	if err := checkScorecardFresh(root, card); err == nil || !strings.Contains(err.Error(), "run score") {
 		t.Fatalf("stale scorecard accepted: %v", err)
+	}
+}
+
+func TestLockRequests(t *testing.T) {
+	ss := &sheets.Spreadsheet{Sheets: []*sheets.Sheet{
+		{Properties: &sheets.SheetProperties{SheetId: 0, Title: "Bilan"},
+			ProtectedRanges: []*sheets.ProtectedRange{
+				{ProtectedRangeId: 7, Description: lockDescription},
+				{ProtectedRangeId: 8, Description: "set by hand"},
+			}},
+		{Properties: &sheets.SheetProperties{SheetId: 42, Title: "Score-pearl"}},
+	}}
+	reqs := lockRequests(ss, "bot@example.iam")
+	if len(reqs) != 3 || reqs[0].DeleteProtectedRange == nil || reqs[0].DeleteProtectedRange.ProtectedRangeId != 7 {
+		t.Fatalf("want one delete of our lock then two adds, got %d requests", len(reqs))
+	}
+	for i, r := range reqs[1:] {
+		p := r.AddProtectedRange.ProtectedRange
+		b, err := p.Range.MarshalJSON()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(string(b), `"sheetId"`) || p.Range.SheetId != ss.Sheets[i].Properties.SheetId {
+			t.Fatalf("add %d: range %s does not name its tab", i, b)
+		}
+		if p.WarningOnly || len(p.Editors.Users) != 1 || p.Editors.Users[0] != "bot@example.iam" || p.Description != lockDescription {
+			t.Fatalf("add %d: %+v", i, p)
+		}
 	}
 }

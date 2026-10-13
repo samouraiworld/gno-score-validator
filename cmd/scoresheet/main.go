@@ -18,6 +18,7 @@
 //	dashboard   build the Dashboard tab from scratch
 //	export      save a tab as PDF, to eyeball the result
 //	sheet diff  list every cell where the sheet differs from the repo (read-only)
+//	sheet lock  protect every tab so only the service account can edit it
 //
 // Every writing command accepts -dry, which prints the plan and changes
 // nothing. Start there. The arena tabs are final: refresh and firedrill
@@ -38,10 +39,11 @@ import (
 )
 
 type env struct {
-	ctx  context.Context
-	svc  *sheets.Service
-	id   string
-	root string // repo root, for data files
+	ctx   context.Context
+	svc   *sheets.Service
+	id    string
+	root  string // repo root, for data files
+	creds string // key file, whose client_email sheet lock names as editor
 }
 
 func main() {
@@ -87,7 +89,7 @@ func main() {
 	if err != nil {
 		fatal(err)
 	}
-	e := &env{ctx: ctx, svc: svc, id: *id, root: *root}
+	e := &env{ctx: ctx, svc: svc, id: *id, root: *root, creds: *creds}
 
 	cmd, rest := args[0], args[1:]
 	switch cmd {
@@ -153,6 +155,8 @@ func usage() {
   export      save a tab as PDF, e.g. export Dashboard out.pdf
   sheet diff  list every cell where the sheet differs from data/scorecard.json and
               the arena CSVs; exits 1 when one does (read-only)
+  sheet lock  protect every tab, editable by the service account only;
+              the file owner keeps edit rights regardless  [-dry]
 
 Arena tabs are final. refresh and firedrill refuse to rewrite them without
 -force.

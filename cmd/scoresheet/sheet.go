@@ -22,6 +22,8 @@ func runSheet(e *env, args []string) error {
 	switch args[0] {
 	case "diff":
 		return runSheetDiff(e, args[1:])
+	case "lock":
+		return runSheetLock(e, args[1:])
 	default:
 		return fmt.Errorf("unknown sheet subcommand %q: want diff, lock or push", args[0])
 	}
