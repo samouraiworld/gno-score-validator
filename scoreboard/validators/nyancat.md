@@ -2,7 +2,7 @@
 
 # NyanCat
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 56 of 98** · **Score 59.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 44 | 7.33 |
-| test13 | 0 | 0.00 |
-| topaz | 91 | 15.17 |
-| sapphire | 94 | 15.67 |
-| pearl | 40 | 6.67 |
+| Test13 challenge | 44 | 7.33 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 91 | 15.17 |
+| Score · sapphire | 94 | 15.67 |
+| Score · pearl | 40 | 6.67 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **59.67** |

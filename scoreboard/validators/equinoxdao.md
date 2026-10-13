@@ -2,7 +2,7 @@
 
 # EquinoxDao
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 74 of 98** · **Score 40.73 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 70.4 | 11.73 |
-| test13 | 84 | 14.00 |
-| topaz | 90 | 15.00 |
-| sapphire | 0 | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 70.4 | 11.73 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 90 | 15.00 |
+| Score · sapphire | 0 | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **40.73** |

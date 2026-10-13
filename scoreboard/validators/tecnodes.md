@@ -2,7 +2,7 @@
 
 # Tecnodes
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 81 of 98** · **Score 23.57 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 45.4 | 7.57 |
-| test13 | 0 | 0.00 |
-| topaz | 96 | 16.00 |
-| sapphire | 0 | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 45.4 | 7.57 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 96 | 16.00 |
+| Score · sapphire | 0 | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **23.57** |

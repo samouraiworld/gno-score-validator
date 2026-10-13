@@ -2,7 +2,7 @@
 
 # linkednode
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 23 of 98** · **Score 79.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 75 | 12.50 |
-| test13 | 82 | 13.67 |
-| topaz | 71 | 11.83 |
-| sapphire | 94 | 15.67 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 75 | 12.50 |
+| Score · test13 | 82 | 13.67 |
+| Score · topaz | 71 | 11.83 |
+| Score · sapphire | 94 | 15.67 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 59 | 9.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **79.83** |

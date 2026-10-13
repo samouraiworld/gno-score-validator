@@ -2,7 +2,7 @@
 
 # cunum
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 32 of 98** · **Score 75.57 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 31.4 | 5.23 |
-| test13 | 76 | 12.67 |
-| topaz | 93 | 15.50 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 31.4 | 5.23 |
+| Score · test13 | 76 | 12.67 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 56 | 9.33 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **75.57** |

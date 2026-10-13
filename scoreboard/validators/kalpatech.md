@@ -2,7 +2,7 @@
 
 # KalpaTech
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 65 of 98** · **Score 54.10 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 59.6 | 9.93 |
-| test13 | 0 | 0.00 |
-| topaz | 70 | 11.67 |
-| sapphire | 52 | 8.67 |
-| pearl | 73 | 12.17 |
+| Test13 challenge | 59.6 | 9.93 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 70 | 11.67 |
+| Score · sapphire | 52 | 8.67 |
+| Score · pearl | 73 | 12.17 |
 | Fire drill | 70 | 11.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **54.10** |

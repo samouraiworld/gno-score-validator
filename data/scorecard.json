@@ -1,6 +1,56 @@
 {
- "generated_at": "2026-10-12",
+ "generated_at": "2026-10-13",
  "source": "Score Gno-Validator",
+ "arenas": [
+  {
+   "id": "challenge",
+   "label": "Test13 challenge",
+   "source": "test13 onboarding rubric, rated by hand",
+   "colour": "#eb6834",
+   "in_total": true,
+   "detail": "challenge"
+  },
+  {
+   "id": "test13",
+   "label": "Score · test13",
+   "source": "gnomonitoring, frozen CSV of 2026-07-21",
+   "colour": "#1baf7a",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "topaz",
+   "label": "Score · topaz",
+   "source": "gnomonitoring `topaz-1`, frozen CSV of 2026-08-10",
+   "colour": "#eda100",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "sapphire",
+   "label": "Score · sapphire",
+   "source": "gnomonitoring `sapphire-1`, final report",
+   "colour": "#2a78d6",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "pearl",
+   "label": "Score · pearl",
+   "source": "gnomonitoring `pearl-1`, final report",
+   "colour": "#8b5fd6",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "firedrill",
+   "label": "Fire drill",
+   "source": "2026-09-02 exercise, portal exports",
+   "colour": "#d64545",
+   "in_total": true,
+   "detail": "firedrill"
+  }
+ ],
  "weights": {
   "challenge": 0.16666666666666666,
   "test13": 0.16666666666666666,

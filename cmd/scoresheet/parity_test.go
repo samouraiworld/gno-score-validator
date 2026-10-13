@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"reflect"
 	"testing"
 
 	"github.com/louisb/score-validator/internal/arena"
@@ -42,9 +43,6 @@ func TestParityWithRepoCSVs(t *testing.T) {
 
 	scores := map[string]map[string]float64{}
 	for _, a := range cfg.Arenas {
-		if _, ok := componentSetters[a.ID]; !ok {
-			t.Fatalf("arena %q has no scorecard component", a.ID)
-		}
 		byKey, err := arena.LoadScores(data, a)
 		if err != nil {
 			t.Fatal(err)
@@ -89,12 +87,12 @@ func TestParityWithRepoCSVs(t *testing.T) {
 
 		var c snapComponents
 		for _, a := range cfg.Arenas {
-			componentSetters[a.ID](&c, scores[a.ID][k])
+			c = append(c, snapComponent{ID: a.ID, Score: scores[a.ID][k]})
 		}
 		if cand.Discord != want.Discord {
 			t.Errorf("%s: discord %q in candidates.csv, scorecard.json has %q", moniker, cand.Discord, want.Discord)
 		}
-		if c != want.Components {
+		if !reflect.DeepEqual(c, want.Components) {
 			t.Errorf("%s: components %+v, scorecard.json has %+v", moniker, c, want.Components)
 		}
 
@@ -125,8 +123,8 @@ func TestParityWithRepoCSVs(t *testing.T) {
 		}{
 			{"github_corrected", corrected, want.GithubCorrected},
 			{"github_current", current, want.GithubCurrent},
-			{"score_corrected", total(c, corrected), want.ScoreCorrected},
-			{"score_current", total(c, current), want.ScoreCurrent},
+			{"score_corrected", total(c, snap.Arenas, corrected), want.ScoreCorrected},
+			{"score_current", total(c, snap.Arenas, current), want.ScoreCurrent},
 		}
 		for _, ch := range checks {
 			if absDiff(ch.got, ch.want) > 1e-9 {

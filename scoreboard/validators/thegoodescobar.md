@@ -2,7 +2,7 @@
 
 # TheGoodEscobar
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 63 of 98** · **Score 54.60 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 57.6 | 9.60 |
-| test13 | 0 | 0.00 |
-| topaz | 94 | 15.67 |
-| sapphire | 26 | 4.33 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 57.6 | 9.60 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 94 | 15.67 |
+| Score · sapphire | 26 | 4.33 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **54.60** |

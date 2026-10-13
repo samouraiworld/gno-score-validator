@@ -2,7 +2,7 @@
 
 # ITRocket
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 2 of 98** · **Score 92.87 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 85.6 | 14.27 |
-| test13 | 85 | 14.17 |
-| topaz | 82 | 13.67 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 85.6 | 14.27 |
+| Score · test13 | 85 | 14.17 |
+| Score · topaz | 82 | 13.67 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 31 | 3.10 |
 | **Total** | | **92.87** |

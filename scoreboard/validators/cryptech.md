@@ -2,7 +2,7 @@
 
 # CrypTech
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 59 of 98** · **Score 57.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 68 | 11.33 |
-| test13 | 0 | 0.00 |
-| topaz | 82 | 13.67 |
-| sapphire | 11 | 1.83 |
-| pearl | 94 | 15.67 |
+| Test13 challenge | 68 | 11.33 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 82 | 13.67 |
+| Score · sapphire | 11 | 1.83 |
+| Score · pearl | 94 | 15.67 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **57.33** |

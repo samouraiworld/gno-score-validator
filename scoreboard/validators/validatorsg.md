@@ -2,7 +2,7 @@
 
 # validatorsg
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 78 of 98** · **Score 31.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 54 | 9.00 |
-| test13 | 17 | 2.83 |
-| topaz | 34 | 5.67 |
-| sapphire | 0 | 0.00 |
-| pearl | 32 | 5.33 |
+| Test13 challenge | 54 | 9.00 |
+| Score · test13 | 17 | 2.83 |
+| Score · topaz | 34 | 5.67 |
+| Score · sapphire | 0 | 0.00 |
+| Score · pearl | 32 | 5.33 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **31.50** |

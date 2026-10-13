@@ -2,7 +2,7 @@
 
 # NakoTurk
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 55 of 98** · **Score 62.17 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 59 | 9.83 |
-| test13 | 47 | 7.83 |
-| topaz | 91 | 15.17 |
-| sapphire | 93 | 15.50 |
-| pearl | 83 | 13.83 |
+| Test13 challenge | 59 | 9.83 |
+| Score · test13 | 47 | 7.83 |
+| Score · topaz | 91 | 15.17 |
+| Score · sapphire | 93 | 15.50 |
+| Score · pearl | 83 | 13.83 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **62.17** |

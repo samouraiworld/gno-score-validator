@@ -2,7 +2,7 @@
 
 # KonsorTech
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 49 of 98** · **Score 68.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 53 | 8.83 |
-| test13 | 70 | 11.67 |
-| topaz | 94 | 15.67 |
-| sapphire | 98 | 16.33 |
-| pearl | 97 | 16.17 |
+| Test13 challenge | 53 | 8.83 |
+| Score · test13 | 70 | 11.67 |
+| Score · topaz | 94 | 15.67 |
+| Score · sapphire | 98 | 16.33 |
+| Score · pearl | 97 | 16.17 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **68.67** |

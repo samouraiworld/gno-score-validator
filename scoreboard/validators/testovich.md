@@ -2,7 +2,7 @@
 
 # testovich
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 48 of 98** · **Score 68.77 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 67.6 | 11.27 |
-| test13 | 84 | 14.00 |
-| topaz | 93 | 15.50 |
-| sapphire | — | 0.00 |
-| pearl | 97 | 16.17 |
+| Test13 challenge | 67.6 | 11.27 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | 97 | 16.17 |
 | Fire drill | 71 | 11.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **68.77** |

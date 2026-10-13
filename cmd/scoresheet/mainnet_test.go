@@ -55,10 +55,10 @@ func TestMainnetStaysOutOfTotals(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	c := snapComponents{Challenge: 60, Test13: 60, Topaz: 60, Sapphire: 60, Pearl: 60, FireDrill: 60}
-	s := snapshot{GeneratedAt: "2026-10-12", Mainnet: m,
-		Validators: []snapValidator{{Moniker: "a", Components: c, ScoreCorrected: total(c, 0)}}}
-	if got := total(c, 0); got != 60 {
+	c, arenas := testComponents(60), testSnapArenas()
+	s := snapshot{GeneratedAt: "2026-10-12", Arenas: arenas, Mainnet: m,
+		Validators: []snapValidator{{Moniker: "a", Components: c, ScoreCorrected: total(c, arenas, 0)}}}
+	if got := total(c, arenas, 0); got != 60 {
 		t.Errorf("total = %g, want 60", got)
 	}
 	var b bytes.Buffer

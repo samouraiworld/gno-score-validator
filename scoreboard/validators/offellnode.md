@@ -2,7 +2,7 @@
 
 # offellNode
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 26 of 98** · **Score 78.40 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 58.4 | 9.73 |
-| test13 | 82 | 13.67 |
-| topaz | 58 | 9.67 |
-| sapphire | 97 | 16.17 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 58.4 | 9.73 |
+| Score · test13 | 82 | 13.67 |
+| Score · topaz | 58 | 9.67 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **78.40** |

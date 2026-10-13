@@ -2,7 +2,7 @@
 
 # CoreNode
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 28 of 98** · **Score 76.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 35 | 5.83 |
-| test13 | 84 | 14.00 |
-| topaz | 92 | 15.33 |
-| sapphire | 96 | 16.00 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 35 | 5.83 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 92 | 15.33 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 56 | 9.33 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **76.83** |

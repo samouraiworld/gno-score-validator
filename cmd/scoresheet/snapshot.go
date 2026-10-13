@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"time"
@@ -19,6 +21,7 @@ import (
 type snapshot struct {
 	GeneratedAt   string          `json:"generated_at"`
 	Source        string          `json:"source"`
+	Arenas        []snapArena     `json:"arenas"`
 	Weights       json.RawMessage `json:"weights"`
 	GithubWeights json.RawMessage `json:"github_score_weights"`
 	Validators    []snapValidator `json:"validators"`
@@ -50,13 +53,103 @@ type snapValidator struct {
 	RankCorrected int `json:"rank_corrected"`
 }
 
-type snapComponents struct {
-	Challenge float64 `json:"challenge"`
-	Test13    float64 `json:"test13"`
-	Topaz     float64 `json:"topaz"`
-	Sapphire  float64 `json:"sapphire"`
-	Pearl     float64 `json:"pearl"`
-	FireDrill float64 `json:"firedrill"`
+type snapArena struct {
+	ID      string `json:"id"`
+	Label   string `json:"label"`
+	Source  string `json:"source"`
+	Colour  string `json:"colour"`
+	InTotal bool   `json:"in_total"`
+	Detail  string `json:"detail"`
+}
+
+type snapComponent struct {
+	ID    string
+	Score float64
+}
+
+// snapComponents is an ordered object: JSON keeps the compact public shape,
+// while Go keeps config order instead of routing known ids into fixed fields.
+type snapComponents []snapComponent
+
+func (c snapComponents) Get(id string) float64 {
+	for _, component := range c {
+		if component.ID == id {
+			return component.Score
+		}
+	}
+	return 0
+}
+
+func (c snapComponents) Has(id string) bool {
+	for _, component := range c {
+		if component.ID == id {
+			return true
+		}
+	}
+	return false
+}
+
+func (c snapComponents) MarshalJSON() ([]byte, error) {
+	var b bytes.Buffer
+	b.WriteByte('{')
+	for i, component := range c {
+		if i > 0 {
+			b.WriteByte(',')
+		}
+		id, err := json.Marshal(component.ID)
+		if err != nil {
+			return nil, err
+		}
+		score, err := json.Marshal(component.Score)
+		if err != nil {
+			return nil, err
+		}
+		b.Write(id)
+		b.WriteByte(':')
+		b.Write(score)
+	}
+	b.WriteByte('}')
+	return b.Bytes(), nil
+}
+
+func (c *snapComponents) UnmarshalJSON(data []byte) error {
+	dec := json.NewDecoder(bytes.NewReader(data))
+	tok, err := dec.Token()
+	if err != nil {
+		return err
+	}
+	if d, ok := tok.(json.Delim); !ok || d != '{' {
+		return fmt.Errorf("components must be an object")
+	}
+	var out snapComponents
+	seen := map[string]bool{}
+	for dec.More() {
+		tok, err := dec.Token()
+		if err != nil {
+			return err
+		}
+		id := tok.(string)
+		if seen[id] {
+			return fmt.Errorf("component %q appears twice", id)
+		}
+		seen[id] = true
+		var score float64
+		if err := dec.Decode(&score); err != nil {
+			return fmt.Errorf("component %q: %w", id, err)
+		}
+		out = append(out, snapComponent{ID: id, Score: score})
+	}
+	if _, err := dec.Token(); err != nil {
+		return err
+	}
+	if _, err := dec.Token(); err != io.EOF {
+		if err == nil {
+			return fmt.Errorf("unexpected data after components")
+		}
+		return err
+	}
+	*c = out
+	return nil
 }
 
 type snapChallenge struct {
@@ -101,9 +194,9 @@ type snapOnchain struct {
 // it in the HTML page, so the two can never disagree about a score.
 //
 // Everything the sheet holds is rewritten from the sheet. The GitHub evidence
-// blocks come from data/github/evidence.json, and the remaining fields the
-// sheet does not hold (weights, source, mainnet) are carried over from the
-// existing file.
+// blocks come from data/github/evidence.json, arenas and weights come from
+// config, and the remaining fields the sheet does not hold (source, mainnet)
+// are carried over from the existing file.
 func runSnapshot(e *env, args []string) error {
 	fs := flag.NewFlagSet("snapshot", flag.ExitOnError)
 	dry := fs.Bool("dry", false, "print the plan without writing")
@@ -128,6 +221,14 @@ func runSnapshot(e *env, args []string) error {
 	if err != nil {
 		return err
 	}
+	if err := checkSheetArenaIDs(cfg); err != nil {
+		return err
+	}
+	arenas := snapshotArenas(cfg)
+	weights, err := snapshotWeights(cfg)
+	if err != nil {
+		return err
+	}
 	used := map[string]bool{}
 
 	rows, err := e.sheetValues(fmt.Sprintf("%s!A%d:L%d",
@@ -143,7 +244,8 @@ func runSnapshot(e *env, args []string) error {
 	next := snapshot{
 		GeneratedAt:   time.Now().UTC().Format("2006-01-02"),
 		Source:        prev.Source,
-		Weights:       prev.Weights,
+		Arenas:        arenas,
+		Weights:       weights,
 		GithubWeights: prev.GithubWeights,
 		// The sheet has no mainnet tab; the block is fetched by `mainnet`.
 		Mainnet: prev.Mainnet,
@@ -172,19 +274,20 @@ func runSnapshot(e *env, args []string) error {
 			}
 			nums[c] = f
 		}
+		components := make(snapComponents, len(sheetArenaIDs))
+		for i, id := range sheetArenaIDs {
+			components[i] = snapComponent{ID: id, Score: nums[i]}
+		}
 		v := snapValidator{
-			Moniker: moniker,
-			Discord: cell(row, 1),
-			Components: snapComponents{
-				Challenge: nums[0], Test13: nums[1], Topaz: nums[2],
-				Sapphire: nums[3], Pearl: nums[4], FireDrill: nums[5],
-			},
+			Moniker:         moniker,
+			Discord:         cell(row, 1),
+			Components:      components,
 			GithubCorrected: nums[6],
 			ScoreCorrected:  nums[7],
 			Onchain:         map[string]snapOnchain{},
 			Github:          evidence[scoring.Key(moniker)],
 		}
-		if want := total(v.Components, v.GithubCorrected); absDiff(want, v.ScoreCorrected) > 0.005 {
+		if want := total(v.Components, arenas, v.GithubCorrected); absDiff(want, v.ScoreCorrected) > 0.005 {
 			return fmt.Errorf("%s row %d (%s): column %s holds %g, the scoring rule gives %g",
 				scoring.TabBilan, sheetRow, moniker, scoring.ColScore, v.ScoreCorrected, want)
 		}
@@ -203,7 +306,7 @@ func runSnapshot(e *env, args []string) error {
 			}
 			v.GithubCurrent = scoring.GithubScore(g.AllTime)
 		}
-		v.ScoreCurrent = total(v.Components, v.GithubCurrent)
+		v.ScoreCurrent = total(v.Components, arenas, v.GithubCurrent)
 
 		used[scoring.Key(moniker)] = len(v.Github) > 0
 		next.Validators = append(next.Validators, v)
@@ -278,9 +381,48 @@ func loadSnapshot(path string) (snapshot, error) {
 	return s, json.Unmarshal(b, &s)
 }
 
-// total is the scoring rule over the scorecard's six components.
-func total(c snapComponents, github float64) float64 {
-	return scoring.Total([]float64{c.Challenge, c.Test13, c.Topaz, c.Sapphire, c.Pearl, c.FireDrill}, github)
+// total is the scoring rule over the snapshot's components that count.
+func total(c snapComponents, arenas []snapArena, github float64) float64 {
+	var scores []float64
+	for _, a := range arenas {
+		if a.InTotal {
+			scores = append(scores, c.Get(a.ID))
+		}
+	}
+	return scoring.Total(scores, github)
+}
+
+var sheetArenaIDs = []string{"challenge", "test13", "topaz", "sapphire", "pearl", "firedrill"}
+
+func checkSheetArenaIDs(cfg arena.Config) error {
+	if len(cfg.Arenas) != len(sheetArenaIDs) {
+		return fmt.Errorf("snapshot sheet path has fixed columns for arenas %v, config has %d arenas", sheetArenaIDs, len(cfg.Arenas))
+	}
+	for i, id := range sheetArenaIDs {
+		if cfg.Arenas[i].ID != id {
+			return fmt.Errorf("snapshot sheet path column %d is arena %q, config has %q", i+3, id, cfg.Arenas[i].ID)
+		}
+	}
+	return nil
+}
+
+func snapshotArenas(cfg arena.Config) []snapArena {
+	out := make([]snapArena, len(cfg.Arenas))
+	for i, a := range cfg.Arenas {
+		out[i] = snapArena{ID: a.ID, Label: a.Label, Source: a.Source, Colour: a.Colour, InTotal: a.InTotal, Detail: a.Detail}
+	}
+	return out
+}
+
+func snapshotWeights(cfg arena.Config) (json.RawMessage, error) {
+	weights := make(snapComponents, 0, cfg.Divisor()+1)
+	for _, a := range cfg.Arenas {
+		if a.InTotal {
+			weights = append(weights, snapComponent{ID: a.ID, Score: 1 / float64(cfg.Divisor())})
+		}
+	}
+	weights = append(weights, snapComponent{ID: "github_bonus", Score: 1 / float64(scoring.BonusDivisor)})
+	return json.Marshal(weights)
 }
 
 // rank fills both rank fields with scoring.Rank.

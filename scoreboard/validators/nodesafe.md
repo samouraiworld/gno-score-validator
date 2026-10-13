@@ -2,7 +2,7 @@
 
 # NodeSafe
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 67 of 98** · **Score 53.10 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 37.6 | 6.27 |
-| test13 | 61 | 10.17 |
-| topaz | 93 | 15.50 |
-| sapphire | 32 | 5.33 |
-| pearl | 6 | 1.00 |
+| Test13 challenge | 37.6 | 6.27 |
+| Score · test13 | 61 | 10.17 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 32 | 5.33 |
+| Score · pearl | 6 | 1.00 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **53.10** |

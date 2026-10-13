@@ -2,7 +2,7 @@
 
 # Vicky\_Pulsican
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 37 of 98** · **Score 73.40 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 75.4 | 12.57 |
-| test13 | 80 | 13.33 |
-| topaz | 68 | 11.33 |
-| sapphire | 44 | 7.33 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 75.4 | 12.57 |
+| Score · test13 | 80 | 13.33 |
+| Score · topaz | 68 | 11.33 |
+| Score · sapphire | 44 | 7.33 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 75 | 12.50 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **73.40** |

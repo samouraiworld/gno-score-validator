@@ -2,7 +2,7 @@
 
 # OshVanK
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 18 of 98** · **Score 82.27 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 71.6 | 11.93 |
-| test13 | 85 | 14.17 |
-| topaz | 63 | 10.50 |
-| sapphire | 95 | 15.83 |
-| pearl | 83 | 13.83 |
+| Test13 challenge | 71.6 | 11.93 |
+| Score · test13 | 85 | 14.17 |
+| Score · topaz | 63 | 10.50 |
+| Score · sapphire | 95 | 15.83 |
+| Score · pearl | 83 | 13.83 |
 | Fire drill | 96 | 16.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **82.27** |

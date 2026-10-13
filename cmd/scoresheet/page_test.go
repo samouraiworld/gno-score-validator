@@ -86,4 +86,12 @@ func TestCommittedPageEmbedsPublicPayload(t *testing.T) {
 	if emailRe.Match(html) {
 		t.Error("page carries an e-mail address")
 	}
+	if len(s.Arenas) == 0 || !bytes.Contains(m[2], []byte(`"arenas"`)) {
+		t.Error("page payload has no arenas")
+	}
+	for _, stale := range [][]byte{[]byte("const ARENA_WEIGHT = 1 / 6"), []byte("const SERIES = [")} {
+		if bytes.Contains(html, stale) {
+			t.Errorf("page still contains hardcoded arena JS %q", stale)
+		}
+	}
 }

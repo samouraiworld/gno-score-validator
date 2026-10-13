@@ -2,7 +2,7 @@
 
 # plantree
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 70 of 98** · **Score 45.00 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 60 | 10.00 |
-| test13 | 82 | 13.67 |
-| topaz | 92 | 15.33 |
-| sapphire | 36 | 6.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 60 | 10.00 |
+| Score · test13 | 82 | 13.67 |
+| Score · topaz | 92 | 15.33 |
+| Score · sapphire | 36 | 6.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **45.00** |

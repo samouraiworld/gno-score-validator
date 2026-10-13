@@ -2,7 +2,7 @@
 
 # Conqueror
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 7 of 98** · **Score 88.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 88 | 14.67 |
-| test13 | 69 | 11.50 |
-| topaz | 93 | 15.50 |
-| sapphire | 96 | 16.00 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 88 | 14.67 |
+| Score · test13 | 69 | 11.50 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **88.83** |

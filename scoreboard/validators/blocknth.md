@@ -2,7 +2,7 @@
 
 # BlockNth
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 10 of 98** · **Score 87.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 97 | 16.17 |
-| test13 | 85 | 14.17 |
-| topaz | 93 | 15.50 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 97 | 16.17 |
+| Score · test13 | 85 | 14.17 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **87.33** |

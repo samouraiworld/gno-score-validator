@@ -2,7 +2,7 @@
 
 # Trace
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 76 of 98** · **Score 36.10 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 39.6 | 6.60 |
-| test13 | 84 | 14.00 |
-| topaz | — | 0.00 |
-| sapphire | 93 | 15.50 |
-| pearl | — | 0.00 |
+| Test13 challenge | 39.6 | 6.60 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | — | 0.00 |
+| Score · sapphire | 93 | 15.50 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **36.10** |

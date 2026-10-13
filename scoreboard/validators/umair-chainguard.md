@@ -2,7 +2,7 @@
 
 # Umair\_ChainGuard
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 54 of 98** · **Score 62.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 73 | 12.17 |
-| test13 | 73 | 12.17 |
-| topaz | 74 | 12.33 |
-| sapphire | 0 | 0.00 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 73 | 12.17 |
+| Score · test13 | 73 | 12.17 |
+| Score · topaz | 74 | 12.33 |
+| Score · sapphire | 0 | 0.00 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 58 | 9.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **62.67** |

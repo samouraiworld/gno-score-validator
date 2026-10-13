@@ -2,7 +2,7 @@
 
 # KaLaMuC
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 19 of 98** · **Score 81.00 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 53 | 8.83 |
-| test13 | 84 | 14.00 |
-| topaz | 93 | 15.50 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 53 | 8.83 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 59 | 9.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **81.00** |

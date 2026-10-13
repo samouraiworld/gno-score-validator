@@ -2,7 +2,7 @@
 
 # ruangnode
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 46 of 98** · **Score 69.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 86 | 14.33 |
-| test13 | 80 | 13.33 |
-| topaz | 19 | 3.17 |
-| sapphire | 74 | 12.33 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 86 | 14.33 |
+| Score · test13 | 80 | 13.33 |
+| Score · topaz | 19 | 3.17 |
+| Score · sapphire | 74 | 12.33 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 59 | 9.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **69.67** |

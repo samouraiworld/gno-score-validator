@@ -2,7 +2,7 @@
 
 # Santala-Research
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 69 of 98** · **Score 48.73 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 62.4 | 10.40 |
-| test13 | 14 | 2.33 |
-| topaz | 11 | 1.83 |
-| sapphire | 24 | 4.00 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 62.4 | 10.40 |
+| Score · test13 | 14 | 2.33 |
+| Score · topaz | 11 | 1.83 |
+| Score · sapphire | 24 | 4.00 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 83 | 13.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **48.73** |

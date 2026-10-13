@@ -2,7 +2,7 @@
 
 # Oneiric Stake
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 71 of 98** · **Score 41.17 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 43 | 7.17 |
-| test13 | 57 | 9.50 |
-| topaz | 58 | 9.67 |
-| sapphire | 11 | 1.83 |
-| pearl | 6 | 1.00 |
+| Test13 challenge | 43 | 7.17 |
+| Score · test13 | 57 | 9.50 |
+| Score · topaz | 58 | 9.67 |
+| Score · sapphire | 11 | 1.83 |
+| Score · pearl | 6 | 1.00 |
 | Fire drill | 69 | 11.50 |
 | GitHub bonus | 5 | 0.50 |
 | **Total** | | **41.17** |

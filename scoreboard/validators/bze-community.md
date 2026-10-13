@@ -2,7 +2,7 @@
 
 # BZE Community
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 52 of 98** · **Score 66.93 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 28.6 | 4.77 |
-| test13 | 84 | 14.00 |
-| topaz | 93 | 15.50 |
-| sapphire | 96 | 16.00 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 28.6 | 4.77 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **66.93** |

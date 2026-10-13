@@ -47,6 +47,7 @@ func TestLoadConfigRejects(t *testing.T) {
 		"missing label":  `{"arenas":[{"id":"a","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
 		"nothing total":  `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s"}]}`,
 		"unknown detail": `{"arenas":[{"id":"a","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true,"detail":"x"}]}`,
+		"reserved id":    `{"arenas":[{"id":"github","label":"A","tab":"T","moniker_column":"m","score_column":"s","in_total":true}]}`,
 	} {
 		path := filepath.Join(t.TempDir(), "arenas.json")
 		write(t, path, body)

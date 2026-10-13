@@ -2,7 +2,7 @@
 
 # Roomit
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 87 of 98** · **Score 14.73 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 88.4 | 14.73 |
-| test13 | 0 | 0.00 |
-| topaz | 0 | 0.00 |
-| sapphire | — | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 88.4 | 14.73 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 0 | 0.00 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **14.73** |

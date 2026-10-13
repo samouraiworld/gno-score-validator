@@ -2,7 +2,7 @@
 
 # POSTHUMAN
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 29 of 98** · **Score 75.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 74 | 12.33 |
-| test13 | 84 | 14.00 |
-| topaz | 33 | 5.50 |
-| sapphire | 96 | 16.00 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 74 | 12.33 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 33 | 5.50 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 70 | 11.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **75.83** |

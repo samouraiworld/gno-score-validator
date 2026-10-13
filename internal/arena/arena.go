@@ -53,6 +53,10 @@ type Config struct {
 }
 
 // LoadConfig reads and checks config/arenas.json.
+// reservedIDs are the page's own sections. An arena named after one would get
+// the same nav entry and section id, and the page would open the wrong one.
+var reservedIDs = map[string]bool{"overview": true, "profile": true, "github": true, "mainnet": true}
+
 func LoadConfig(path string) (Config, error) {
 	var c Config
 	b, err := os.ReadFile(path)
@@ -76,6 +80,9 @@ func LoadConfig(path string) (Config, error) {
 		case "", DetailChallenge, DetailFireDrill, DetailOnchain:
 		default:
 			return c, fmt.Errorf("%s: arena %q has unknown detail %q", path, a.ID, a.Detail)
+		}
+		if reservedIDs[a.ID] {
+			return c, fmt.Errorf("%s: arena id %q is taken by a page of the scorecard", path, a.ID)
 		}
 		if seen[a.ID] {
 			return c, fmt.Errorf("%s: arena %q is listed twice", path, a.ID)

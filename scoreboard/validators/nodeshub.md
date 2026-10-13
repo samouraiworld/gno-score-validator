@@ -2,7 +2,7 @@
 
 # Nodeshub
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 79 of 98** · **Score 30.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 76 | 12.67 |
-| test13 | 0 | 0.00 |
-| topaz | 91 | 15.17 |
-| sapphire | 17 | 2.83 |
-| pearl | — | 0.00 |
+| Test13 challenge | 76 | 12.67 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 91 | 15.17 |
+| Score · sapphire | 17 | 2.83 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **30.67** |

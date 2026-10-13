@@ -2,7 +2,7 @@
 
 # Chainbase
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 17 of 98** · **Score 82.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 97 | 16.17 |
-| test13 | 69 | 11.50 |
-| topaz | 84 | 14.00 |
-| sapphire | 95 | 15.83 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 97 | 16.17 |
+| Score · test13 | 69 | 11.50 |
+| Score · topaz | 84 | 14.00 |
+| Score · sapphire | 95 | 15.83 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **82.50** |

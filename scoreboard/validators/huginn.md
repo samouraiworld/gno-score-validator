@@ -2,7 +2,7 @@
 
 # Huginn
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 75 of 98** · **Score 38.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 80 | 13.33 |
-| test13 | 61 | 10.17 |
-| topaz | 91 | 15.17 |
-| sapphire | — | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 80 | 13.33 |
+| Score · test13 | 61 | 10.17 |
+| Score · topaz | 91 | 15.17 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **38.67** |

@@ -2,7 +2,7 @@
 
 # HazenNetworkSolutions
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 36 of 98** · **Score 73.43 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 61 | 10.17 |
-| test13 | 84 | 14.00 |
-| topaz | 95 | 15.83 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 61 | 10.17 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 95 | 15.83 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 6 | 0.60 |
 | **Total** | | **73.43** |

@@ -2,7 +2,7 @@
 
 # OwlStake
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 77 of 98** · **Score 34.90 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 52.4 | 8.73 |
-| test13 | 30 | 5.00 |
-| topaz | 19 | 3.17 |
-| sapphire | 46 | 7.67 |
-| pearl | 62 | 10.33 |
+| Test13 challenge | 52.4 | 8.73 |
+| Score · test13 | 30 | 5.00 |
+| Score · topaz | 19 | 3.17 |
+| Score · sapphire | 46 | 7.67 |
+| Score · pearl | 62 | 10.33 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **34.90** |

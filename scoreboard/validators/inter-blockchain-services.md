@@ -2,7 +2,7 @@
 
 # Inter Blockchain Services
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 45 of 98** · **Score 69.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 0 | 0.00 |
-| test13 | 73 | 12.17 |
-| topaz | 91 | 15.17 |
-| sapphire | 78 | 13.00 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 0 | 0.00 |
+| Score · test13 | 73 | 12.17 |
+| Score · topaz | 91 | 15.17 |
+| Score · sapphire | 78 | 13.00 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **69.83** |

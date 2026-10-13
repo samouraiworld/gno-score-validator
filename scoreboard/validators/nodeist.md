@@ -2,7 +2,7 @@
 
 # Nodeist
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 47 of 98** · **Score 69.17 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 68 | 11.33 |
-| test13 | 69 | 11.50 |
-| topaz | 72 | 12.00 |
-| sapphire | 77 | 12.83 |
-| pearl | 77 | 12.83 |
+| Test13 challenge | 68 | 11.33 |
+| Score · test13 | 69 | 11.50 |
+| Score · topaz | 72 | 12.00 |
+| Score · sapphire | 77 | 12.83 |
+| Score · pearl | 77 | 12.83 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **69.17** |

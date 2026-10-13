@@ -11,25 +11,13 @@ import (
 	"github.com/louisb/score-validator/internal/scoring"
 )
 
-// componentSetters routes each arena id in config/arenas.json to its field of
-// the scorecard. An arena missing here is an error rather than a score that
-// silently vanishes from the page.
-var componentSetters = map[string]func(*snapComponents, float64){
-	"challenge": func(c *snapComponents, s float64) { c.Challenge = s },
-	"test13":    func(c *snapComponents, s float64) { c.Test13 = s },
-	"topaz":     func(c *snapComponents, s float64) { c.Topaz = s },
-	"sapphire":  func(c *snapComponents, s float64) { c.Sapphire = s },
-	"pearl":     func(c *snapComponents, s float64) { c.Pearl = s },
-	"firedrill": func(c *snapComponents, s float64) { c.FireDrill = s },
-}
-
 // runScore rebuilds data/scorecard.json from the files in the repo alone —
 // config/arenas.json, data/candidates.csv, data/arenas/*.csv,
 // data/github-links.csv and data/github/evidence.json — then re-embeds it in
 // the page and regenerates the scoreboard. No sheet, no key.
 //
-// Weights, source and the mainnet block are not in those files yet; they are
-// carried over from the existing scorecard.json.
+// Source and the mainnet block are not in those files yet, so they are carried
+// over from the existing scorecard.json. Arenas and weights come from config.
 func runScore(root string, args []string) error {
 	fs := flag.NewFlagSet("score", flag.ExitOnError)
 	dry := fs.Bool("dry", false, "print the plan without writing")
@@ -88,9 +76,6 @@ func buildScorecard(root string, prev snapshot) (snapshot, error) {
 		GithubAllTime: map[string]float64{},
 	}
 	for _, a := range cfg.Arenas {
-		if _, ok := componentSetters[a.ID]; !ok {
-			return snapshot{}, fmt.Errorf("arena %q has no scorecard component", a.ID)
-		}
 		scores, err := arena.LoadScores(data, a)
 		if err != nil {
 			return snapshot{}, err
@@ -128,9 +113,13 @@ func buildScorecard(root string, prev snapshot) (snapshot, error) {
 	next := snapshot{
 		GeneratedAt:   prev.GeneratedAt,
 		Source:        prev.Source,
-		Weights:       prev.Weights,
+		Arenas:        snapshotArenas(cfg),
 		GithubWeights: prev.GithubWeights,
 		Mainnet:       prev.Mainnet,
+	}
+	next.Weights, err = snapshotWeights(cfg)
+	if err != nil {
+		return snapshot{}, err
 	}
 	for i, r := range results {
 		v := snapValidator{
@@ -145,8 +134,8 @@ func buildScorecard(root string, prev snapshot) (snapshot, error) {
 			RankCurrent:     r.RankCurrent,
 			RankCorrected:   r.RankCorrected,
 		}
-		for id, s := range r.Components {
-			componentSetters[id](&v.Components, s)
+		for _, a := range cfg.Arenas {
+			v.Components = append(v.Components, snapComponent{ID: a.ID, Score: r.Components[a.ID]})
 		}
 		det.attach(&v)
 		next.Validators = append(next.Validators, v)

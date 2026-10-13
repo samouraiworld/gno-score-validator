@@ -2,7 +2,7 @@
 
 # HaruNode
 
-[← Scoreboard](../README.md) · Data as of 2026-10-12
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 88 of 98** · **Score 13.57 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 65.4 | 10.90 |
-| test13 | 0 | 0.00 |
-| topaz | 0 | 0.00 |
-| sapphire | 0 | 0.00 |
-| pearl | 16 | 2.67 |
+| Test13 challenge | 65.4 | 10.90 |
+| Score · test13 | 0 | 0.00 |
+| Score · topaz | 0 | 0.00 |
+| Score · sapphire | 0 | 0.00 |
+| Score · pearl | 16 | 2.67 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **13.57** |
