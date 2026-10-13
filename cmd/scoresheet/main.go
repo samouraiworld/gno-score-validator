@@ -17,6 +17,7 @@
 //	fetch       write a chain's live gnomonitoring report to data/arenas/ (no sheet)
 //	dashboard   build the Dashboard tab from scratch
 //	export      save a tab as PDF, to eyeball the result
+//	sheet diff  list every cell where the sheet differs from the repo (read-only)
 //
 // Every writing command accepts -dry, which prints the plan and changes
 // nothing. Start there. The arena tabs are final: refresh and firedrill
@@ -110,6 +111,8 @@ func main() {
 		err = runDashboard(e, rest)
 	case "export":
 		err = runExport(e, rest)
+	case "sheet":
+		err = runSheet(e, rest)
 	default:
 		fmt.Fprintf(os.Stderr, "unknown command %q\n\n", cmd)
 		usage()
@@ -148,6 +151,8 @@ func usage() {
               (no -id needed)           -chain <id> [-dry] [-force]
   dashboard   rebuild the Dashboard tab
   export      save a tab as PDF, e.g. export Dashboard out.pdf
+  sheet diff  list every cell where the sheet differs from data/scorecard.json and
+              the arena CSVs; exits 1 when one does (read-only)
 
 Arena tabs are final. refresh and firedrill refuse to rewrite them without
 -force.
