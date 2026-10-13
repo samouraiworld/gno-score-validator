@@ -10,11 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"google.golang.org/api/sheets/v4"
-
+	"github.com/louisb/score-validator/internal/arena"
 	"github.com/louisb/score-validator/internal/firedrill"
-	"github.com/louisb/score-validator/internal/scoring"
-	"github.com/louisb/score-validator/internal/sheetx"
 )
 
 // firedrillHeader is the tab and the CSV, which hold the same nine columns.
@@ -25,7 +22,8 @@ var firedrillHeader = []string{
 	"incident_response_quality_score", "findings", "operator_address",
 }
 
-// runFiredrill rebuilds the fire drill CSV and tab from the portal exports.
+// runFiredrill rebuilds the fire drill arena CSV from the portal exports. It
+// writes the CSV only, like fetch: run score, then sheet push, afterwards.
 //
 // It merges rather than regenerates. The findings column carries hand-written
 // conduct notes — "Walked another validator through the whole signing chain" —
@@ -37,18 +35,31 @@ func runFiredrill(e *env, args []string) error {
 	dry := fs.Bool("dry", false, "print the plan without writing")
 	scoresPath := fs.String("scores", "scores.json", "portal scores export")
 	subsPath := fs.String("submissions", "submissions.jsonl", "portal submissions export")
-	csvPath := fs.String("csv", "", "rubric CSV (default data/fire-drill-2026-09-02.csv)")
+	csvPath := fs.String("csv", "", "rubric CSV (default the fire drill arena's CSV under data/arenas/)")
 	force := fs.Bool("force", false, "rewrite the frozen fire drill result")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
+	cfg, err := e.arenas()
+	if err != nil {
+		return err
+	}
+	var drill *arena.Arena
+	for i, a := range cfg.Arenas {
+		if a.Detail == arena.DetailFireDrill {
+			drill = &cfg.Arenas[i]
+		}
+	}
+	if drill == nil {
+		return fmt.Errorf("config/arenas.json has no arena with detail %q", arena.DetailFireDrill)
+	}
 	if !*dry {
-		if err := guardFrozen(scoring.TabFireDrill, *force); err != nil {
+		if err := guardFrozen(drill.Tab, *force); err != nil {
 			return err
 		}
 	}
 	if *csvPath == "" {
-		*csvPath = e.data("fire-drill-2026-09-02.csv")
+		*csvPath = drill.File(e.data(""))
 	}
 
 	results, err := firedrill.Load(*scoresPath, *subsPath)
@@ -77,8 +88,8 @@ func runFiredrill(e *env, args []string) error {
 		moniker := prev.moniker
 		findings := prev.findings
 		if !seen {
-			// Resolve the portal's spelling against the scorecard, which is
-			// the only name Bilan's VLOOKUP will match.
+			// Resolve the portal's spelling against the scorecard, so the
+			// row joins to its candidate under scoring.Key.
 			if m, ok := known[strings.ToLower(r.Moniker)]; ok {
 				moniker = m
 			} else {
@@ -111,7 +122,7 @@ func runFiredrill(e *env, args []string) error {
 	})
 
 	fmt.Printf("\n%d submitters (%d new, %d rescored), %d candidates score 0\n",
-		len(rows), added, changed, scoring.NumRows-len(rows))
+		len(rows), added, changed, len(known)-len(rows))
 	if *dry {
 		fmt.Println("-dry — nothing written.")
 		return nil
@@ -125,28 +136,7 @@ func runFiredrill(e *env, args []string) error {
 		return err
 	}
 
-	ss, err := e.svc.Spreadsheets.Get(e.id).Do()
-	if err != nil {
-		return err
-	}
-	if _, ok := sheetx.SheetID(ss, scoring.TabFireDrill); !ok {
-		return fmt.Errorf("tab %q not found", scoring.TabFireDrill)
-	}
-	ref := sheetx.Ref(scoring.TabFireDrill)
-	if _, err := e.svc.Spreadsheets.Values.Update(e.id,
-		fmt.Sprintf("%s!A1:I%d", ref, len(out)),
-		&sheets.ValueRange{Values: out}).ValueInputOption("RAW").Do(); err != nil {
-		return err
-	}
-	// Rows below the new data would keep answering VLOOKUP for a validator the
-	// exports no longer carry.
-	if _, err := e.svc.Spreadsheets.Values.Clear(e.id,
-		fmt.Sprintf("%s!A%d:I1000", ref, len(out)+1),
-		&sheets.ClearValuesRequest{}).Do(); err != nil {
-		return err
-	}
-
-	fmt.Printf("wrote %s and %s.\n", *csvPath, scoring.TabFireDrill)
+	fmt.Printf("wrote %s; run score, then sheet push.\n", *csvPath)
 	return nil
 }
 
@@ -204,7 +194,7 @@ func writeFiredrillCSV(path string, rows [][]interface{}) error {
 }
 
 // scorecardMonikers indexes the candidate list by lowercased moniker, the way
-// the sheet's VLOOKUP matches it.
+// scoring.Key matches it.
 func (e *env) scorecardMonikers() (map[string]string, error) {
 	b, err := os.ReadFile(e.data("scorecard.json"))
 	if err != nil {

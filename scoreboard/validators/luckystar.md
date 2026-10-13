@@ -2,7 +2,7 @@
 
 # LuckyStar
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 61 of 98** · **Score 55.73 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 78.4 | 13.07 |
-| test13 | 38 | 6.33 |
-| topaz | 45 | 7.50 |
-| sapphire | 30 | 5.00 |
-| pearl | 54 | 9.00 |
+| Test13 challenge | 78.4 | 13.07 |
+| Score · test13 | 38 | 6.33 |
+| Score · topaz | 45 | 7.50 |
+| Score · sapphire | 30 | 5.00 |
+| Score · pearl | 54 | 9.00 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **55.73** |

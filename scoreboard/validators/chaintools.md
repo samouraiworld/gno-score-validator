@@ -2,7 +2,7 @@
 
 # ChainTools
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 44 of 98** · **Score 70.77 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 56.6 | 9.43 |
-| test13 | 82 | 13.67 |
-| topaz | 89 | 14.83 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 56.6 | 9.43 |
+| Score · test13 | 82 | 13.67 |
+| Score · topaz | 89 | 14.83 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **70.77** |

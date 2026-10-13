@@ -2,7 +2,7 @@
 
 # HusoNode
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 41 of 98** · **Score 71.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 58 | 9.67 |
-| test13 | 63 | 10.50 |
-| topaz | 71 | 11.83 |
-| sapphire | 61 | 10.17 |
-| pearl | 87 | 14.50 |
+| Test13 challenge | 58 | 9.67 |
+| Score · test13 | 63 | 10.50 |
+| Score · topaz | 71 | 11.83 |
+| Score · sapphire | 61 | 10.17 |
+| Score · pearl | 87 | 14.50 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **71.50** |

@@ -2,7 +2,7 @@
 
 # doresa
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 51 of 98** · **Score 67.23 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 45.4 | 7.57 |
-| test13 | 71 | 11.83 |
-| topaz | 35 | 5.83 |
-| sapphire | 100 | 16.67 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 45.4 | 7.57 |
+| Score · test13 | 71 | 11.83 |
+| Score · topaz | 35 | 5.83 |
+| Score · sapphire | 100 | 16.67 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **67.23** |

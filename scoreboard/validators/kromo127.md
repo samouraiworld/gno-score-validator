@@ -2,7 +2,7 @@
 
 # Kromo127
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 33 of 98** · **Score 75.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 73 | 12.17 |
-| test13 | 59 | 9.83 |
-| topaz | 93 | 15.50 |
-| sapphire | 77 | 12.83 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 73 | 12.17 |
+| Score · test13 | 59 | 9.83 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 77 | 12.83 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **75.33** |

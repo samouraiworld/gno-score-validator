@@ -2,7 +2,7 @@
 
 # ESERCKR
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 27 of 98** · **Score 78.07 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 68.4 | 11.40 |
-| test13 | 67 | 11.17 |
-| topaz | 85 | 14.17 |
-| sapphire | 96 | 16.00 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 68.4 | 11.40 |
+| Score · test13 | 67 | 11.17 |
+| Score · topaz | 85 | 14.17 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **78.07** |

@@ -2,7 +2,7 @@
 
 # tanjira
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 66 of 98** · **Score 53.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 70 | 11.67 |
-| test13 | 38 | 6.33 |
-| topaz | 38 | 6.33 |
-| sapphire | 6 | 1.00 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 70 | 11.67 |
+| Score · test13 | 38 | 6.33 |
+| Score · topaz | 38 | 6.33 |
+| Score · sapphire | 6 | 1.00 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 71 | 11.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **53.83** |

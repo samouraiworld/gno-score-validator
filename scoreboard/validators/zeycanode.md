@@ -2,7 +2,7 @@
 
 # ZeycaNode
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 15 of 98** · **Score 83.43 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 74 | 12.33 |
-| test13 | 85 | 14.17 |
-| topaz | 73 | 12.17 |
-| sapphire | 97 | 16.17 |
-| pearl | 85 | 14.17 |
+| Test13 challenge | 74 | 12.33 |
+| Score · test13 | 85 | 14.17 |
+| Score · topaz | 73 | 12.17 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 85 | 14.17 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 16 | 1.60 |
 | **Total** | | **83.43** |

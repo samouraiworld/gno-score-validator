@@ -2,7 +2,7 @@
 
 # VinjanInc
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 16 of 98** · **Score 82.90 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 73.4 | 12.23 |
-| test13 | 84 | 14.00 |
-| topaz | 93 | 15.50 |
-| sapphire | 97 | 16.17 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 73.4 | 12.23 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **82.90** |

@@ -2,7 +2,7 @@
 
 # nomadvalidator
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 24 of 98** · **Score 79.27 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 69.6 | 11.60 |
-| test13 | 66 | 11.00 |
-| topaz | 77 | 12.83 |
-| sapphire | 82 | 13.67 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 69.6 | 11.60 |
+| Score · test13 | 66 | 11.00 |
+| Score · topaz | 77 | 12.83 |
+| Score · sapphire | 82 | 13.67 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 83 | 13.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **79.27** |

@@ -2,7 +2,7 @@
 
 # coinsspor
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 39 of 98** · **Score 72.47 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 85 | 14.17 |
-| test13 | 67 | 11.17 |
-| topaz | 92 | 15.33 |
-| sapphire | 80 | 13.33 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 85 | 14.17 |
+| Score · test13 | 67 | 11.17 |
+| Score · topaz | 92 | 15.33 |
+| Score · sapphire | 80 | 13.33 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 18 | 1.80 |
 | **Total** | | **72.47** |

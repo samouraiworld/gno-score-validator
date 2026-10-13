@@ -2,7 +2,7 @@
 
 # VALIDARIOS
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 86 of 98** · **Score 17.77 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 54.6 | 9.10 |
-| test13 | 20 | 3.33 |
-| topaz | 0 | 0.00 |
-| sapphire | 7 | 1.17 |
-| pearl | 25 | 4.17 |
+| Test13 challenge | 54.6 | 9.10 |
+| Score · test13 | 20 | 3.33 |
+| Score · topaz | 0 | 0.00 |
+| Score · sapphire | 7 | 1.17 |
+| Score · pearl | 25 | 4.17 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **17.77** |

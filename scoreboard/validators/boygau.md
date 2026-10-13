@@ -2,7 +2,7 @@
 
 # BoyGau
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 60 of 98** · **Score 56.90 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 53.4 | 8.90 |
-| test13 | 82 | 13.67 |
-| topaz | 61 | 10.17 |
-| sapphire | 7 | 1.17 |
-| pearl | 79 | 13.17 |
+| Test13 challenge | 53.4 | 8.90 |
+| Score · test13 | 82 | 13.67 |
+| Score · topaz | 61 | 10.17 |
+| Score · sapphire | 7 | 1.17 |
+| Score · pearl | 79 | 13.17 |
 | Fire drill | 59 | 9.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **56.90** |

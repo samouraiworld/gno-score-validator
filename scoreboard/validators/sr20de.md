@@ -2,7 +2,7 @@
 
 # Sr20de
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 57 of 98** · **Score 59.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 38 | 6.33 |
-| test13 | 69 | 11.50 |
-| topaz | 62 | 10.33 |
-| sapphire | 96 | 16.00 |
-| pearl | 92 | 15.33 |
+| Test13 challenge | 38 | 6.33 |
+| Score · test13 | 69 | 11.50 |
+| Score · topaz | 62 | 10.33 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 92 | 15.33 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **59.50** |

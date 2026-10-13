@@ -2,7 +2,7 @@
 
 # Cogwheel
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 1 of 98** · **Score 95.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 100 | 16.67 |
-| test13 | 85 | 14.17 |
-| topaz | 96 | 16.00 |
-| sapphire | 96 | 16.00 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 100 | 16.67 |
+| Score · test13 | 85 | 14.17 |
+| Score · topaz | 96 | 16.00 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 96 | 16.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **95.50** |

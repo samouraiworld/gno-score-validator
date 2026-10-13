@@ -1,0 +1,82 @@
+{
+ "arenas": [
+  {
+   "id": "challenge",
+   "label": "Test13 challenge",
+   "source": "test13 onboarding rubric, rated by hand",
+   "tab": "Test13-challenge",
+   "moniker_column": "Moniker",
+   "score_column": "Score",
+   "colour": "#eb6834",
+   "in_total": true,
+   "detail": "challenge"
+  },
+  {
+   "id": "test13",
+   "label": "Score · test13",
+   "source": "gnomonitoring, frozen CSV of 2026-07-21",
+   "tab": "Score-test13",
+   "moniker_column": "moniker",
+   "score_column": "Score",
+   "colour": "#1baf7a",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "topaz",
+   "label": "Score · topaz",
+   "source": "gnomonitoring `topaz-1`, frozen CSV of 2026-08-10",
+   "tab": "Score-topaz",
+   "moniker_column": "moniker",
+   "score_column": "Score",
+   "colour": "#eda100",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "sapphire",
+   "label": "Score · sapphire",
+   "source": "gnomonitoring `sapphire-1`, final report",
+   "tab": "Score-sapphire",
+   "chain": "sapphire-1",
+   "moniker_column": "moniker",
+   "score_column": "current_year_score",
+   "colour": "#2a78d6",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "pearl",
+   "label": "Score · pearl",
+   "source": "gnomonitoring `pearl-1`, final report",
+   "tab": "Score-pearl",
+   "chain": "pearl-1",
+   "moniker_column": "moniker",
+   "score_column": "current_year_score",
+   "colour": "#8b5fd6",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "firedrill",
+   "label": "Fire drill",
+   "source": "2026-09-02 exercise, portal exports",
+   "tab": "Score-firedrill",
+   "moniker_column": "moniker",
+   "score_column": "score",
+   "colour": "#d64545",
+   "in_total": true,
+   "detail": "firedrill"
+  },
+  {
+   "id": "mainnet",
+   "label": "Mainnet · gnoland-1",
+   "source": "gnomonitoring `gnoland-1`, live report",
+   "chain": "gnoland-1",
+   "moniker_column": "moniker",
+   "score_column": "current_year_score",
+   "in_total": false,
+   "detail": "onchain"
+  }
+ ]
+}

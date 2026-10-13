@@ -2,7 +2,7 @@
 
 # Sychonix
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 33 of 98** · **Score 75.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 59 | 9.83 |
-| test13 | 69 | 11.50 |
-| topaz | 77 | 12.83 |
-| sapphire | 95 | 15.83 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 59 | 9.83 |
+| Score · test13 | 69 | 11.50 |
+| Score · topaz | 77 | 12.83 |
+| Score · sapphire | 95 | 15.83 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **75.33** |

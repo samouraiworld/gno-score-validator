@@ -2,19 +2,73 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
 func TestTotalCapsAndWeighs(t *testing.T) {
-	c := snapComponents{Challenge: 60, Test13: 60, Topaz: 60, Sapphire: 60, Pearl: 60, FireDrill: 60}
-	if got := total(c, 50); got != 65 {
+	arenas := testSnapArenas()
+	c := testComponents(60)
+	if got := total(c, arenas, 50); got != 65 {
 		t.Errorf("total = %g, want 60 + 50/10 = 65", got)
 	}
-	full := snapComponents{Challenge: 100, Test13: 100, Topaz: 100, Sapphire: 100, Pearl: 100, FireDrill: 100}
-	if got := total(full, 100); got != 100 {
+	full := testComponents(100)
+	if got := total(full, arenas, 100); got != 100 {
 		t.Errorf("total = %g, want the cap of 100", got)
+	}
+}
+
+var testArenaIDs = []string{"challenge", "test13", "topaz", "sapphire", "pearl", "firedrill"}
+
+func testSnapArenas() []snapArena {
+	out := make([]snapArena, len(testArenaIDs))
+	for i, id := range testArenaIDs {
+		out[i] = snapArena{ID: id, Label: id, InTotal: true}
+	}
+	return out
+}
+
+func testComponents(score float64) snapComponents {
+	out := make(snapComponents, len(testArenaIDs))
+	for i, id := range testArenaIDs {
+		out[i] = snapComponent{ID: id, Score: score}
+	}
+	return out
+}
+
+func TestComponentsRoundTripPreservesOrder(t *testing.T) {
+	raw, err := os.ReadFile(filepath.Join("..", "..", "data", "scorecard.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	type rawFile struct {
+		Validators []struct {
+			Components json.RawMessage `json:"components"`
+		} `json:"validators"`
+	}
+	var before rawFile
+	if err := json.Unmarshal(raw, &before); err != nil {
+		t.Fatal(err)
+	}
+	var snap snapshot
+	if err := json.Unmarshal(raw, &snap); err != nil {
+		t.Fatal(err)
+	}
+	roundTrip, err := json.MarshalIndent(snap, "", " ")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var after rawFile
+	if err := json.Unmarshal(roundTrip, &after); err != nil {
+		t.Fatal(err)
+	}
+	for i := range before.Validators {
+		if !bytes.Equal(before.Validators[i].Components, after.Validators[i].Components) {
+			t.Fatalf("validator %d components changed:\n got %s\nwant %s", i, after.Validators[i].Components, before.Validators[i].Components)
+		}
 	}
 }
 
@@ -30,20 +84,6 @@ func TestRankSharesTies(t *testing.T) {
 	for _, v := range vs {
 		if v.RankCorrected != want[v.Moniker] {
 			t.Errorf("%s: rank %d, want %d", v.Moniker, v.RankCorrected, want[v.Moniker])
-		}
-	}
-}
-
-func TestStrictNumber(t *testing.T) {
-	row := []interface{}{"x", 12.5, "", nil, "#N/A", "12,5"}
-	for i, want := range map[int]float64{1: 12.5, 2: 0, 3: 0, 9: 0} {
-		if got, err := strictNumber(row, i); err != nil || got != want {
-			t.Errorf("col %d: got %g, %v; want %g", i, got, err, want)
-		}
-	}
-	for _, i := range []int{4, 5} {
-		if _, err := strictNumber(row, i); err == nil {
-			t.Errorf("col %d: %q accepted as a number", i, row[i])
 		}
 	}
 }
@@ -85,5 +125,19 @@ func TestRenderIsDeterministic(t *testing.T) {
 	pages, _ := os.ReadDir(filepath.Join(a, scoreboardDir, validatorsDir))
 	if len(pages) != len(s.Validators) {
 		t.Errorf("%d pages for %d validators", len(pages), len(s.Validators))
+	}
+}
+
+func TestRenderRefusesScorecardWithoutArenas(t *testing.T) {
+	if err := render(snapshot{}, t.TempDir()); err == nil || !strings.Contains(err.Error(), "no arenas") {
+		t.Fatalf("render error = %v, want a clear no-arenas error", err)
+	}
+}
+
+func TestRenderRefusesMissingComponent(t *testing.T) {
+	c := testComponents(60)[1:]
+	s := snapshot{Arenas: testSnapArenas(), Validators: []snapValidator{{Moniker: "a", Components: c}}}
+	if err := render(s, t.TempDir()); err == nil || !strings.Contains(err.Error(), "no challenge component") {
+		t.Fatalf("render error = %v, want a missing-component error", err)
 	}
 }

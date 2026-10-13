@@ -2,7 +2,7 @@
 
 # GATA HUB
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 19 of 98** · **Score 81.00 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 81 | 13.50 |
-| test13 | 84 | 14.00 |
-| topaz | 98 | 16.33 |
-| sapphire | 60 | 10.00 |
-| pearl | 92 | 15.33 |
+| Test13 challenge | 81 | 13.50 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 98 | 16.33 |
+| Score · sapphire | 60 | 10.00 |
+| Score · pearl | 92 | 15.33 |
 | Fire drill | 71 | 11.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **81.00** |

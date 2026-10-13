@@ -2,7 +2,7 @@
 
 # Ubik Capital
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 80 of 98** · **Score 26.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 69 | 11.50 |
-| test13 | 84 | 14.00 |
-| topaz | — | 0.00 |
-| sapphire | — | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 69 | 11.50 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | — | 0.00 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 10 | 1.00 |
 | **Total** | | **26.50** |

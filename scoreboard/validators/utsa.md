@@ -2,7 +2,7 @@
 
 # UTSA
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 8 of 98** · **Score 88.40 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 83.4 | 13.90 |
-| test13 | 84 | 14.00 |
-| topaz | 93 | 15.50 |
-| sapphire | 96 | 16.00 |
-| pearl | 97 | 16.17 |
+| Test13 challenge | 83.4 | 13.90 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 97 | 16.17 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **88.40** |

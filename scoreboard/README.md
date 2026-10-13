@@ -2,22 +2,35 @@
 
 # Gno validator scoreboard
 
-Data as of **2026-09-10** · **98** candidates · median score **68.22**
+Data as of **2026-10-13** · **98** candidates · median score **68.22**
 
-**Score** = (challenge + test13 + topaz + sapphire + pearl + fire drill) / 6 + GitHub / 10, capped at 100.
+**Score** = (challenge + test13 + topaz + sapphire + pearl + firedrill) / 6 + GitHub / 10, capped at 100.
 
-All six arenas carry equal weight and are final: the testnets have ended and the fire drill has closed. A candidate absent from an arena scores 0 there. The GitHub bonus counts contributions from 2025 on and is worth at most 10 points. Mainnet (`gnoland-1`) is not scored yet.
+All 6 arenas carry equal weight and are final: the testnets have ended and the fire drill has closed. A candidate absent from an arena scores 0 there. The GitHub bonus counts contributions from 2025 on and is worth at most 10 points. Mainnet (`gnoland-1`) is shown below but not scored.
 
 ## Arenas
 
 | Arena | Source | Candidates scored | Median |
 | --- | --- | ---: | ---: |
-| Challenge | test13 onboarding rubric, rated by hand | 98 | 65.4 |
-| test13 | gnomonitoring, frozen CSV of 2026-07-21 | 88 | 80 |
-| topaz | gnomonitoring `topaz-1`, frozen CSV of 2026-08-10 | 82 | 84.5 |
-| sapphire | gnomonitoring `sapphire-1`, final report | 79 | 84 |
-| pearl | gnomonitoring `pearl-1`, final report | 74 | 98 |
+| Test13 challenge | test13 onboarding rubric, rated by hand | 98 | 65.4 |
+| Score · test13 | gnomonitoring, frozen CSV of 2026-07-21 | 88 | 80 |
+| Score · topaz | gnomonitoring `topaz-1`, frozen CSV of 2026-08-10 | 82 | 84.5 |
+| Score · sapphire | gnomonitoring `sapphire-1`, final report | 79 | 84 |
+| Score · pearl | gnomonitoring `pearl-1`, final report | 74 | 98 |
 | Fire drill | 2026-09-02 exercise, portal exports | 59 | 71 |
+
+## Mainnet `gnoland-1` — shown, not scored
+
+gnomonitoring `current_year` report fetched **2026-10-12**: 6 validators, 0 of them candidates. No score above includes it; its weight will be decided when a candidate joins mainnet.
+
+| Validator | Candidate | Tier | Score | Signing % | Missed blocks |
+| --- | --- | --- | ---: | ---: | ---: |
+| berty-validator-1 |  | Excellent | 100 | 100 | 3 |
+| onbloc-validator-1 |  | Good | 79 | 99.97 | 226 |
+| samourai-crew-validator-1 |  | Good | 69 | 99.95 | 406 |
+| Mithrandir |  | Good | 65 | 99.86 | 55 |
+| gno-core-validator-1 |  | Watch | 53 | 99.89 | 831 |
+| moul |  | Watch | 30 | 99.53 | 1282 |
 
 ## Distribution
 
@@ -40,7 +53,7 @@ pie showData title Candidates by score band
 
 `—` marks a candidate absent from that arena, which counts as 0. Equal scores share a rank.
 
-| # | Validator | Score | | Challenge | test13 | topaz | sapphire | pearl | Fire drill | GitHub |
+| # | Validator | Score | | Test13 challenge | Score · test13 | Score · topaz | Score · sapphire | Score · pearl | Fire drill | GitHub |
 | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 | 🟢 [Cogwheel](validators/cogwheel.md) | **95.50** | `██████████` | 100 | 85 | 96 | 96 | 100 | 96 | 0 |
 | 2 | 🟢 [ITRocket](validators/itrocket.md) | **92.87** | `█████████░` | 85.6 | 85 | 82 | 97 | 100 | 89 | 31 |

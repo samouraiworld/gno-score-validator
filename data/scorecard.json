@@ -1,6 +1,56 @@
 {
- "generated_at": "2026-09-10",
+ "generated_at": "2026-10-13",
  "source": "Score Gno-Validator",
+ "arenas": [
+  {
+   "id": "challenge",
+   "label": "Test13 challenge",
+   "source": "test13 onboarding rubric, rated by hand",
+   "colour": "#eb6834",
+   "in_total": true,
+   "detail": "challenge"
+  },
+  {
+   "id": "test13",
+   "label": "Score · test13",
+   "source": "gnomonitoring, frozen CSV of 2026-07-21",
+   "colour": "#1baf7a",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "topaz",
+   "label": "Score · topaz",
+   "source": "gnomonitoring `topaz-1`, frozen CSV of 2026-08-10",
+   "colour": "#eda100",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "sapphire",
+   "label": "Score · sapphire",
+   "source": "gnomonitoring `sapphire-1`, final report",
+   "colour": "#2a78d6",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "pearl",
+   "label": "Score · pearl",
+   "source": "gnomonitoring `pearl-1`, final report",
+   "colour": "#8b5fd6",
+   "in_total": true,
+   "detail": "onchain"
+  },
+  {
+   "id": "firedrill",
+   "label": "Fire drill",
+   "source": "2026-09-02 exercise, portal exports",
+   "colour": "#d64545",
+   "in_total": true,
+   "detail": "firedrill"
+  }
+ ],
  "weights": {
   "challenge": 0.16666666666666666,
   "test13": 0.16666666666666666,
@@ -206,7 +256,7 @@
     "confidence": "certain",
     "match_rule": "brand in name, company, blog and org repo",
     "evidence": "moniker found in GitHub blog URL — Cumulo ∈ Mon | Cumulo / https://cumulo.pro/",
-    "note": "GitHub name 'Mon | Cumulo', company 'Cumulo', blog cumulo.pro, email moncho.santosdios@gmail.com; Discord handle is literally mon.cumulo.pro; org repo Cumulo-pro/Cumulo-Front-Chain contains the valoper address.",
+    "note": "GitHub name 'Mon | Cumulo', company 'Cumulo', blog cumulo.pro, e-mail on the profile; Discord handle is literally mon.cumulo.pro; org repo Cumulo-pro/Cumulo-Front-Chain contains the valoper address.",
     "name": "Mon | Cumulo",
     "blog": "https://cumulo.pro/",
     "bio": "",
@@ -2801,8 +2851,8 @@
      "missed": 2641
     }
    },
-   "rank_current": 34,
-   "rank_corrected": 34
+   "rank_current": 33,
+   "rank_corrected": 33
   },
   {
    "moniker": "KonsorTech",
@@ -3097,8 +3147,8 @@
      "missed": 0
     }
    },
-   "rank_current": 20,
-   "rank_corrected": 20
+   "rank_current": 19,
+   "rank_corrected": 19
   },
   {
    "moniker": "cunum",
@@ -3467,8 +3517,8 @@
      "missed": 58822
     }
    },
-   "rank_current": 30,
-   "rank_corrected": 30
+   "rank_current": 29,
+   "rank_corrected": 29
   },
   {
    "moniker": "1XP",
@@ -6325,8 +6375,8 @@
      "missed": 8216
     }
    },
-   "rank_current": 63,
-   "rank_corrected": 62
+   "rank_current": 62,
+   "rank_corrected": 61
   },
   {
    "moniker": "Nodeshub",
@@ -8121,8 +8171,111 @@
     "score": 0
    },
    "onchain": {},
-   "rank_current": 98,
-   "rank_corrected": 98
+   "rank_current": 97,
+   "rank_corrected": 97
   }
- ]
+ ],
+ "mainnet": {
+  "chain": "gnoland-1",
+  "period": "current_year",
+  "fetched_at": "2026-10-12",
+  "validators": [
+   {
+    "moniker": "berty-validator-1",
+    "candidate": false,
+    "address": "g1l983yy3kpmapyzcfy53y5charfxupa5czjalea",
+    "tier": "Excellent",
+    "score": 100,
+    "sign": 99.999604704543,
+    "vp": 60,
+    "proposer": 100,
+    "critical": 0,
+    "warning": 0,
+    "freq": 0,
+    "freq_rate": 0,
+    "downtime": 0,
+    "missed": 3
+   },
+   {
+    "moniker": "onbloc-validator-1",
+    "candidate": false,
+    "address": "g1hqhetnnz0raw5hps6yxexl7q09a6f8w3anlptt",
+    "tier": "Good",
+    "score": 79,
+    "sign": 99.97022107557258,
+    "vp": 60,
+    "proposer": 100,
+    "critical": 2,
+    "warning": 1,
+    "freq": 2,
+    "freq_rate": 0.04915058518720707,
+    "downtime": 217,
+    "missed": 226
+   },
+   {
+    "moniker": "samourai-crew-validator-1",
+    "candidate": false,
+    "address": "g15t7f9q6km3ldt885duwl8xu5dncs98528amk4f",
+    "tier": "Good",
+    "score": 69,
+    "sign": 99.94650334815252,
+    "vp": 60,
+    "proposer": 100,
+    "critical": 0,
+    "warning": 44,
+    "freq": 44,
+    "freq_rate": 1.0813128741185556,
+    "downtime": 0,
+    "missed": 406
+   },
+   {
+    "moniker": "Mithrandir",
+    "candidate": false,
+    "address": "g1h97x8geqqwhh0prepcwrqskcd35g6gy5s39eny",
+    "tier": "Good",
+    "score": 65,
+    "sign": 99.85735034754643,
+    "vp": 60,
+    "proposer": 2.304572514316284,
+    "critical": 0,
+    "warning": 5,
+    "freq": 5,
+    "freq_rate": 0.12287646296801769,
+    "downtime": 0,
+    "missed": 55
+   },
+   {
+    "moniker": "gno-core-validator-1",
+    "candidate": false,
+    "address": "g1mmgvcssjw6x4fzphupfg6mtxqt36v000c5rf2a",
+    "tier": "Watch",
+    "score": 53,
+    "sign": 99.89050315841071,
+    "vp": 60,
+    "proposer": 100,
+    "critical": 4,
+    "warning": 3,
+    "freq": 6,
+    "freq_rate": 0.1474517555616212,
+    "downtime": 672,
+    "missed": 831
+   },
+   {
+    "moniker": "moul",
+    "candidate": false,
+    "address": "g1g0yrmdhney8pcaf9rfut4604equz604pszdsyt",
+    "tier": "Watch",
+    "score": 30,
+    "sign": 99.5268394945081,
+    "vp": 60,
+    "proposer": 41.00874130020582,
+    "critical": 3,
+    "warning": 20,
+    "freq": 21,
+    "freq_rate": 0.5160811444656742,
+    "downtime": 456,
+    "missed": 1282
+   }
+  ]
+ }
 }

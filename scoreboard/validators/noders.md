@@ -2,7 +2,7 @@
 
 # NODERS
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 94 of 98** · **Score 6.50 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 39 | 6.50 |
-| test13 | — | 0.00 |
-| topaz | — | 0.00 |
-| sapphire | — | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 39 | 6.50 |
+| Score · test13 | — | 0.00 |
+| Score · topaz | — | 0.00 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **6.50** |

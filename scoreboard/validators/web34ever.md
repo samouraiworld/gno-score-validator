@@ -2,7 +2,7 @@
 
 # web34ever
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 93 of 98** · **Score 7.43 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 44.6 | 7.43 |
-| test13 | — | 0.00 |
-| topaz | — | 0.00 |
-| sapphire | — | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 44.6 | 7.43 |
+| Score · test13 | — | 0.00 |
+| Score · topaz | — | 0.00 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **7.43** |

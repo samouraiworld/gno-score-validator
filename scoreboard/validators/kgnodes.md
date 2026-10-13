@@ -2,7 +2,7 @@
 
 # kgnodes
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 38 of 98** · **Score 73.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 68 | 11.33 |
-| test13 | 84 | 14.00 |
-| topaz | 92 | 15.33 |
-| sapphire | 96 | 16.00 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 68 | 11.33 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 92 | 15.33 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **73.33** |

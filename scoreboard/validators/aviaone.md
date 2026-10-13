@@ -2,7 +2,7 @@
 
 # AviaOne
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 13 of 98** · **Score 83.63 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 52 | 8.67 |
-| test13 | 85 | 14.17 |
-| topaz | 82 | 13.67 |
-| sapphire | 96 | 16.00 |
-| pearl | 90 | 15.00 |
+| Test13 challenge | 52 | 8.67 |
+| Score · test13 | 85 | 14.17 |
+| Score · topaz | 82 | 13.67 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 90 | 15.00 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 33 | 3.30 |
 | **Total** | | **83.63** |

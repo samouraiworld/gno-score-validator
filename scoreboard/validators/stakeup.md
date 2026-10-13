@@ -2,7 +2,7 @@
 
 # StakeUp
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 5 of 98** · **Score 90.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 79 | 13.17 |
-| test13 | 84 | 14.00 |
-| topaz | 93 | 15.50 |
-| sapphire | 97 | 16.17 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 79 | 13.17 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 97 | 16.17 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **90.33** |

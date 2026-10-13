@@ -2,7 +2,7 @@
 
 # PRO Delegators
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 9 of 98** · **Score 87.73 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 78.4 | 13.07 |
-| test13 | 78 | 13.00 |
-| topaz | 93 | 15.50 |
-| sapphire | 83 | 13.83 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 78.4 | 13.07 |
+| Score · test13 | 78 | 13.00 |
+| Score · topaz | 93 | 15.50 |
+| Score · sapphire | 83 | 13.83 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 94 | 15.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **87.73** |

@@ -2,7 +2,7 @@
 
 # MIPEnode
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 64 of 98** · **Score 54.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 57 | 9.50 |
-| test13 | 43 | 7.17 |
-| topaz | 58 | 9.67 |
-| sapphire | 5 | 0.83 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 57 | 9.50 |
+| Score · test13 | 43 | 7.17 |
+| Score · topaz | 58 | 9.67 |
+| Score · sapphire | 5 | 0.83 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 65 | 10.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **54.33** |

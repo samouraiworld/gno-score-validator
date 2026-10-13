@@ -2,7 +2,7 @@
 
 # NODESYNC
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 29 of 98** · **Score 75.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 83 | 13.83 |
-| test13 | 68 | 11.33 |
-| topaz | 76 | 12.67 |
-| sapphire | 70 | 11.67 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 83 | 13.83 |
+| Score · test13 | 68 | 11.33 |
+| Score · topaz | 76 | 12.67 |
+| Score · sapphire | 70 | 11.67 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 58 | 9.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **75.83** |

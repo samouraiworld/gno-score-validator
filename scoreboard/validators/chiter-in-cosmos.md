@@ -2,7 +2,7 @@
 
 # Chiter in Cosmos
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 31 of 98** · **Score 75.67 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 80 | 13.33 |
-| test13 | 84 | 14.00 |
-| topaz | 56 | 9.33 |
-| sapphire | 96 | 16.00 |
-| pearl | 86 | 14.33 |
+| Test13 challenge | 80 | 13.33 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 56 | 9.33 |
+| Score · sapphire | 96 | 16.00 |
+| Score · pearl | 86 | 14.33 |
 | Fire drill | 52 | 8.67 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **75.67** |

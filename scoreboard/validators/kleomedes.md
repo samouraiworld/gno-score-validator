@@ -2,7 +2,7 @@
 
 # Kleomedes
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 35 of 98** · **Score 73.60 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 85.6 | 14.27 |
-| test13 | 70 | 11.67 |
-| topaz | 57 | 9.50 |
-| sapphire | 60 | 10.00 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 85.6 | 14.27 |
+| Score · test13 | 70 | 11.67 |
+| Score · topaz | 57 | 9.50 |
+| Score · sapphire | 60 | 10.00 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 71 | 11.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **73.60** |

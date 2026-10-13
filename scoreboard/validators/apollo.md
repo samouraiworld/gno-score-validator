@@ -2,7 +2,7 @@
 
 # Apollo
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟢 **Rank 22 of 98** · **Score 80.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 77 | 12.83 |
-| test13 | 84 | 14.00 |
-| topaz | 45 | 7.50 |
-| sapphire | 87 | 14.50 |
-| pearl | 100 | 16.67 |
+| Test13 challenge | 77 | 12.83 |
+| Score · test13 | 84 | 14.00 |
+| Score · topaz | 45 | 7.50 |
+| Score · sapphire | 87 | 14.50 |
+| Score · pearl | 100 | 16.67 |
 | Fire drill | 89 | 14.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **80.33** |

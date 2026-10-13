@@ -30,8 +30,11 @@ const (
 // renderArena is one column of the scoreboard. present tells an absent
 // candidate, who scores 0 by rule, apart from one who was measured at 0.
 type renderArena struct {
+	id      string
 	label   string
 	source  string
+	detail  string
+	inTotal bool
 	score   func(snapValidator) float64
 	present func(snapValidator) bool
 }
@@ -40,25 +43,29 @@ func onchainPresent(net string) func(snapValidator) bool {
 	return func(v snapValidator) bool { _, ok := v.Onchain[net]; return ok }
 }
 
-var renderArenas = []renderArena{
-	{"Challenge", "test13 onboarding rubric, rated by hand",
-		func(v snapValidator) float64 { return v.Components.Challenge },
-		func(v snapValidator) bool { return v.Challenge != nil }},
-	{"test13", "gnomonitoring, frozen CSV of 2026-07-21",
-		func(v snapValidator) float64 { return v.Components.Test13 }, onchainPresent("test13")},
-	{"topaz", "gnomonitoring `topaz-1`, frozen CSV of 2026-08-10",
-		func(v snapValidator) float64 { return v.Components.Topaz }, onchainPresent("topaz")},
-	{"sapphire", "gnomonitoring `sapphire-1`, final report",
-		func(v snapValidator) float64 { return v.Components.Sapphire }, onchainPresent("sapphire")},
-	{"pearl", "gnomonitoring `pearl-1`, final report",
-		func(v snapValidator) float64 { return v.Components.Pearl }, onchainPresent("pearl")},
-	{"Fire drill", "2026-09-02 exercise, portal exports",
-		func(v snapValidator) float64 { return v.Components.FireDrill },
-		func(v snapValidator) bool { return v.FireDrillDetail != nil }},
+func snapshotRenderArenas(s snapshot) ([]renderArena, error) {
+	if len(s.Arenas) == 0 {
+		return nil, fmt.Errorf("scorecard has no arenas; regenerate it with `scoresheet score`")
+	}
+	out := make([]renderArena, 0, len(s.Arenas))
+	for _, a := range s.Arenas {
+		a := a
+		present := func(v snapValidator) bool { return v.Components.Has(a.ID) }
+		switch a.Detail {
+		case "challenge":
+			present = func(v snapValidator) bool { return v.Challenge != nil }
+		case "onchain":
+			present = onchainPresent(a.ID)
+		case "firedrill":
+			present = func(v snapValidator) bool { return v.FireDrillDetail != nil }
+		}
+		out = append(out, renderArena{
+			id: a.ID, label: a.Label, source: a.Source, detail: a.Detail, inTotal: a.InTotal,
+			score: func(v snapValidator) float64 { return v.Components.Get(a.ID) }, present: present,
+		})
+	}
+	return out, nil
 }
-
-// The networks shown in a validator's on-chain table, in chain order.
-var renderNetworks = []string{"test13", "topaz", "sapphire", "pearl"}
 
 // Score bands, highest first.
 var renderBands = []struct {
@@ -85,16 +92,27 @@ func band(score float64) int {
 func runRender(root string, args []string) error {
 	fs := flag.NewFlagSet("render", flag.ExitOnError)
 	in := fs.String("in", "", "snapshot file (default data/scorecard.json)")
+	page := fs.String("html", "", "page to re-embed the public payload in (default web/validator-scorecard.html)")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
 	if *in == "" {
 		*in = filepath.Join(root, "data", "scorecard.json")
 	}
+	if *page == "" {
+		*page = filepath.Join(root, "web", "validator-scorecard.html")
+	}
 	s, err := loadSnapshot(*in)
 	if err != nil {
 		return err
 	}
+	if _, err := snapshotRenderArenas(s); err != nil {
+		return err
+	}
+	if err := embedPage(s, *page); err != nil {
+		return err
+	}
+	fmt.Printf("re-embedded the public payload in %s\n", *page)
 	return render(s, root)
 }
 
@@ -102,6 +120,19 @@ func runRender(root string, args []string) error {
 // validators directory is generated whole: it is emptied first, so a
 // candidate who leaves the scorecard does not leave a stale page behind.
 func render(s snapshot, root string) error {
+	arenas, err := snapshotRenderArenas(s)
+	if err != nil {
+		return err
+	}
+	// A component missing for a listed arena would render as absent, beside a
+	// stored total that still counted it.
+	for _, v := range s.Validators {
+		for _, a := range s.Arenas {
+			if !v.Components.Has(a.ID) {
+				return fmt.Errorf("%s: no %s component; regenerate the scorecard with `scoresheet score`", v.Moniker, a.ID)
+			}
+		}
+	}
 	vs := append([]snapValidator(nil), s.Validators...)
 	// Ranks follow from the scores, so they are recomputed rather than trusted:
 	// a scorecard.json written before ties shared a rank still renders right.
@@ -127,11 +158,11 @@ func render(s snapshot, root string) error {
 	if err := os.MkdirAll(pages, 0o755); err != nil {
 		return err
 	}
-	if err := os.WriteFile(filepath.Join(dir, "README.md"), renderIndex(s, vs, slugs), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "README.md"), renderIndex(s, arenas, vs, slugs), 0o644); err != nil {
 		return err
 	}
 	for _, v := range vs {
-		page := renderValidator(s, v, len(vs))
+		page := renderValidator(s, arenas, v, len(vs))
 		if err := os.WriteFile(filepath.Join(pages, slugs[v.Moniker]+".md"), page, 0o644); err != nil {
 			return err
 		}
@@ -140,9 +171,34 @@ func render(s snapshot, root string) error {
 	return nil
 }
 
+// renderMainnet lists the mainnet report under the arenas. It sits apart from
+// them on purpose: no total reads it.
+func renderMainnet(b *bytes.Buffer, m *snapMainnet) {
+	candidates := 0
+	for _, r := range m.Validators {
+		if r.Candidate {
+			candidates++
+		}
+	}
+	fmt.Fprintf(b, "\n## Mainnet `%s` — shown, not scored\n\n", m.Chain)
+	fmt.Fprintf(b, "gnomonitoring `%s` report fetched **%s**: %d validators, %d of them candidates."+
+		" No score above includes it; its weight will be decided when a candidate joins mainnet.\n\n",
+		m.Period, m.FetchedAt, len(m.Validators), candidates)
+	b.WriteString("| Validator | Candidate | Tier | Score | Signing % | Missed blocks |\n" +
+		"| --- | --- | --- | ---: | ---: | ---: |\n")
+	for _, r := range m.Validators {
+		cand := ""
+		if r.Candidate {
+			cand = "yes"
+		}
+		fmt.Fprintf(b, "| %s | %s | %s | %s | %s | %s |\n",
+			mdEscape(r.Moniker), cand, r.Tier, num(r.Score), num(r.Sign), num(r.Missed))
+	}
+}
+
 const generatedNote = "<!-- Generated by `scoresheet render` from data/scorecard.json. Do not edit by hand. -->\n\n"
 
-func renderIndex(s snapshot, vs []snapValidator, slugs map[string]string) []byte {
+func renderIndex(s snapshot, arenas []renderArena, vs []snapValidator, slugs map[string]string) []byte {
 	var b bytes.Buffer
 	b.WriteString(generatedNote)
 	b.WriteString("# Gno validator scoreboard\n\n")
@@ -153,16 +209,23 @@ func renderIndex(s snapshot, vs []snapValidator, slugs map[string]string) []byte
 	}
 	fmt.Fprintf(&b, "Data as of **%s** · **%d** candidates · median score **%s**\n\n",
 		s.GeneratedAt, len(vs), num(median(scores)))
-	fmt.Fprintf(&b, "**Score** = (challenge + test13 + topaz + sapphire + pearl + fire drill) / %d"+
-		" + GitHub / %d, capped at %d.\n\n", scoring.ArenaDivisor, scoring.BonusDivisor, scoring.MaxScore)
-	b.WriteString("All six arenas carry equal weight and are final: the testnets have ended and the" +
+	var counted []string
+	for _, a := range arenas {
+		if a.inTotal {
+			counted = append(counted, a.id)
+		}
+	}
+	fmt.Fprintf(&b, "**Score** = (%s) / %d"+
+		" + GitHub / %d, capped at %d.\n\n", strings.Join(counted, " + "), len(counted), scoring.BonusDivisor, scoring.MaxScore)
+	fmt.Fprintf(&b, "All %d arenas carry equal weight and are final: the testnets have ended and the", len(counted))
+	b.WriteString(
 		" fire drill has closed. A candidate absent from an arena scores 0 there. The GitHub" +
-		" bonus counts contributions from 2025 on and is worth at most 10 points." +
-		" Mainnet (`gnoland-1`) is not scored yet.\n\n")
+			" bonus counts contributions from 2025 on and is worth at most 10 points." +
+			" Mainnet (`gnoland-1`) is shown below but not scored.\n\n")
 
 	b.WriteString("## Arenas\n\n")
 	b.WriteString("| Arena | Source | Candidates scored | Median |\n| --- | --- | ---: | ---: |\n")
-	for _, a := range renderArenas {
+	for _, a := range arenas {
 		var got []float64
 		for _, v := range vs {
 			if a.present(v) {
@@ -170,6 +233,10 @@ func renderIndex(s snapshot, vs []snapValidator, slugs map[string]string) []byte
 			}
 		}
 		fmt.Fprintf(&b, "| %s | %s | %d | %s |\n", a.label, a.source, len(got), num(median(got)))
+	}
+
+	if m := s.Mainnet; m != nil {
+		renderMainnet(&b, m)
 	}
 
 	b.WriteString("\n## Distribution\n\n")
@@ -191,11 +258,11 @@ func renderIndex(s snapshot, vs []snapValidator, slugs map[string]string) []byte
 	b.WriteString("`—` marks a candidate absent from that arena, which counts as 0." +
 		" Equal scores share a rank.\n\n")
 	b.WriteString("| # | Validator | Score | | ")
-	for _, a := range renderArenas {
+	for _, a := range arenas {
 		b.WriteString(a.label + " | ")
 	}
 	b.WriteString("GitHub |\n| ---: | --- | ---: | --- | ")
-	for range renderArenas {
+	for range arenas {
 		b.WriteString("---: | ")
 	}
 	b.WriteString("---: |\n")
@@ -203,7 +270,7 @@ func renderIndex(s snapshot, vs []snapValidator, slugs map[string]string) []byte
 		fmt.Fprintf(&b, "| %d | %s [%s](%s/%s.md) | **%.2f** | `%s` | ",
 			v.RankCorrected, renderBands[band(v.ScoreCorrected)].emoji,
 			mdEscape(v.Moniker), validatorsDir, slugs[v.Moniker], v.ScoreCorrected, bar(v.ScoreCorrected))
-		for _, a := range renderArenas {
+		for _, a := range arenas {
 			if a.present(v) {
 				b.WriteString(num(a.score(v)))
 			} else {
@@ -216,7 +283,7 @@ func renderIndex(s snapshot, vs []snapValidator, slugs map[string]string) []byte
 	return b.Bytes()
 }
 
-func renderValidator(s snapshot, v snapValidator, n int) []byte {
+func renderValidator(s snapshot, arenas []renderArena, v snapValidator, n int) []byte {
 	var b bytes.Buffer
 	b.WriteString(generatedNote)
 	fmt.Fprintf(&b, "# %s\n\n", mdEscape(v.Moniker))
@@ -226,24 +293,36 @@ func renderValidator(s snapshot, v snapValidator, n int) []byte {
 
 	b.WriteString("## Score breakdown\n\n")
 	b.WriteString("| Arena | Arena score | Points |\n| --- | ---: | ---: |\n")
-	for _, a := range renderArenas {
+	divisor := 0
+	for _, a := range arenas {
+		if a.inTotal {
+			divisor++
+		}
+	}
+	for _, a := range arenas {
 		score := "—"
 		if a.present(v) {
 			score = num(a.score(v))
 		}
-		fmt.Fprintf(&b, "| %s | %s | %.2f |\n", a.label, score, a.score(v)/scoring.ArenaDivisor)
+		points := 0.0
+		if a.inTotal {
+			points = a.score(v) / float64(divisor)
+		}
+		fmt.Fprintf(&b, "| %s | %s | %.2f |\n", a.label, score, points)
 	}
 	fmt.Fprintf(&b, "| GitHub bonus | %s | %.2f |\n", num(v.GithubCorrected), v.GithubCorrected/scoring.BonusDivisor)
 	fmt.Fprintf(&b, "| **Total** | | **%.2f** |\n", v.ScoreCorrected)
-	if total(v.Components, v.GithubCorrected) >= scoring.MaxScore {
+	if total(v.Components, s.Arenas, v.GithubCorrected) >= scoring.MaxScore {
 		fmt.Fprintf(&b, "\nThe points add up past %d, so the score is capped.\n", scoring.MaxScore)
 	}
 	b.WriteString("\n`—` means absent from that arena, which counts as 0.\n")
 
 	var nets []string
-	for _, net := range renderNetworks {
-		if _, ok := v.Onchain[net]; ok {
-			nets = append(nets, net)
+	for _, a := range arenas {
+		if a.detail == "onchain" {
+			if _, ok := v.Onchain[a.id]; ok {
+				nets = append(nets, a.id)
+			}
 		}
 	}
 	if len(nets) > 0 {
@@ -264,12 +343,19 @@ func renderValidator(s snapshot, v snapValidator, n int) []byte {
 	}
 
 	if fd := v.FireDrillDetail; fd != nil {
+		fireDrillScore := 0.0
+		for _, a := range arenas {
+			if a.detail == "firedrill" {
+				fireDrillScore = a.score(v)
+				break
+			}
+		}
 		b.WriteString("\n## Fire drill\n\n")
 		b.WriteString("Four criteria worth 25 each.\n\n")
 		b.WriteString("| Upload time | Metadata | Log quality | Incident response | Total |\n| ---: | ---: | ---: | ---: | ---: |\n")
 		fmt.Fprintf(&b, "| %s | %s | %s | %s | **%s** |\n",
 			optNum(fd.UploadTime), optNum(fd.Metadata), optNum(fd.LogQuality), num(fd.Incident),
-			num(v.Components.FireDrill))
+			num(fireDrillScore))
 		if fd.Findings != "" {
 			fmt.Fprintf(&b, "\n> %s\n", mdEscape(fd.Findings))
 		}

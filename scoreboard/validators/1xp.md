@@ -2,7 +2,7 @@
 
 # 1XP
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟠 **Rank 61 of 98** · **Score 55.73 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 55.4 | 9.23 |
-| test13 | 82 | 13.67 |
-| topaz | 38 | 6.33 |
-| sapphire | 61 | 10.17 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 55.4 | 9.23 |
+| Score · test13 | 82 | 13.67 |
+| Score · topaz | 38 | 6.33 |
+| Score · sapphire | 61 | 10.17 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **55.73** |

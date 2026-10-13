@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,11 +15,14 @@ import (
 
 // runExport saves one tab as a PDF, so the result can actually be looked at
 // rather than inferred from cell values. Formatting bugs — a truncated label,
-// a bar that never varies — only show up in the render.
+// a bar that never varies — only show up in the render. With -dry it checks
+// the tab exists and writes no file.
 func runExport(e *env, args []string) error {
-	fs, _ := subFlags("export", args)
+	fs := flag.NewFlagSet("export", flag.ExitOnError)
+	dry := fs.Bool("dry", false, "check the tab and print the plan without saving the PDF")
 	creds := fs.String("creds-file", "service-account.json", "service account key, for the export token")
 	rng := fs.String("range", "A1:L52", "A1 range to render")
+	_ = fs.Parse(args)
 	rest := fs.Args()
 	if len(rest) != 2 {
 		return fmt.Errorf("usage: export <tab> <out.pdf>")
@@ -32,6 +36,10 @@ func runExport(e *env, args []string) error {
 	gid, ok := sheetx.SheetID(ss, tab)
 	if !ok {
 		return fmt.Errorf("tab %q not found", tab)
+	}
+	if *dry {
+		fmt.Printf("%s (gid %d) %s -> %s\n-dry — nothing written.\n", tab, gid, *rng, out)
+		return nil
 	}
 
 	key, err := os.ReadFile(*creds)

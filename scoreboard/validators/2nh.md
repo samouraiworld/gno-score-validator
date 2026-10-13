@@ -2,7 +2,7 @@
 
 # 2NH
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 43 of 98** · **Score 70.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 72 | 12.00 |
-| test13 | 78 | 13.00 |
-| topaz | 65 | 10.83 |
-| sapphire | 54 | 9.00 |
-| pearl | 79 | 13.17 |
+| Test13 challenge | 72 | 12.00 |
+| Score · test13 | 78 | 13.00 |
+| Score · topaz | 65 | 10.83 |
+| Score · sapphire | 54 | 9.00 |
+| Score · pearl | 79 | 13.17 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **70.83** |

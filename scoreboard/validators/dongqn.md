@@ -2,7 +2,7 @@
 
 # dongqn
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🔴 **Rank 97 of 98** · **Score 0.00 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 0 | 0.00 |
-| test13 | — | 0.00 |
-| topaz | — | 0.00 |
-| sapphire | — | 0.00 |
-| pearl | — | 0.00 |
+| Test13 challenge | 0 | 0.00 |
+| Score · test13 | — | 0.00 |
+| Score · topaz | — | 0.00 |
+| Score · sapphire | — | 0.00 |
+| Score · pearl | — | 0.00 |
 | Fire drill | — | 0.00 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **0.00** |

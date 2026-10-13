@@ -2,7 +2,7 @@
 
 # n1stake
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 42 of 98** · **Score 71.33 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 74 | 12.33 |
-| test13 | 67 | 11.17 |
-| topaz | 96 | 16.00 |
-| sapphire | 10 | 1.67 |
-| pearl | 98 | 16.33 |
+| Test13 challenge | 74 | 12.33 |
+| Score · test13 | 67 | 11.17 |
+| Score · topaz | 96 | 16.00 |
+| Score · sapphire | 10 | 1.67 |
+| Score · pearl | 98 | 16.33 |
 | Fire drill | 77 | 12.83 |
 | GitHub bonus | 10 | 1.00 |
 | **Total** | | **71.33** |

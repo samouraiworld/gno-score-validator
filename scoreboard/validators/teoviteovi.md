@@ -2,7 +2,7 @@
 
 # TeoViTeoVi
 
-[← Scoreboard](../README.md) · Data as of 2026-09-10
+[← Scoreboard](../README.md) · Data as of 2026-10-13
 
 🟡 **Rank 40 of 98** · **Score 71.83 / 100**
 
@@ -10,11 +10,11 @@
 
 | Arena | Arena score | Points |
 | --- | ---: | ---: |
-| Challenge | 37 | 6.17 |
-| test13 | 80 | 13.33 |
-| topaz | 82 | 13.67 |
-| sapphire | 84 | 14.00 |
-| pearl | 83 | 13.83 |
+| Test13 challenge | 37 | 6.17 |
+| Score · test13 | 80 | 13.33 |
+| Score · topaz | 82 | 13.67 |
+| Score · sapphire | 84 | 14.00 |
+| Score · pearl | 83 | 13.83 |
 | Fire drill | 65 | 10.83 |
 | GitHub bonus | 0 | 0.00 |
 | **Total** | | **71.83** |
