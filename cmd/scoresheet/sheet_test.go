@@ -31,8 +31,19 @@ func TestExpectedTabsFromRepo(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(tabs) != 1+len(cfg.Arenas) {
-		t.Fatalf("%d tabs, want Bilan plus %d arenas", len(tabs), len(cfg.Arenas))
+	if cfg.Mainnet == nil || cfg.Mainnet.Tab == "" {
+		t.Fatal("config has no mainnet tab")
+	}
+	if len(tabs) != 2+len(cfg.Arenas) {
+		t.Fatalf("%d tabs, want Bilan plus %d arenas plus mainnet", len(tabs), len(cfg.Arenas))
+	}
+	if m := tabs[len(tabs)-1]; m.Name != cfg.Mainnet.Tab {
+		t.Fatalf("last tab is %s, want %s", m.Name, cfg.Mainnet.Tab)
+	}
+	for _, h := range tabs[0].Rows[0] {
+		if h == cfg.Mainnet.Label || h == cfg.Mainnet.Tab {
+			t.Fatalf("Bilan has a mainnet column %v: mainnet is shown, not scored", h)
+		}
 	}
 	bilan := tabs[0]
 	if bilan.Name != scoring.TabBilan || len(bilan.Rows) != 1+len(candidates) {

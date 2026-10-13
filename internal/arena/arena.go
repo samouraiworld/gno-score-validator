@@ -24,7 +24,7 @@ type Arena struct {
 	ID     string `json:"id"`
 	Label  string `json:"label"`
 	Source string `json:"source"` // provenance, shown on the scoreboard
-	Tab    string `json:"tab"`    // the spreadsheet tab freeze copies it from
+	Tab    string `json:"tab"`    // the spreadsheet tab sheet push writes it to
 
 	// The CSV headers differ from arena to arena because each was imported
 	// its own way, so the config names the two columns that matter.
@@ -61,7 +61,8 @@ type Config struct {
 	Arenas []Arena `json:"arenas"`
 
 	// Mainnet is the MainnetID entry, or nil. It is not one of Arenas: it
-	// has no component, no tab and no weight.
+	// has no component, no Bilan column and no weight. Its optional tab gets
+	// the report as is, for reading only.
 	Mainnet *Arena `json:"-"`
 }
 
@@ -92,6 +93,12 @@ func LoadConfig(path string) (Config, error) {
 	chains := map[string]bool{}
 	if c.Mainnet != nil {
 		chains[c.Mainnet.Chain] = true
+		if tab := strings.ToLower(strings.TrimSpace(c.Mainnet.Tab)); tab != "" {
+			if reservedTabs[tab] {
+				return c, fmt.Errorf("%s: arena %q cannot use tab %q: it is taken", path, c.Mainnet.ID, c.Mainnet.Tab)
+			}
+			tabs[tab] = true
+		}
 	}
 	for i, a := range c.Arenas {
 		for field, v := range map[string]string{

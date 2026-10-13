@@ -21,16 +21,16 @@ All 6 arenas carry equal weight and are final: the testnets have ended and the f
 
 ## Mainnet `gnoland-1` — shown, not scored
 
-gnomonitoring `current_year` report fetched **2026-10-12**: 6 validators, 0 of them candidates. No score above includes it; its weight will be decided when a candidate joins mainnet.
+gnomonitoring `current_year` report fetched **2026-10-13**: 6 validators, 0 of them candidates. No score above includes it; its weight will be decided when a candidate joins mainnet.
 
 | Validator | Candidate | Tier | Score | Signing % | Missed blocks |
 | --- | --- | --- | ---: | ---: | ---: |
 | berty-validator-1 |  | Excellent | 100 | 100 | 3 |
 | onbloc-validator-1 |  | Good | 79 | 99.97 | 226 |
 | samourai-crew-validator-1 |  | Good | 69 | 99.95 | 406 |
-| Mithrandir |  | Good | 65 | 99.86 | 55 |
+| Mithrandir |  | Watch | 54 | 99.8 | 115 |
 | gno-core-validator-1 |  | Watch | 53 | 99.89 | 831 |
-| moul |  | Watch | 30 | 99.53 | 1282 |
+| moul |  | Watch | 31 | 99.48 | 1490 |
 
 ## Distribution
 
