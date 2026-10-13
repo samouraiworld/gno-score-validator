@@ -17,12 +17,15 @@ change a file here in a pull request.
    page, and open a pull request.
 5. Once merged, publish to the sheet. `sheet push -dry` lists every cell
    that differs between the sheet and the repo, and refuses while
-   `scorecard.json` is stale. The sheet still holds the previous version, so
-   the list should be exactly your change. If it is, run `sheet push -force`.
-   A cell you did not change means someone edited the sheet: see below.
+   `scorecard.json` is stale. The sheet still holds the previous push, so the
+   list should be exactly your change. Then run `sheet push`: no `-force` is
+   needed while the sheet holds what the last push wrote. If push refuses
+   because a tab was edited since the last push, see below. `-force` is only
+   for the very first push and for discarding a sheet edit.
 
 If someone edited the sheet and the edit should stay, run `freeze` to copy the
-tabs back to `data/`, then follow the steps above with that diff.
+tabs back to `data/`, then follow the steps above with that diff. Once it is
+merged the sheet matches the repo again, so `sheet push` needs no `-force`.
 
 ## Joining by moniker
 

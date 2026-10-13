@@ -24,10 +24,9 @@ import (
 const fetchedAtColumn = "fetched_at"
 
 // runFetch writes the live gnomonitoring report for a chain to the CSV of the
-// config arena that names that chain. It is refresh without the sheet: no -id,
-// no key, and the same guards — a frozen arena is refused without -force, and
-// so is a report that loses more than a fifth of the validators already in
-// the file.
+// config arena that names that chain. It needs no -id and no key, and it
+// guards the file: a frozen arena is refused without -force, and so is a
+// report that loses more than a fifth of the validators already in the file.
 //
 // It writes the CSV only. Run score afterwards to rebuild scorecard.json.
 func runFetch(root string, args []string) error {
@@ -46,7 +45,7 @@ func runFetch(root string, args []string) error {
 		return err
 	}
 	// The chain picks the file through config, never a default: a default
-	// target once let refresh write pearl data over Score-sapphire.
+	// target once let the retired refresh write pearl data over Score-sapphire.
 	a, ok := cfg.ByChain(*chain)
 	if !ok {
 		return fmt.Errorf("no arena in config/arenas.json has chain %q", *chain)
@@ -155,8 +154,8 @@ func fetchPeriod(a arena.Arena) (string, error) {
 	return "", fmt.Errorf("arena %q: %q is not a gnomonitoring period", a.ID, period)
 }
 
-// fetchHeader is the layout of a fetched CSV: the network tab layout refresh
-// writes, which parseOnchain reads by position, then the fetch date.
+// fetchHeader is the layout of a fetched CSV: moniker, address and the
+// onchain metrics, which parseOnchain reads by position, then the fetch date.
 func fetchHeader(period string) []string {
 	h := []string{"moniker", "address"}
 	for _, c := range onchainColumns {

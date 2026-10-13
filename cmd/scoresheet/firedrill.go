@@ -88,8 +88,8 @@ func runFiredrill(e *env, args []string) error {
 		moniker := prev.moniker
 		findings := prev.findings
 		if !seen {
-			// Resolve the portal's spelling against the scorecard, which is
-			// the only name Bilan's VLOOKUP will match.
+			// Resolve the portal's spelling against the scorecard, so the
+			// row joins to its candidate under scoring.Key.
 			if m, ok := known[strings.ToLower(r.Moniker)]; ok {
 				moniker = m
 			} else {
@@ -194,7 +194,7 @@ func writeFiredrillCSV(path string, rows [][]interface{}) error {
 }
 
 // scorecardMonikers indexes the candidate list by lowercased moniker, the way
-// the sheet's VLOOKUP matches it.
+// scoring.Key matches it.
 func (e *env) scorecardMonikers() (map[string]string, error) {
 	b, err := os.ReadFile(e.data("scorecard.json"))
 	if err != nil {

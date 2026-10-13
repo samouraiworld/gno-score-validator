@@ -37,8 +37,9 @@ func (d sheetDiff) String() string {
 }
 
 // runSheetDiff lists every difference between the sheet and the repo, and
-// writes nothing. It exits non-zero when there is one, which is what lets
-// `sheet push` refuse to overwrite an edit made in the sheet.
+// writes nothing. It exits non-zero when there is one. A last line says
+// whether the sheet still holds what the last push wrote, which is what
+// `sheet push` checks before overwriting a difference.
 //
 // Values are compared, not formulas: a formula that evaluates to what the
 // repo says is not a difference.
@@ -50,13 +51,22 @@ func runSheetDiff(e *env, args []string) error {
 	if err != nil {
 		return err
 	}
-	diffs, err := e.diffSheet(want)
+	diffs, hashes, err := e.diffSheet(want)
+	if err != nil {
+		return err
+	}
+	last, _, err := e.lastPush()
 	if err != nil {
 		return err
 	}
 	for _, d := range diffs {
 		fmt.Println(" ", d)
 	}
+	var edited []string
+	if last != nil {
+		edited = editedSince(last, hashes, tabNames(want))
+	}
+	fmt.Println(printStatus(last, edited))
 	if len(diffs) > 0 {
 		return fmt.Errorf("the sheet differs from the repo in %d place(s)", len(diffs))
 	}
@@ -65,11 +75,12 @@ func runSheetDiff(e *env, args []string) error {
 }
 
 // diffSheet reads every tab the repo owns, in one call, and compares it with
-// what the repo says it should hold.
-func (e *env) diffSheet(want []sheetTab) ([]sheetDiff, error) {
+// what the repo says it should hold. It also returns the tabHash of each of
+// those tabs the sheet holds, for the push print.
+func (e *env) diffSheet(want []sheetTab) ([]sheetDiff, map[string]string, error) {
 	ss, err := e.svc.Spreadsheets.Get(e.id).Fields("sheets.properties.title").Do()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	present := map[string]bool{}
 	for _, s := range ss.Sheets {
@@ -87,21 +98,23 @@ func (e *env) diffSheet(want []sheetTab) ([]sheetDiff, error) {
 		tabs = append(tabs, t)
 		ranges = append(ranges, sheetx.Ref(t.Name))
 	}
+	hashes := map[string]string{}
 	if len(ranges) == 0 {
-		return diffs, nil
+		return diffs, hashes, nil
 	}
 	got, err := e.svc.Spreadsheets.Values.BatchGet(e.id).Ranges(ranges...).
 		ValueRenderOption("UNFORMATTED_VALUE").Do()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	if len(got.ValueRanges) != len(tabs) {
-		return nil, fmt.Errorf("asked for %d tabs, got %d", len(tabs), len(got.ValueRanges))
+		return nil, nil, fmt.Errorf("asked for %d tabs, got %d", len(tabs), len(got.ValueRanges))
 	}
 	for i, t := range tabs {
 		diffs = append(diffs, diffTab(t, got.ValueRanges[i].Values)...)
+		hashes[t.Name] = tabHash(got.ValueRanges[i].Values)
 	}
-	return diffs, nil
+	return diffs, hashes, nil
 }
 
 // diffTab compares one tab. The header is compared by position; data rows are

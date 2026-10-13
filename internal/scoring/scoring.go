@@ -27,7 +27,7 @@ const (
 )
 
 // FrozenTabs are the arenas whose scores are final. The testnets are over and
-// the fire drill has closed, so nothing may rewrite them: a refresh would only
+// the fire drill has closed, so nothing may rewrite them: a fetch would only
 // replace a final result with whatever the API serves today, or with nothing.
 // Mainnet is the one arena expected to move, and it is not scored yet.
 var FrozenTabs = append([]string{TabChallenge, TabFireDrill}, Networks...)
@@ -42,9 +42,9 @@ func IsFrozen(tab string) bool {
 	return false
 }
 
-// Key is how every join matches a moniker: trimmed and case-insensitive, the
-// way Bilan's VLOOKUP does. A tab can spell a validator "offellnode" where
-// Bilan says "offellNode", and the address column is useless as a key because
+// Key is how every join matches a moniker: trimmed and case-insensitive. An
+// arena CSV can spell a validator "offellnode" where candidates.csv says
+// "offellNode", and the address column is useless as a key because
 // validators rotate keys between chains.
 func Key(moniker string) string {
 	return strings.ToLower(strings.TrimSpace(moniker))

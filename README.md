@@ -108,7 +108,8 @@ ID=<spreadsheet-id>
 ```
 
 Every command that writes to the repo or the sheet takes `-dry`. Start there.
-`export` only saves a local PDF, and ignores `-dry`.
+`export` saves a local PDF; with `-dry` (before the tab name) it only checks
+the tab exists.
 
 `snapshot`, `bilan`, `refresh`, `coerce` and `dashboard` are retired. Each
 prints what replaces it and exits.
@@ -120,10 +121,12 @@ or `evidence.json`:
 
 1. `score`, which also renders `scoreboard/` and re-embeds the page payload.
 2. Commit `data/scorecard.json`, `scoreboard/` and the page with the input.
-3. `sheet push -dry`. It lists every cell where the sheet differs from the
-   repo; until the push, that is your change. If the list holds nothing else,
-   `sheet push -force`. A cell you did not change is a sheet edit: `freeze`
-   it into a pull request first, or discard it with `-force`.
+3. `sheet push -dry`, then `sheet push`. The list is your change, and the
+   push goes ahead without `-force` as long as the sheet still holds what the
+   last push wrote. If someone edited the sheet since, push refuses and names
+   the tab: `freeze` the edit into a pull request first, or discard it with
+   `-force`. The very first push, with no print recorded yet, needs `-force`
+   once.
 
 To update mainnet: `fetch -chain gnoland-1 -dry`, the same without `-dry`,
 then `score`.
@@ -155,20 +158,29 @@ only mainnet is expected to move. `firedrill` refuses to rewrite the fire
 drill without `-force` too.
 
 `sheet diff` compares the sheet with `data/scorecard.json` and the arena CSVs,
-cell by cell — values, not formulas — and exits 1 when anything differs.
+cell by cell — values, not formulas — and exits 1 when anything differs. Its
+last line says whether the sheet still matches the last push.
 
-`sheet push` runs `sheet diff` first and refuses to overwrite any difference
-without `-force` — including the change you are publishing, since the diff
-cannot tell a repo change from a sheet edit. Read the list before forcing: a
-sheet edit worth keeping goes into the repo instead (`freeze`, then a pull
-request). It also refuses while `data/scorecard.json` is stale. It then
-writes Bilan and every arena tab as values, rebuilds the Dashboard, leaves a
-note on A1 of each tab ("Generated from the git repo — edit the CSV by pull
-request"), applies `sheet lock`, and checks that a second diff is empty.
+`sheet push` runs `sheet diff` first. To tell a repo change from a sheet
+edit, it compares the sheet with the print the last push recorded: a SHA-256
+of each tab it owns (Bilan and the arena tabs), as read back right after
+writing, stored in the spreadsheet's developer metadata (key
+`scoresheet-push`, visible only to the service account's project through the
+API). When every tab still matches its print, the differences come from the
+repo and the push goes ahead. When a tab changed, appeared or disappeared
+since, it refuses without `-force` and names the tab; with no print recorded,
+it refuses without `-force` too. Read the list before forcing: a sheet edit
+worth keeping goes into the repo instead (`freeze`, then a pull request). A
+sheet that already matches the repo is pushed either way. It also refuses
+while `data/scorecard.json` is stale. It then writes Bilan and every arena
+tab as values, rebuilds the Dashboard, leaves a note on A1 of each tab
+("Generated from the git repo — edit the CSV by pull request"), applies
+`sheet lock`, checks that a second diff is empty, and records the new print
+from that last read.
 
 `sheet lock` protects every tab so only the service account can edit it. The
 file owner keeps edit rights regardless — Sheets offers no way to lock the
-owner out — which is why `sheet push` diffs before writing.
+owner out — which is why `sheet push` checks the print before writing.
 
 `freeze` copies every arena tab listed in `config/arenas.json` into
 `data/arenas/<id>.csv`, and Bilan's moniker and Discord columns into

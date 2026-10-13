@@ -38,8 +38,7 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 prints what replaces it.
 
 Verification is `go build`, `go vet ./...`, `gofmt -l .`, `go test ./...`,
-then `-dry` on every writing command before running it for real (`export`
-ignores `-dry` and always saves its local PDF).
+then `-dry` on every writing command before running it for real.
 
 **Every arena is final** (challenge, test13, topaz, sapphire, pearl, fire
 drill): `fetch` and `firedrill` refuse them without `-force`
@@ -58,12 +57,16 @@ frozen arenas and a report losing a fifth of the file need `-force`.
 **Run order after changing any CSV** (an arena, `candidates.csv`,
 `github-links.csv`, `evidence.json`): `score` (which also renders
 `scoreboard/`), commit `scoreboard/` and the page with `data/scorecard.json`,
-then `sheet push -dry` and `sheet push -force`. `sheet push` refuses to run
-while `scorecard.json` is stale, and while `sheet diff` finds anything. The
-diff cannot tell a repo change from a sheet edit, so `-dry` lists the change
-being published too: force only when every listed cell is one the repo
-changed. To update mainnet: `fetch -chain gnoland-1 -dry`, then without
-`-dry`, then `score`.
+then `sheet push -dry` and `sheet push`. `sheet push` refuses while
+`scorecard.json` is stale. Each successful push records a print (SHA-256 per
+tab, read back after writing) in the spreadsheet's developer metadata, key
+`scoresheet-push`; the next push compares the sheet with that print, not with
+HEAD. Sheet = print: only the repo moved, push passes without `-force`.
+Sheet ≠ print (a tab edited, added or deleted): refused, `freeze` + PR or
+`-force`. No print: `-force`, needed once for the first real push.
+`sheet diff` adds one line saying whether the sheet matches the last push.
+To update mainnet: `fetch -chain gnoland-1 -dry`, then without `-dry`, then
+`score`.
 
 To eyeball the page, screenshot it rather than assuming — this is how the stale
 hardcoded footer date was caught:
@@ -82,9 +85,9 @@ push` writes Bilan and every arena tab as values (JSON numbers under RAW,
 never text, never formulas), rebuilds the Dashboard (formulas over Bilan, so
 its dropdown and charts stay live), leaves a note on A1 of each tab it writes
 and protects every tab so only the service account can edit it. The file
-owner can always edit regardless; `sheet push` runs `sheet diff` first and
-refuses to overwrite a difference without `-force`. To keep a sheet edit,
-`freeze` copies the tabs back to the CSVs for a pull request.
+owner can always edit regardless; `sheet push` catches that edit with the
+print of the last push and refuses to overwrite it without `-force`. To keep
+a sheet edit, `freeze` copies the tabs back to the CSVs for a pull request.
 
 **The join is by moniker, case-insensitively — never by address.** Validators
 rotate addresses between chains and between runs: only 17 of 86 sapphire

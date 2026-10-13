@@ -17,8 +17,8 @@ import (
 // candidate first joins it. Until then no total reads this block.
 //
 // `fetch -chain gnoland-1` writes the report to data/arenas/mainnet.csv, and
-// score and snapshot both build the block from that file, so it is derived
-// like everything else in scorecard.json.
+// score builds the block from that file, so it is derived like everything
+// else in scorecard.json.
 
 // snapMainnet is one fetched mainnet report.
 type snapMainnet struct {

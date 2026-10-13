@@ -19,9 +19,9 @@ type details struct {
 }
 
 // loadDetails reads the detail of every arena that carries one. rows returns an
-// arena's data rows, header excluded, as text: the CSV under data/arenas/ for
-// `score`, the tab itself for `snapshot`. Both go through the same parsers, so
-// a frozen CSV and the tab it was frozen from describe a validator the same way.
+// arena's data rows, header excluded, as text: `score` reads them from the CSV
+// under data/arenas/, which `freeze` writes from a tab through textRows, so a
+// CSV and the tab it came from describe a validator the same way.
 func loadDetails(cfg arena.Config, rows func(arena.Arena) ([][]string, error)) (details, error) {
 	d := details{
 		challenge: map[string]snapChallenge{},
@@ -95,8 +95,9 @@ func parseOnchain(rows [][]string) map[string]snapOnchain {
 		if k == "" {
 			continue
 		}
-		// VLOOKUP answers with the first match, so the detail must too, or
-		// the page would describe a different node than the one scored.
+		// The arena loader refuses a repeated moniker, so the first row is the
+		// one scored; the detail must come from it too, or the page would
+		// describe a different node than the one scored.
 		if _, dup := out[k]; dup {
 			continue
 		}

@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"time"
 
 	"google.golang.org/api/sheets/v4"
 
@@ -17,15 +18,20 @@ const sheetNote = "Generated from the git repo — edit the CSV by pull request"
 // runSheetPush writes the repo into the spreadsheet: Bilan and every arena
 // tab as values, never formulas, then the Dashboard, the notes and the lock.
 //
-// It runs `sheet diff` first and refuses to write when the sheet differs
-// from the repo, unless -force. The lock keeps everyone but the file owner
-// out; the diff is what catches the owner's own edits, and a protection
-// someone removed. An edit worth keeping goes into the repo first: `freeze`
-// copies the tabs back to the CSVs, for a pull request.
+// It runs `sheet diff` first. A difference is overwritten without -force
+// only when the sheet still holds exactly what the last push wrote: then the
+// repo moved, not the sheet. Otherwise, or when no push was recorded, it
+// refuses unless -force. The lock keeps everyone but the file owner out; the
+// print is what catches the owner's own edits, and a protection someone
+// removed. An edit worth keeping goes into the repo first: `freeze` copies
+// the tabs back to the CSVs, for a pull request.
+//
+// Each push that ends with the sheet matching the repo records a new print
+// (pushPrint) from that final read.
 func runSheetPush(e *env, args []string) error {
 	fs := flag.NewFlagSet("sheet push", flag.ExitOnError)
 	dry := fs.Bool("dry", false, "print the plan without writing")
-	force := fs.Bool("force", false, "overwrite a sheet that differs from the repo")
+	force := fs.Bool("force", false, "overwrite a sheet edited since the last push, or the first push")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -34,22 +40,26 @@ func runSheetPush(e *env, args []string) error {
 	if err != nil {
 		return err
 	}
-	diffs, err := e.diffSheet(tabs)
+	diffs, hashes, err := e.diffSheet(tabs)
+	if err != nil {
+		return err
+	}
+	last, old, err := e.lastPush()
 	if err != nil {
 		return err
 	}
 	for _, d := range diffs {
 		fmt.Println(" ", d)
 	}
-	if len(diffs) > 0 {
-		if !*force {
-			return fmt.Errorf("the sheet differs from the repo in %d place(s), refusing to overwrite it: "+
-				"bring the edit into the repo (freeze, then a pull request), or rerun with -force to discard it", len(diffs))
-		}
-		fmt.Printf("%d difference(s) above will be overwritten (-force).\n", len(diffs))
-	} else {
-		fmt.Println("the sheet matches the repo; rewriting it anyway, with the lock.")
+	var edited []string
+	if last != nil {
+		edited = editedSince(last, hashes, tabNames(tabs))
 	}
+	note, err := pushGate(len(diffs), last, edited, *force)
+	if err != nil {
+		return err
+	}
+	fmt.Println(note)
 	for _, t := range tabs {
 		fmt.Printf("  %-18s %4d rows\n", t.Name, len(t.Rows)-1)
 	}
@@ -80,8 +90,9 @@ func runSheetPush(e *env, args []string) error {
 		return err
 	}
 
-	// The push is only done when a fresh read agrees with the repo.
-	after, err := e.diffSheet(tabs)
+	// The push is only done when a fresh read agrees with the repo. That read
+	// is what the print records, so the next push compares like with like.
+	after, hashes, err := e.diffSheet(tabs)
 	if err != nil {
 		return err
 	}
@@ -89,9 +100,13 @@ func runSheetPush(e *env, args []string) error {
 		fmt.Println(" ", d)
 	}
 	if len(after) > 0 {
-		return fmt.Errorf("pushed, but the sheet still differs from the repo in %d place(s)", len(after))
+		return fmt.Errorf("pushed, but the sheet still differs from the repo in %d place(s); no print recorded", len(after))
 	}
-	fmt.Println("pushed; the sheet matches the repo.")
+	p := pushPrint{PushedAt: time.Now().UTC().Format(time.RFC3339), Tabs: hashes}
+	if err := e.recordPush(old, p); err != nil {
+		return fmt.Errorf("pushed, but recording the print failed: %w", err)
+	}
+	fmt.Printf("pushed; the sheet matches the repo (print recorded %s).\n", p.PushedAt)
 	return nil
 }
 

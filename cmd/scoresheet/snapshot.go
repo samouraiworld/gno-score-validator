@@ -11,9 +11,9 @@ import (
 	"github.com/louisb/score-validator/internal/scoring"
 )
 
-// The snapshot mirrors the spreadsheet into data/scorecard.json, which the
-// standalone HTML page embeds. Field order matches the file it rewrites, so a
-// refresh shows up as a diff of values and never of shape.
+// The snapshot is data/scorecard.json, which `score` computes from the repo
+// and the standalone HTML page embeds. Field order matches the file it
+// rewrites, so a new score shows up as a diff of values and never of shape.
 type snapshot struct {
 	GeneratedAt   string          `json:"generated_at"`
 	Source        string          `json:"source"`
