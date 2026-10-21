@@ -216,6 +216,31 @@ completed. An open edition of another scorecard is refused until
 `DiscardOpen()` is called by hand with the publisher key. A scorecard that is
 already the latest sealed edition sends nothing.
 
+To try it locally, use `gnodev`, `gnokey` and `gnoland` built at the gno
+commit `gnoland-1` runs (`MAINNET_GNO_REF` in samcrew-deployer's
+`ci/mainnet-gno-refs.env`), with `GNOROOT` set to that checkout. The realm
+hard-codes its publisher in `publisher.gno` and never trusts the deployer, so
+gnodev loads a copy of the realm whose `publisher.gno` names gnodev's `test1`.
+Register test valopers with `scripts/gnodev-seed.sh`, then publish the test
+fixture with `test1`, which the seed script puts in its own keybase:
+
+```bash
+REALM=../samcrew-deployer/projects/memba/realms/validator_scores
+SM=/tmp/vs-local/validator_scores
+rm -rf "$SM" && mkdir -p "$SM"
+find "$REALM" -maxdepth 1 -type f \( -name gnomod.toml -o -name '*.gno' \) ! -name '*_test.gno' -exec cp {} "$SM"/ \;
+printf 'package validator_scores\n\nconst initialPublisher address = "g1jg8mtutu9khhfwc4nxmuhcpftf0pajdhfvsqf5"\n' > "$SM/publisher.gno"
+gnodev local -no-web -no-watch -paths gno.land/r/gnops/valopers "$SM" &
+until curl -s http://127.0.0.1:26657/status > /dev/null; do sleep 1; done
+SEED_HOME=/tmp/seed-keys scripts/gnodev-seed.sh
+echo "" | ./bin/scoresheet publish -chain dev -key test1 -gnokey-home /tmp/seed-keys \
+  -insecure-password-stdin -scorecard cmd/scoresheet/testdata/publish/scorecard.json
+```
+
+`go test ./cmd/scoresheet -run TestPublishOnGnodev -v` does the same end to end
+(it stages its own copy) when `SCORESHEET_E2E_REALM_DIR` and `GNOROOT` are set;
+`gnodev`, `gnokey` and `gnoland` must be built from that `GNOROOT`.
+
 ## What the sheet holds
 
 **Bilan is fully generated.** Its layout follows the config:
