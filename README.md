@@ -193,7 +193,7 @@ owner out — which is why `sheet push` checks the print before writing.
 `publish` writes the ranking to the realm `gno.land/r/samcrew/validator_scores`
 as a numbered edition that is sealed once complete, through the `gnokey` CLI
 with the key `score-publisher`. Each candidate is keyed by its valoper operator
-address, found by moniker (case and spaces ignored) in `gno.land/r/gnops/valopers`
+address, found by moniker (case ignored, surrounding spaces dropped, runs of spaces collapsed) in `gno.land/r/gnops/valopers`
 on the target chain; `data/valoper-map.csv` overrides a match. A candidate with
 no single match is listed and skipped, never guessed. Only the operator address,
 moniker, total, rank, GitHub bonus and one score per arena go on chain, as
@@ -204,6 +204,11 @@ handle stops the run before anything is sent.
 ./bin/scoresheet publish -chain gnoland-1 -dry   # plan, unmatched list, payload size (read-only)
 ./bin/scoresheet publish -chain gnoland-1        # open, add in batches of 10, seal, read back
 ```
+
+Before the first run on `gnoland-1`, the realm admin must set the publisher to
+the `score-publisher` key's address with `SetPublisher`; the realm starts with a
+hard-coded publisher. Otherwise the first `OpenEdition` fails with "publisher
+only" and its gas fee is lost. `GetPublisher()` shows the current one.
 
 Each transaction pays its gas fee (never refunded) and a storage deposit of
 about 100 ugnot per byte the realm stores: about 0.2 GNOT to open the edition

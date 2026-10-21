@@ -57,3 +57,14 @@ func TestParsePublishFlagsRefuses(t *testing.T) {
 		}
 	}
 }
+
+func TestParsePublishFlagsRefusesMissingExplicitMap(t *testing.T) {
+	missing := filepath.Join(t.TempDir(), "nope.csv")
+	if _, err := parsePublishFlags("/repo", []string{"-chain", "dev", "-map", missing}); err == nil {
+		t.Fatal("a missing -map file was accepted")
+	}
+	// The default map of gnoland-1 may be absent: no overrides.
+	if _, err := parsePublishFlags("/nonexistent-root", []string{"-chain", "gnoland-1"}); err != nil {
+		t.Fatalf("missing default map refused: %v", err)
+	}
+}

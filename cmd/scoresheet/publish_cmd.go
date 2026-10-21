@@ -92,6 +92,12 @@ func parsePublishFlags(root string, args []string) (publishConfig, error) {
 	if p.MapPath != "" {
 		m = filepath.Join(root, p.MapPath)
 	}
+	if *mapPath != "" {
+		// An explicit map must exist; only the default may be absent.
+		if _, err := os.Stat(*mapPath); err != nil {
+			return publishConfig{}, fmt.Errorf("-map: %w", err)
+		}
+	}
 	m = orDefault(*mapPath, m)
 	return publishConfig{
 		opts: publishOptions{ChainID: p.ChainID, Remote: r, Realm: *realm, Scorecard: card, MapPath: m,

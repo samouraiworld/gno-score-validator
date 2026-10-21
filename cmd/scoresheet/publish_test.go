@@ -343,3 +343,48 @@ func TestPublishRefusesRefusedMonikerBeforeAnySend(t *testing.T) {
 		t.Fatalf("the refused moniker was echoed: %v\n%q", err, out)
 	}
 }
+
+func TestPublishReportListsEachMatchAndItsSource(t *testing.T) {
+	mapPath := filepath.Join(t.TempDir(), "map.csv")
+	csv := "moniker,operator_address\nUnregistered Node," + testOperator(4) + "\n"
+	if err := os.WriteFile(mapPath, []byte(csv), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	o := fixtureOptions(out)
+	o.Dry, o.MapPath = true, mapPath
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	var alpha, mapped string
+	for _, l := range strings.Split(out.String(), "\n") {
+		if strings.Contains(l, "->") && strings.Contains(l, testOperator(1)) {
+			alpha = l
+		}
+		if strings.Contains(l, "->") && strings.Contains(l, testOperator(4)) {
+			mapped = l
+		}
+	}
+	if !strings.Contains(alpha, "seed alpha") || strings.Contains(alpha, "valoper map") {
+		t.Errorf("moniker-matched line: %q", alpha)
+	}
+	if !strings.Contains(mapped, "Unregistered Node") || !strings.Contains(mapped, "(valoper map)") {
+		t.Errorf("map-matched line: %q", mapped)
+	}
+	if strings.Index(out.String(), testOperator(1)) > strings.Index(out.String(), "payload ") {
+		t.Errorf("match lines must precede the payload line:\n%s", out)
+	}
+}
+
+func TestPublishReportMatchLinesAreInRankOrder(t *testing.T) {
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	o := fixtureOptions(out)
+	o.Dry = true
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	a, b, c := strings.Index(out.String(), testOperator(1)), strings.Index(out.String(), testOperator(2)), strings.Index(out.String(), testOperator(3))
+	if !(a < b && b < c) {
+		t.Errorf("match lines not in rank order:\n%s", out)
+	}
+}

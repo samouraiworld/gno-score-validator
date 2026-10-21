@@ -86,6 +86,7 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 	}
 
 	var cands []pubCandidate
+	var rows []matchRow
 	viaMap := 0
 	for _, v := range card.Validators {
 		k := normMoniker(v.Moniker)
@@ -93,7 +94,8 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 		if !ok {
 			continue
 		}
-		if _, ok := overrides[k]; ok {
+		_, mapped := overrides[k]
+		if mapped {
 			viaMap++
 		}
 		// Check the moniker first: the realm refuses it, and no later error
@@ -106,7 +108,9 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 			return err
 		}
 		cands = append(cands, c)
+		rows = append(rows, matchRow{Rank: c.Rank, Moniker: c.Moniker, Operator: op, ViaMap: mapped})
 	}
+	slices.SortStableFunc(rows, func(a, b matchRow) int { return a.Rank - b.Rank })
 	// The one encoding of the run: the report, the send and the read-back all
 	// use these lines.
 	lines, err := payloadLines(cands)
@@ -128,7 +132,7 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 		toSend = linesFor(lines, step)
 	}
 	payloads, _ := batches(toSend, o.Batch)
-	printPublishReport(o, meta, len(card.Validators), len(cands), viaMap, unmatched, payloads, len(toSend))
+	printPublishReport(o, meta, len(card.Validators), len(cands), viaMap, rows, unmatched, payloads, len(toSend))
 
 	if len(cands) == 0 {
 		if o.Dry {
@@ -187,13 +191,28 @@ func linesFor(lines []string, step publishStep) []string {
 	return out
 }
 
-func printPublishReport(o publishOptions, meta editionMeta, total, matched, viaMap int, unmatched []unmatchedCandidate, payloads []string, lineCount int) {
+// matchRow is one matched candidate in the report.
+type matchRow struct {
+	Rank     int
+	Moniker  string
+	Operator string
+	ViaMap   bool // the operator came from the valoper map, not from the moniker
+}
+
+func printPublishReport(o publishOptions, meta editionMeta, total, matched, viaMap int, rows []matchRow, unmatched []unmatchedCandidate, payloads []string, lineCount int) {
 	w := o.Out
 	fmt.Fprintf(w, "chain      %s (%s)\n", o.ChainID, o.Remote)
 	fmt.Fprintf(w, "realm      %s\n", o.Realm)
 	fmt.Fprintf(w, "edition    computedAt %s, scorecard sha256 %s\n", meta.ComputedAt, meta.SHA256)
 	fmt.Fprintf(w, "arenas     %s\n", strings.Join(meta.Arenas, ","))
 	fmt.Fprintf(w, "candidates %d of %d matched a valoper (%d through the valoper map)\n", matched, total, viaMap)
+	for _, r := range rows {
+		mark := ""
+		if r.ViaMap {
+			mark = "  (valoper map)"
+		}
+		fmt.Fprintf(w, "  %3d  %-28s -> %s%s\n", r.Rank, r.Moniker, r.Operator, mark)
+	}
 	fmt.Fprintf(w, "unmatched  %d, not published:\n", len(unmatched))
 	for _, u := range unmatched {
 		fmt.Fprintf(w, "  %-28s %s\n", u.Moniker, u.Reason)
@@ -218,7 +237,7 @@ func sendEdition(o publishOptions, chain realmReader, tx txSender, meta editionM
 		}
 		open, err := readOpenEdition(chain, o.Realm)
 		if err != nil {
-			return err
+			return fmt.Errorf("reading the edition after OpenEdition: %w (run publish again to resume)", err)
 		}
 		if open == nil || open.ScorecardSHA256 != meta.SHA256 {
 			return fmt.Errorf("OpenEdition went through but OpenEditionJSON does not show this scorecard's edition")
@@ -243,7 +262,7 @@ func sendEdition(o publishOptions, chain realmReader, tx txSender, meta editionM
 func verifySealed(o publishOptions, chain realmReader, edition int, meta editionMeta, lines []string) error {
 	latest, err := readLatest(chain, o.Realm)
 	if err != nil {
-		return err
+		return fmt.Errorf("reading the sealed edition back: %w (run publish again to resume)", err)
 	}
 	if latest == nil || latest.Number != edition {
 		return fmt.Errorf("LatestJSON does not show edition %d after Seal", edition)
