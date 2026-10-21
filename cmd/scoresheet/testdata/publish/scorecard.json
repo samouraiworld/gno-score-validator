@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-10-13",
+  "source": "Test fixture for scoresheet publish: four made-up candidates, three of them registered by scripts/gnodev-seed.sh.",
+  "arenas": [
+    {"id": "challenge", "label": "Challenge", "source": "fixture", "colour": "#888888", "in_total": true, "detail": ""},
+    {"id": "test13", "label": "Test13", "source": "fixture", "colour": "#888888", "in_total": true, "detail": ""},
+    {"id": "topaz", "label": "Topaz", "source": "fixture", "colour": "#888888", "in_total": true, "detail": ""},
+    {"id": "sapphire", "label": "Sapphire", "source": "fixture", "colour": "#888888", "in_total": true, "detail": ""},
+    {"id": "pearl", "label": "Pearl", "source": "fixture", "colour": "#888888", "in_total": true, "detail": ""},
+    {"id": "firedrill", "label": "Fire drill", "source": "fixture", "colour": "#888888", "in_total": true, "detail": ""}
+  ],
+  "weights": {},
+  "github_score_weights": {},
+  "validators": [
+    {"moniker": "seed  alpha", "discord": "dc_alpha", "components": {"challenge": 100, "test13": 85, "topaz": 96, "sapphire": 96, "pearl": 100, "firedrill": 96}, "github_current": 0, "github_corrected": 0, "score_current": 95.5, "score_corrected": 95.5, "challenge_detail": null, "onchain": {}, "rank_current": 1, "rank_corrected": 1},
+    {"moniker": "Seed-Bravo", "discord": "dc_bravo", "components": {"challenge": 90, "test13": 80, "topaz": 85, "sapphire": 88, "pearl": 92, "firedrill": 75}, "github_current": 40, "github_corrected": 37, "score_current": 89, "score_corrected": 88.7, "challenge_detail": null, "onchain": {}, "rank_current": 2, "rank_corrected": 2},
+    {"moniker": "Seed_Charlie", "discord": "dc_charlie", "components": {"challenge": 70, "test13": 60, "topaz": 65, "sapphire": 72, "pearl": 68, "firedrill": 0}, "github_current": 0, "github_corrected": 0, "score_current": 55.833333333333336, "score_corrected": 55.833333333333336, "challenge_detail": null, "onchain": {}, "rank_current": 3, "rank_corrected": 3},
+    {"moniker": "Unregistered Node", "discord": "dc_unregistered", "components": {"challenge": 50, "test13": 50, "topaz": 50, "sapphire": 50, "pearl": 50, "firedrill": 50}, "github_current": 0, "github_corrected": 0, "score_current": 50, "score_corrected": 50, "challenge_detail": null, "onchain": {}, "rank_current": 4, "rank_corrected": 4}
+  ]
+}
