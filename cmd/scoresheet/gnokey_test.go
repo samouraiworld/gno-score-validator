@@ -46,9 +46,22 @@ func TestGnokeyArgs(t *testing.T) {
 	if got[len(got)-1] != "score-publisher" || !strings.Contains(strings.Join(got, " "), "-home /tmp/keys -insecure-password-stdin score-publisher") {
 		t.Fatalf("got %q", got)
 	}
-	g.MaxDeposit = ""
-	if got := strings.Join(g.args("DiscardOpen", nil), " "); strings.Contains(got, "-max-deposit") {
-		t.Fatalf("empty MaxDeposit still passed: %q", got)
+}
+
+func TestGnokeyCallFailsClosedOnMissingLimits(t *testing.T) {
+	bin, dir := fakeGnokey(t, false)
+	g := gnokeyCLI{Bin: bin, Key: "k", Remote: "r", ChainID: "dev", Realm: defaultRealm,
+		GasFee: "1ugnot", GasWanted: "1", MaxDeposit: "1ugnot", Out: io.Discard}
+	for _, field := range []string{"GasFee", "GasWanted", "MaxDeposit"} {
+		c := g
+		reflect.ValueOf(&c).Elem().FieldByName(field).SetString("")
+		err := c.Call("Seal", "1", "3")
+		if err == nil || !strings.Contains(err.Error(), field) {
+			t.Fatalf("%s empty: err = %v", field, err)
+		}
+		if _, statErr := os.Stat(filepath.Join(dir, "args")); statErr == nil {
+			t.Fatalf("%s empty: gnokey was invoked", field)
+		}
 	}
 }
 
@@ -70,7 +83,7 @@ func TestGnokeyCallPassesPayloadAndPassword(t *testing.T) {
 	bin, dir := fakeGnokey(t, false)
 	pw := "secret"
 	g := gnokeyCLI{Bin: bin, Key: "k", Remote: "127.0.0.1:26657", ChainID: "dev", Realm: defaultRealm,
-		GasFee: "1ugnot", GasWanted: "1", Password: &pw, Out: io.Discard}
+		GasFee: "1ugnot", GasWanted: "1", MaxDeposit: "1ugnot", Password: &pw, Out: io.Discard}
 	payload := testOperator(1) + "|A|5000|1|0|5000\n" + testOperator(2) + "|B|4000|2|0|4000"
 	if err := g.Call("AddCandidates", "1", payload); err != nil {
 		t.Fatal(err)
@@ -90,11 +103,20 @@ func TestGnokeyCallPassesPayloadAndPassword(t *testing.T) {
 }
 
 func TestGnokeyCallReportsRealmError(t *testing.T) {
-	bin, _ := fakeGnokey(t, true)
-	pw := ""
-	g := gnokeyCLI{Bin: bin, Key: "k", Remote: "r", ChainID: "dev", Realm: defaultRealm, GasFee: "1ugnot", GasWanted: "1", Password: &pw}
+	bin, dir := fakeGnokey(t, true)
+	pw := "s3cret-pw"
+	g := gnokeyCLI{Bin: bin, Key: "k", Remote: "r", ChainID: "dev", Realm: defaultRealm, GasFee: "1ugnot", GasWanted: "1", MaxDeposit: "1ugnot", Password: &pw}
 	err := g.Call("AddCandidates", "2", "x")
 	if err == nil || !strings.Contains(err.Error(), "AddCandidates") || !strings.Contains(err.Error(), "edition 2 is not open") {
 		t.Fatalf("err = %v", err)
+	}
+	if strings.Contains(err.Error(), pw) {
+		t.Fatalf("password leaked into error: %v", err)
+	}
+	if raw, _ := os.ReadFile(filepath.Join(dir, "args")); strings.Contains(string(raw), pw) {
+		t.Fatalf("password leaked into argv: %q", raw)
+	}
+	if got, _ := os.ReadFile(filepath.Join(dir, "password")); string(got) != pw {
+		t.Fatalf("password not received on stdin: %q", got)
 	}
 }

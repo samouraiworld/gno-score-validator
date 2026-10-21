@@ -25,8 +25,7 @@ type gnokeyCLI struct {
 	Realm     string
 	GasFee    string
 	GasWanted string
-	// MaxDeposit caps the storage deposit of one call (-max-deposit); "" leaves
-	// the flag out.
+	// MaxDeposit caps the storage deposit of one call (-max-deposit). Required.
 	MaxDeposit string
 	// Password, when set, goes to gnokey on stdin with -insecure-password-stdin.
 	// Unset, gnokey asks for it on the terminal for each transaction.
@@ -39,10 +38,8 @@ func (g gnokeyCLI) args(fn string, args []string) []string {
 	for _, x := range args {
 		a = append(a, "-args", x)
 	}
-	a = append(a, "-gas-fee", g.GasFee, "-gas-wanted", g.GasWanted)
-	if g.MaxDeposit != "" {
-		a = append(a, "-max-deposit", g.MaxDeposit)
-	}
+	a = append(a, "-gas-fee", g.GasFee, "-gas-wanted", g.GasWanted,
+		"-max-deposit", g.MaxDeposit)
 	a = append(a, "-broadcast", "-chainid", g.ChainID, "-remote", g.Remote)
 	if g.Home != "" {
 		a = append(a, "-home", g.Home)
@@ -54,8 +51,22 @@ func (g gnokeyCLI) args(fn string, args []string) []string {
 }
 
 // Call runs one gnokey maketx call and returns the realm's message when it
-// fails.
+// fails. GasFee, GasWanted and MaxDeposit are required: Call fails closed,
+// without running gnokey, when one is empty.
+//
+// A non-nil error does not mean the transaction did not land: a broadcast can
+// time out and still be committed. Callers must re-read realm state before
+// sending again and must not retry within the same run.
 func (g gnokeyCLI) Call(fn string, args ...string) error {
+	var missing []string
+	for _, f := range []struct{ name, v string }{{"GasFee", g.GasFee}, {"GasWanted", g.GasWanted}, {"MaxDeposit", g.MaxDeposit}} {
+		if f.v == "" {
+			missing = append(missing, f.name)
+		}
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("gnokey %s: missing %s", fn, strings.Join(missing, ", "))
+	}
 	cmd := exec.Command(g.Bin, g.args(fn, args)...)
 	var buf bytes.Buffer
 	var out io.Writer = &buf
