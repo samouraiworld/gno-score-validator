@@ -232,6 +232,70 @@ func TestPublishPrintsResumeNoteOnlyWhenResuming(t *testing.T) {
 	}
 }
 
+// reportDigest returns the digest a run printed.
+func reportDigest(t *testing.T, out string) string {
+	t.Helper()
+	for _, l := range strings.Split(out, "\n") {
+		if f := strings.Fields(l); len(f) >= 2 && f[0] == "digest" {
+			return f[1]
+		}
+	}
+	t.Fatalf("no digest line:\n%s", out)
+	return ""
+}
+
+// On a public chain a real run sends only the plan a -dry run printed: a
+// valoper registered between the two runs under a candidate's moniker
+// changes the digest, and nothing is sent.
+func TestPublishSendsOnlyTheReviewedPlan(t *testing.T) {
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	o := fixtureOptions(out)
+	o.NeedPlan, o.Dry = true, true
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	digest := reportDigest(t, out.String())
+
+	o.Dry = false
+	if err := publishRun(o, chain, chain); err == nil || !strings.Contains(err.Error(), "-plan is required") || len(chain.calls) != 0 {
+		t.Fatalf("no -plan: err %v, calls %v", err, chain.calls)
+	}
+
+	squatted := newFakeChain()
+	squatted.roster = strings.Replace(squatted.roster, rosterLine("Seed Alpha", testOperator(1)), rosterLine("Seed Alpha", testOperator(9)), 1)
+	o.Plan = digest
+	if err := publishRun(o, squatted, squatted); err == nil || !strings.Contains(err.Error(), "not -plan") || len(squatted.calls) != 0 {
+		t.Fatalf("changed roster: err %v, calls %v", err, squatted.calls)
+	}
+
+	// A failed batch, then a resumed run: the digest does not depend on
+	// what the chain holds, so the same -plan still sends.
+	chain.failOn = "Seal"
+	if err := publishRun(o, chain, chain); err == nil {
+		t.Fatal("simulated Seal failure not reported")
+	}
+	chain.failOn = ""
+	if err := publishRun(o, chain, chain); err != nil || len(chain.sealed) != 1 {
+		t.Fatalf("resume with the same -plan: err %v, sealed %d", err, len(chain.sealed))
+	}
+}
+
+// A sealed edition of this scorecard whose lines differ is not "already
+// published": a re-run says so and opens a new edition.
+func TestPublishDoesNotTakeADifferentSealedEditionForThisRun(t *testing.T) {
+	chain := newFakeChain()
+	chain.sealed = []fakeEdition{{number: 1, computedAt: "2026-10-13T00:00:00Z", sha: fixtureSHA(t),
+		arenas: strings.Split("challenge,test13,topaz,sapphire,pearl,firedrill", ","),
+		lines:  []string{fixtureLines[0], fixtureLines[1], strings.Replace(fixtureLines[2], "|5583|", "|5584|", 1)}}}
+	out := &bytes.Buffer{}
+	if err := publishRun(fixtureOptions(out), chain, chain); err != nil {
+		t.Fatalf("%v\n%s", err, out)
+	}
+	if !strings.Contains(out.String(), "sealed edition 1 holds this scorecard with other lines") || len(chain.sealed) != 2 {
+		t.Fatalf("sealed %d\n%s", len(chain.sealed), out)
+	}
+}
+
 // bigScorecard writes a scorecard of n made-up candidates named node-1..node-n
 // and returns its path with a roster that registers all of them.
 func bigScorecard(t *testing.T, n int) (string, string) {

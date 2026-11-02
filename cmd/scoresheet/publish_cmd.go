@@ -20,6 +20,7 @@ type chainProfile struct {
 	GasFee     string
 	GasWanted  string
 	MaxDeposit string // gnokey -max-deposit: the storage deposit ceiling of one call
+	Public     bool   // a public chain: https remote only, and a real run needs -plan
 }
 
 // chainProfiles are the chains publish knows. The gnoland-1 gas values follow
@@ -33,7 +34,7 @@ var chainProfiles = map[string]chainProfile{
 	"dev": {ChainID: "dev", Remote: "http://127.0.0.1:26657", GasFee: "1000000ugnot", GasWanted: "80000000",
 		MaxDeposit: "1000000ugnot"},
 	"gnoland-1": {ChainID: "gnoland-1", Remote: "https://rpc.gno.land:443", MapPath: filepath.Join("data", "valoper-map.csv"),
-		GasFee: "200000ugnot", GasWanted: "80000000", MaxDeposit: "1000000ugnot"},
+		GasFee: "200000ugnot", GasWanted: "80000000", MaxDeposit: "1000000ugnot", Public: true},
 }
 
 // defaultBatch is the number of candidates per AddCandidates call. The realm
@@ -62,6 +63,7 @@ func parsePublishFlags(root string, args []string) (publishConfig, error) {
 	key := fs.String("key", "score-publisher", "gnokey key that signs")
 	realm := fs.String("realm", defaultRealm, "realm package path")
 	dry := fs.Bool("dry", false, "print the plan, send nothing")
+	plan := fs.String("plan", "", "digest printed by -dry; a real run sends only that exact plan (required on gnoland-1)")
 	scorecard := fs.String("scorecard", "", "scorecard to publish (default: data/scorecard.json, checked against the CSVs)")
 	mapPath := fs.String("map", "", "moniker,operator_address overrides (default: data/valoper-map.csv on gnoland-1, none on dev)")
 	batch := fs.Int("batch", defaultBatch, "candidates per AddCandidates call")
@@ -84,6 +86,13 @@ func parsePublishFlags(root string, args []string) (publishConfig, error) {
 		return publishConfig{}, fmt.Errorf("-batch must be at least 1")
 	}
 	r := orDefault(*remote, p.Remote)
+	if p.Public && !strings.HasPrefix(r, "https://") {
+		// Every read (chain id, roster, editions) decides what gets signed.
+		return publishConfig{}, fmt.Errorf("-remote on %s must be an https:// URL, got %q", p.ChainID, r)
+	}
+	if p.Public && !*dry && *plan == "" {
+		return publishConfig{}, fmt.Errorf("-plan is required on %s: run publish -dry, check every match it lists, then pass the digest it prints", p.ChainID)
+	}
 	card, checkFresh := filepath.Join(root, "data", "scorecard.json"), true
 	if *scorecard != "" {
 		card, checkFresh = *scorecard, false
@@ -101,7 +110,7 @@ func parsePublishFlags(root string, args []string) (publishConfig, error) {
 	m = orDefault(*mapPath, m)
 	return publishConfig{
 		opts: publishOptions{ChainID: p.ChainID, Remote: r, Realm: *realm, Scorecard: card, MapPath: m,
-			Batch: *batch, Dry: *dry, Out: os.Stdout},
+			Batch: *batch, Dry: *dry, Plan: *plan, NeedPlan: p.Public, Out: os.Stdout},
 		tx: gnokeyCLI{Bin: "gnokey", Home: *home, Key: *key, Remote: r, ChainID: p.ChainID, Realm: *realm,
 			GasFee: orDefault(*gasFee, p.GasFee), GasWanted: orDefault(*gasWanted, p.GasWanted),
 			MaxDeposit: orDefault(*maxDeposit, p.MaxDeposit), Out: os.Stdout},

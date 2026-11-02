@@ -201,14 +201,23 @@ integers in hundredths; a value shaped like an e-mail address or a Discord
 handle stops the run before anything is sent.
 
 ```bash
-./bin/scoresheet publish -chain gnoland-1 -dry   # plan, unmatched list, payload size (read-only)
-./bin/scoresheet publish -chain gnoland-1        # open, add in batches of 10, seal, read back
+./bin/scoresheet publish -chain gnoland-1 -dry                # plan, matches, payload size, digest (read-only)
+./bin/scoresheet publish -chain gnoland-1 -plan <digest>      # open, add in batches of 10, seal, read back
 ```
+
+`r/gnops/valopers` does not keep monikers unique: anyone can register their own
+address under a candidate's moniker. Check every `moniker -> operator` line of
+the `-dry` report, then pass the `digest` it prints as `-plan`. The digest
+covers the edition metadata and every line, operator addresses included; a real
+run on `gnoland-1` refuses to start without it, and refuses before any
+transaction if the scorecard, the valoper map or the roster changed since that
+`-dry`. On `gnoland-1`, `-remote` must be an `https://` URL.
 
 Before the first run on `gnoland-1`, the realm admin must set the publisher to
 the `score-publisher` key's address with `SetPublisher`; the realm starts with a
 hard-coded publisher. Otherwise the first `OpenEdition` fails with "publisher
-only" and its gas fee is lost. `GetPublisher()` shows the current one.
+only"; gnokey simulates each call before broadcasting it, so that refusal sends
+nothing and costs no fee. `GetPublisher()` shows the current one.
 
 Each transaction pays its gas fee (never refunded) and a storage deposit of
 about 100 ugnot per byte the realm stores: about 0.2 GNOT to open the edition
@@ -218,8 +227,10 @@ adjustable.
 
 Run it again after a failure: an open edition of the same scorecard is
 completed. An open edition of another scorecard is refused until
-`DiscardOpen()` is called by hand with the publisher key. A scorecard that is
-already the latest sealed edition sends nothing. A resumed run does not check
+`DiscardOpen()` is called by hand with the publisher key. A run whose every
+line already matches the latest sealed edition sends nothing; a sealed edition
+of the same scorecard with other lines is superseded by a new one, and the plan
+says so. A resumed run does not check
 the lines already on chain again (the realm lists only their operators): if
 `data/valoper-map.csv` or `r/gnops/valopers` changed since the first run, call
 `DiscardOpen()` and publish again instead of resuming.

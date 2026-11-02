@@ -135,7 +135,10 @@ public and permanent. The allowlist is the `pubCandidate` type in
 `cmd/scoresheet/publish_payload.go`; widen it only on purpose, like
 `publicPayload`. The realm keys candidates by valoper operator address, so
 publish is the one place that joins on an address: the moniker join happens
-once, in `matchOperators`, against `r/gnops/valopers` of the target chain.
+once, in `matchOperators`, against `r/gnops/valopers` of the target chain. That
+realm does not keep monikers unique, so a real run on gnoland-1 needs `-plan
+<digest>`, the digest of the `-dry` whose matches were checked: what was
+reviewed is what gets sent.
 
 ## Chains
 

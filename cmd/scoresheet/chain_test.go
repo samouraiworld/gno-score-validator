@@ -102,6 +102,26 @@ func TestRPCAbciErrorKeepsType(t *testing.T) {
 	}
 }
 
+func TestRPCErrorTextIsEscaped(t *testing.T) {
+	base := `{"Error":{"@type":"/vm.X\u001b[2J","value":"boom\u001b]0;pwned\u0007"},"Data":null,"Log":""}`
+	srv := fakeNode(t, "dev", map[string]string{"vm/qeval " + defaultRealm + ".LatestJSON()": base})
+	_, err := newRPCClient(srv.URL).Eval(defaultRealm, "LatestJSON()")
+	if err == nil || strings.ContainsAny(err.Error(), "\x1b\x07") || !strings.Contains(err.Error(), `\x1b`) {
+		t.Fatalf("err = %q, want the control characters escaped", err)
+	}
+}
+
+func TestRPCResponseSizeIsCapped(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprint(w, `{"result":"`+strings.Repeat("a", maxRPCBody)+`"}`)
+	}))
+	defer srv.Close()
+	var out string
+	if err := newRPCClient(srv.URL).call("status", nil, &out); err == nil {
+		t.Fatal("a response above maxRPCBody was read")
+	}
+}
+
 func TestRPCHTTPError(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "down", http.StatusBadGateway)

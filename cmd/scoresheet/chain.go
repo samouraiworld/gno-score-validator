@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
@@ -50,11 +51,11 @@ func (c *rpcClient) call(method string, params map[string]string, result any) er
 			Data    string `json:"data"`
 		} `json:"error"`
 	}
-	if err := json.NewDecoder(resp.Body).Decode(&r); err != nil {
+	if err := json.NewDecoder(io.LimitReader(resp.Body, maxRPCBody)).Decode(&r); err != nil {
 		return fmt.Errorf("%s: %w", method, err)
 	}
 	if r.Error != nil {
-		return fmt.Errorf("%s: %s %s", method, r.Error.Message, r.Error.Data)
+		return fmt.Errorf("%s: %s %s", method, nodeText(r.Error.Message), nodeText(r.Error.Data))
 	}
 	return json.Unmarshal(r.Result, result)
 }
@@ -81,9 +82,20 @@ type abciError struct {
 
 func (e *abciError) Error() string {
 	if e.Detail == "" {
-		return e.Type
+		return nodeText(e.Type)
 	}
-	return e.Type + ": " + e.Detail
+	return nodeText(e.Type) + ": " + nodeText(e.Detail)
+}
+
+// maxRPCBody caps one node response; the largest publish reads (a roster
+// page, an edition of 200 candidates) stay far below it.
+const maxRPCBody = 8 << 20
+
+// nodeText escapes what a node wrote before it reaches the terminal, so a
+// hostile node cannot send control sequences.
+func nodeText(s string) string {
+	q := strconv.QuoteToGraphic(s)
+	return q[1 : len(q)-1]
 }
 
 // isRealmMissing reports whether err says the package is not on chain.

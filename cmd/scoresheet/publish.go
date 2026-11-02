@@ -21,6 +21,8 @@ type publishOptions struct {
 	MapPath   string    // moniker,operator_address overrides; "" for none
 	Batch     int       // candidates per AddCandidates call
 	Dry       bool      // print the plan, send nothing
+	Plan      string    // -plan: the digest a -dry run printed; "" when not given
+	NeedPlan  bool      // a real run needs Plan (gnoland-1)
 	Out       io.Writer // the report
 }
 
@@ -29,6 +31,22 @@ type publishOptions struct {
 // 16 arenas, and a sealed edition can never be fixed. 200 leaves about a 2x
 // margin even at 16 arenas.
 const maxEditionCandidates = 200
+
+// planDigest fingerprints what a run would publish: chain, realm, edition
+// metadata and every line, operator addresses included. It does not depend
+// on what the chain already holds, so a resumed run keeps the digest. A real
+// run on gnoland-1 must name it with -plan, so that what was reviewed in -dry
+// is what gets sent: r/gnops/valopers does not keep monikers unique, and a
+// valoper registered between the two runs could otherwise take a candidate's
+// slot in a sealed edition.
+func planDigest(chainID, realm string, meta editionMeta, lines []string) string {
+	h := sha256.New()
+	fmt.Fprintf(h, "%s\n%s\n%s\n%s\n%s\n", chainID, realm, meta.ComputedAt, meta.SHA256, strings.Join(meta.Arenas, ","))
+	for _, l := range lines {
+		fmt.Fprintf(h, "%s\n", l)
+	}
+	return hex.EncodeToString(h.Sum(nil))
+}
 
 // chainReader is everything publish reads from the chain.
 type chainReader interface {
@@ -135,7 +153,7 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 	var step publishStep
 	var chainErr error
 	if len(cands) > 0 {
-		step, chainErr = planFromChain(o, chain, sha, cands)
+		step, chainErr = planFromChain(o, chain, meta, cands)
 	}
 	toSend := lines
 	if chainErr == nil && len(cands) > 0 {
@@ -143,6 +161,12 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 	}
 	payloads, _ := batches(toSend, o.Batch)
 	printPublishReport(o, meta, len(card.Validators), len(cands), viaMap, rows, unmatched, payloads, len(toSend))
+	digest := planDigest(o.ChainID, o.Realm, meta, lines)
+	if o.NeedPlan {
+		fmt.Fprintf(o.Out, "digest     %s (pass it as -plan to send this exact plan)\n", digest)
+	} else {
+		fmt.Fprintf(o.Out, "digest     %s\n", digest)
+	}
 
 	if len(cands) == 0 {
 		if o.Dry {
@@ -150,6 +174,12 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 			return nil
 		}
 		return fmt.Errorf("no candidate matched a valoper: nothing to publish")
+	}
+	if o.Plan != "" && o.Plan != digest {
+		return fmt.Errorf("this run's digest is not -plan %s: the scorecard, the valoper map or r/gnops/valopers changed since that -dry; check every match above again; nothing sent", o.Plan)
+	}
+	if o.NeedPlan && !o.Dry && o.Plan == "" {
+		return fmt.Errorf("-plan is required on %s: run publish -dry, check every match it lists, then pass the digest it prints; nothing sent", o.ChainID)
 	}
 	if chainErr != nil {
 		if o.Dry && isRealmMissing(chainErr) {
@@ -176,7 +206,7 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 }
 
 // planFromChain reads the realm and decides what this run sends.
-func planFromChain(o publishOptions, chain realmReader, sha string, cands []pubCandidate) (publishStep, error) {
+func planFromChain(o publishOptions, chain realmReader, meta editionMeta, cands []pubCandidate) (publishStep, error) {
 	open, err := readOpenEdition(chain, o.Realm)
 	if err != nil {
 		return publishStep{}, err
@@ -185,7 +215,7 @@ func planFromChain(o publishOptions, chain realmReader, sha string, cands []pubC
 	if err != nil {
 		return publishStep{}, err
 	}
-	return planPublish(open, latest, sha, cands)
+	return planPublish(open, latest, meta, cands)
 }
 
 // linesFor picks, from the run's encoded lines and in their order, those the
@@ -283,22 +313,8 @@ func verifySealed(o publishOptions, chain realmReader, edition int, meta edition
 	if latest == nil || latest.Number != edition {
 		return fmt.Errorf("LatestJSON does not show edition %d after Seal", edition)
 	}
-	if latest.ScorecardSHA256 != meta.SHA256 || latest.ComputedAt != meta.ComputedAt || !slices.Equal(latest.Arenas, meta.Arenas) {
-		return fmt.Errorf("edition %d on chain: metadata differs from what was sent", edition)
-	}
-	want := slices.Clone(lines)
-	got := make([]string, 0, len(latest.Candidates))
-	for _, c := range latest.Candidates {
-		line, err := encodeLine(pubCandidate{Operator: c.Operator, Moniker: c.Moniker, Total: c.Total, Rank: c.Rank, Github: c.Github, Arenas: c.ArenaScores})
-		if err != nil {
-			return fmt.Errorf("edition %d on chain: %w", edition, err)
-		}
-		got = append(got, line)
-	}
-	slices.Sort(want)
-	slices.Sort(got)
-	if !slices.Equal(got, want) {
-		return fmt.Errorf("edition %d on chain holds %d candidates that differ from the %d sent", edition, len(got), len(want))
+	if err := sealedDiff(latest, meta, lines); err != nil {
+		return err
 	}
 	fmt.Fprintf(o.Out, "sealed edition %d with %d candidates; LatestJSON matches what was sent\n", edition, len(lines))
 	return nil
