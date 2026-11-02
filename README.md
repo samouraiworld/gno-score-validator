@@ -208,10 +208,16 @@ handle stops the run before anything is sent.
 `r/gnops/valopers` does not keep monikers unique: anyone can register their own
 address under a candidate's moniker. Check every `moniker -> operator` line of
 the `-dry` report, then pass the `digest` it prints as `-plan`. The digest
-covers the edition metadata and every line, operator addresses included; a real
-run on `gnoland-1` refuses to start without it, and refuses before any
-transaction if the scorecard, the valoper map or the roster changed since that
-`-dry`. On `gnoland-1`, `-remote` must be an `https://` URL.
+covers the edition metadata, every line (operator addresses included), the
+step read from the realm (open, resume or nothing, and what is still missing)
+and the batch and gas settings. A real run on `gnoland-1` refuses to start
+without it, and refuses before any transaction if any of these changed since
+that `-dry`. On `gnoland-1`, `-remote` must be an `https://` URL.
+
+Every read comes from that one node, and the realm does not check which
+operator belongs to which candidate: a node that lies consistently to both
+runs would also lie to the `-dry` review. Use the default `rpc.gno.land`
+endpoint unless there is a reason not to.
 
 Before the first run on `gnoland-1`, the realm admin must set the publisher to
 the `score-publisher` key's address with `SetPublisher`; the realm starts with a
@@ -223,22 +229,24 @@ Each transaction pays its gas fee (never refunded) and a storage deposit of
 about 100 ugnot per byte the realm stores: about 0.2 GNOT to open the edition
 and about 0.16 GNOT per batch of 10 candidates. `-max-deposit` (default
 `1000000ugnot`) caps the deposit of one call; `-batch` and `-gas-wanted` stay
-adjustable.
+adjustable. The report's `cost` line bounds the whole run: every gas fee, and
+every deposit at its ceiling.
 
-Run it again after a failure: an open edition of the same scorecard is
-completed. An open edition of another scorecard is refused until
+Run `-dry` again after a failure, then the real run with the new digest: an
+open edition of the same scorecard is completed. An open edition of another scorecard is refused until
 `DiscardOpen()` is called by hand with the publisher key. A run whose every
 line already matches the latest sealed edition sends nothing; a sealed edition
 of the same scorecard with other lines is superseded by a new one, and the plan
-says so. A resumed run does not check
-the lines already on chain again (the realm lists only their operators): if
+says so. A resumed run does not check the lines already on chain again (the realm lists only their operators): if
 `data/valoper-map.csv` or `r/gnops/valopers` changed since the first run, call
 `DiscardOpen()` and publish again instead of resuming.
 
 Run one publication at a time per publisher key: two runs at once can open,
 discard and reopen editions under each other. An edition holds at most 200
-candidates. The realm sets no cap, but near 350 candidates with 16 arenas it
-can no longer render a sealed edition, and a sealed edition cannot be fixed.
+candidates. The realm sets no cap, but a sealed edition cannot be fixed, and
+its `Render` runs out of query gas near 350 candidates: on gnodev at the
+`gnoland-1` runtime, with 16 arenas and 64-byte monikers, it answers at 300
+and fails at 350.
 
 To try it locally, use `gnodev`, `gnokey` and `gnoland` built at the gno
 commit `gnoland-1` runs (`MAINNET_GNO_REF` in samcrew-deployer's

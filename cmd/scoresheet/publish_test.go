@@ -268,15 +268,51 @@ func TestPublishSendsOnlyTheReviewedPlan(t *testing.T) {
 		t.Fatalf("changed roster: err %v, calls %v", err, squatted.calls)
 	}
 
-	// A failed batch, then a resumed run: the digest does not depend on
-	// what the chain holds, so the same -plan still sends.
+	// Other batch or gas settings than the reviewed ones: refused.
+	for _, change := range []func(*publishOptions){
+		func(p *publishOptions) { p.Batch = 1 },
+		func(p *publishOptions) { p.GasFee = "9000000ugnot" },
+		func(p *publishOptions) { p.MaxDeposit = "9000000ugnot" },
+	} {
+		c := o
+		change(&c)
+		if err := publishRun(c, chain, chain); err == nil || !strings.Contains(err.Error(), "not -plan") || len(chain.calls) != 0 {
+			t.Fatalf("changed settings: err %v, calls %v", err, chain.calls)
+		}
+	}
+
+	// A failed Seal, then a resume: the step changed, so the old -plan is
+	// refused and the resume needs the digest of a new -dry.
 	chain.failOn = "Seal"
 	if err := publishRun(o, chain, chain); err == nil {
 		t.Fatal("simulated Seal failure not reported")
 	}
 	chain.failOn = ""
+	calls := len(chain.calls)
+	if err := publishRun(o, chain, chain); err == nil || !strings.Contains(err.Error(), "not -plan") || len(chain.calls) != calls {
+		t.Fatalf("resume with the old -plan: err %v, calls %v", err, chain.calls[calls:])
+	}
+	out.Reset()
+	o.Dry, o.Plan = true, ""
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	o.Dry, o.Plan = false, reportDigest(t, out.String())
 	if err := publishRun(o, chain, chain); err != nil || len(chain.sealed) != 1 {
-		t.Fatalf("resume with the same -plan: err %v, sealed %d", err, len(chain.sealed))
+		t.Fatalf("resume with the new -plan: err %v, sealed %d", err, len(chain.sealed))
+	}
+}
+
+func TestPublishReportBoundsTheCost(t *testing.T) {
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	o := fixtureOptions(out)
+	o.Dry, o.GasFee, o.MaxDeposit = true, "200000ugnot", "1000000ugnot"
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	// 3 candidates in batches of 2: OpenEdition, 2 AddCandidates, Seal.
+	if want := "cost       4 call(s): 800000ugnot in gas fees (never refunded), storage deposits at most 4000000ugnot"; !strings.Contains(out.String(), want) {
+		t.Fatalf("report lacks %q:\n%s", want, out)
 	}
 }
 

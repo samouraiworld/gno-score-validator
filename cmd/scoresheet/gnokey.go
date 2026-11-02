@@ -80,7 +80,7 @@ func (g gnokeyCLI) Call(fn string, args ...string) error {
 		cmd.Stdin = os.Stdin
 	}
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("gnokey %s: %w: %s", fn, err, gnokeyError(buf.String()))
+		return fmt.Errorf("gnokey %s: %w: %s", fn, err, nodeText(gnokeyError(buf.String())))
 	}
 	return nil
 }

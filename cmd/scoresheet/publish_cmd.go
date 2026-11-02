@@ -110,7 +110,8 @@ func parsePublishFlags(root string, args []string) (publishConfig, error) {
 	m = orDefault(*mapPath, m)
 	return publishConfig{
 		opts: publishOptions{ChainID: p.ChainID, Remote: r, Realm: *realm, Scorecard: card, MapPath: m,
-			Batch: *batch, Dry: *dry, Plan: *plan, NeedPlan: p.Public, Out: os.Stdout},
+			Batch: *batch, Dry: *dry, Plan: *plan, NeedPlan: p.Public, GasFee: orDefault(*gasFee, p.GasFee),
+			GasWanted: orDefault(*gasWanted, p.GasWanted), MaxDeposit: orDefault(*maxDeposit, p.MaxDeposit), Out: os.Stdout},
 		tx: gnokeyCLI{Bin: "gnokey", Home: *home, Key: *key, Remote: r, ChainID: p.ChainID, Realm: *realm,
 			GasFee: orDefault(*gasFee, p.GasFee), GasWanted: orDefault(*gasWanted, p.GasWanted),
 			MaxDeposit: orDefault(*maxDeposit, p.MaxDeposit), Out: os.Stdout},

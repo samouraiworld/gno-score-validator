@@ -36,6 +36,7 @@ type editionMeta struct {
 var (
 	operatorRe = regexp.MustCompile(`^g1[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{38}$`)
 	arenaIDRe  = regexp.MustCompile(`^[a-z0-9_-]{1,32}$`) // the realm's arena name rule
+	sha256Re   = regexp.MustCompile(`^[0-9a-f]{64}$`)
 	// discordRe catches the shapes a Discord identity takes in text: an
 	// invite or profile link, a <@id> mention, a legacy name#1234 tag, and
 	// any "@". A modern handle is a bare word that cannot be told from a

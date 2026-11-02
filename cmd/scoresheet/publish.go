@@ -14,38 +14,66 @@ import (
 
 // publishOptions is one publish run, resolved from the flags.
 type publishOptions struct {
-	ChainID   string    // chain id the node must report
-	Remote    string    // node RPC URL, for the report
-	Realm     string    // validator_scores package path
-	Scorecard string    // scorecard file to publish
-	MapPath   string    // moniker,operator_address overrides; "" for none
-	Batch     int       // candidates per AddCandidates call
-	Dry       bool      // print the plan, send nothing
-	Plan      string    // -plan: the digest a -dry run printed; "" when not given
-	NeedPlan  bool      // a real run needs Plan (gnoland-1)
-	Out       io.Writer // the report
+	ChainID    string    // chain id the node must report
+	Remote     string    // node RPC URL, for the report
+	Realm      string    // validator_scores package path
+	Scorecard  string    // scorecard file to publish
+	MapPath    string    // moniker,operator_address overrides; "" for none
+	Batch      int       // candidates per AddCandidates call
+	Dry        bool      // print the plan, send nothing
+	Plan       string    // -plan: the digest a -dry run printed; "" when not given
+	NeedPlan   bool      // a real run needs Plan (gnoland-1)
+	GasFee     string    // per call, for the digest and the cost line; "" to leave out
+	GasWanted  string    // per call, for the digest
+	MaxDeposit string    // per call, for the digest and the cost line
+	Out        io.Writer // the report
 }
 
-// maxEditionCandidates caps one edition. The realm sets no cap, but its Render
-// and EditionJSON exceed the node's query gas limit near 350 candidates with
-// 16 arenas, and a sealed edition can never be fixed. 200 leaves about a 2x
-// margin even at 16 arenas.
+// maxEditionCandidates caps one edition. The realm sets no cap, but a sealed
+// edition can never be fixed, and its Render runs out of query gas near 350
+// candidates. Measured on gnodev at the gnoland-1 runtime with the worst case
+// (16 arenas of 32 bytes, 64-byte monikers of escaped characters, every
+// number at full width): Render answers at 300 candidates and fails at 350.
+// At 200, the last AddCandidates of 10 used 75.7M of the 80M gas wanted.
 const maxEditionCandidates = 200
 
-// planDigest fingerprints what a run would publish: chain, realm, edition
-// metadata and every line, operator addresses included. It does not depend
-// on what the chain already holds, so a resumed run keeps the digest. A real
-// run on gnoland-1 must name it with -plan, so that what was reviewed in -dry
-// is what gets sent: r/gnops/valopers does not keep monikers unique, and a
-// valoper registered between the two runs could otherwise take a candidate's
-// slot in a sealed edition.
-func planDigest(chainID, realm string, meta editionMeta, lines []string) string {
+// planDigest fingerprints what a run would do: chain, realm, edition metadata,
+// every line (operator addresses included), the step decided from the chain
+// (open, resume or nothing, the edition, what is still missing, the edition
+// superseded) and the batch and gas settings. A real run on gnoland-1 must name
+// it with -plan, so that what was reviewed in -dry is what gets sent:
+// r/gnops/valopers does not keep monikers unique, and a valoper registered
+// between the two runs could otherwise take a candidate's slot in a sealed
+// edition. After a failed run the step changes, so resuming needs a new -dry.
+func planDigest(o publishOptions, meta editionMeta, lines []string, step publishStep) string {
 	h := sha256.New()
-	fmt.Fprintf(h, "%s\n%s\n%s\n%s\n%s\n", chainID, realm, meta.ComputedAt, meta.SHA256, strings.Join(meta.Arenas, ","))
+	fmt.Fprintf(h, "%s\n%s\n%s\n%s\n%s\n", o.ChainID, o.Realm, meta.ComputedAt, meta.SHA256, strings.Join(meta.Arenas, ","))
 	for _, l := range lines {
 		fmt.Fprintf(h, "%s\n", l)
 	}
+	fmt.Fprintf(h, "step %d %d %d\n", step.Kind, step.Edition, step.Supersedes)
+	for _, c := range step.Missing {
+		fmt.Fprintf(h, "missing %s\n", c.Operator)
+	}
+	fmt.Fprintf(h, "batch %d fee %s wanted %s deposit %s\n", o.Batch, o.GasFee, o.GasWanted, o.MaxDeposit)
 	return hex.EncodeToString(h.Sum(nil))
+}
+
+// costLine bounds what the run's calls can spend: every gas fee, which is
+// never refunded, and every storage deposit at its -max-deposit ceiling.
+func costLine(o publishOptions, calls int) string {
+	fee, okFee := ugnot(o.GasFee)
+	dep, okDep := ugnot(o.MaxDeposit)
+	if !okFee || !okDep {
+		return fmt.Sprintf("%d call(s), each with gas fee %s and storage deposit at most %s", calls, o.GasFee, o.MaxDeposit)
+	}
+	return fmt.Sprintf("%d call(s): %dugnot in gas fees (never refunded), storage deposits at most %dugnot", calls, int64(calls)*fee, int64(calls)*dep)
+}
+
+// ugnot reads an amount such as 200000ugnot.
+func ugnot(s string) (int64, bool) {
+	n, err := strconv.ParseInt(strings.TrimSuffix(s, "ugnot"), 10, 64)
+	return n, err == nil && strings.HasSuffix(s, "ugnot") && n >= 0
 }
 
 // chainReader is everything publish reads from the chain.
@@ -161,12 +189,6 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 	}
 	payloads, _ := batches(toSend, o.Batch)
 	printPublishReport(o, meta, len(card.Validators), len(cands), viaMap, rows, unmatched, payloads, len(toSend))
-	digest := planDigest(o.ChainID, o.Realm, meta, lines)
-	if o.NeedPlan {
-		fmt.Fprintf(o.Out, "digest     %s (pass it as -plan to send this exact plan)\n", digest)
-	} else {
-		fmt.Fprintf(o.Out, "digest     %s\n", digest)
-	}
 
 	if len(cands) == 0 {
 		if o.Dry {
@@ -174,12 +196,6 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 			return nil
 		}
 		return fmt.Errorf("no candidate matched a valoper: nothing to publish")
-	}
-	if o.Plan != "" && o.Plan != digest {
-		return fmt.Errorf("this run's digest is not -plan %s: the scorecard, the valoper map or r/gnops/valopers changed since that -dry; check every match above again; nothing sent", o.Plan)
-	}
-	if o.NeedPlan && !o.Dry && o.Plan == "" {
-		return fmt.Errorf("-plan is required on %s: run publish -dry, check every match it lists, then pass the digest it prints; nothing sent", o.ChainID)
 	}
 	if chainErr != nil {
 		if o.Dry && isRealmMissing(chainErr) {
@@ -194,6 +210,25 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 		// compared with this run's, and a stale one would show only after Seal.
 		fmt.Fprintln(o.Out, "note       the lines already in the open edition are not checked again: if the valoper map or\n"+
 			"           r/gnops/valopers changed since the first run, call DiscardOpen() and publish again")
+	}
+	if calls := len(payloads) + 1; step.Kind != stepNothing && o.GasFee != "" {
+		if step.Kind == stepOpen {
+			calls++ // OpenEdition
+		}
+		fmt.Fprintf(o.Out, "cost       %s\n", costLine(o, calls))
+	}
+	digest := planDigest(o, meta, lines, step)
+	if o.NeedPlan {
+		fmt.Fprintf(o.Out, "digest     %s (pass it as -plan to send this exact plan)\n", digest)
+	} else {
+		fmt.Fprintf(o.Out, "digest     %s\n", digest)
+	}
+	if o.Plan != "" && o.Plan != digest {
+		return fmt.Errorf("this run's digest is not -plan %s: something in the plan above changed since that -dry "+
+			"(scorecard, valoper map, r/gnops/valopers, the realm's editions, -batch or gas settings); check it again; nothing sent", o.Plan)
+	}
+	if o.NeedPlan && !o.Dry && o.Plan == "" {
+		return fmt.Errorf("-plan is required on %s: run publish -dry, check every match it lists, then pass the digest it prints; nothing sent", o.ChainID)
 	}
 	if o.Dry {
 		fmt.Fprintln(o.Out, "-dry — nothing sent.")

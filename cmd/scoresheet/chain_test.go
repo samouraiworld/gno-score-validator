@@ -122,6 +122,16 @@ func TestRPCResponseSizeIsCapped(t *testing.T) {
 	}
 }
 
+func TestRPCDoesNotFollowRedirects(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "http://127.0.0.1:1/", http.StatusTemporaryRedirect)
+	}))
+	defer srv.Close()
+	if _, err := newRPCClient(srv.URL).Network(); err == nil || !strings.Contains(err.Error(), "HTTP 307") {
+		t.Fatalf("err = %v, want the redirect refused as HTTP 307", err)
+	}
+}
+
 func TestRPCHTTPError(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		http.Error(w, "down", http.StatusBadGateway)
@@ -147,12 +157,23 @@ func TestReadOpenEdition(t *testing.T) {
 	if err != nil || got != nil {
 		t.Fatalf("null: %+v, %v", got, err)
 	}
-	got, err = readOpenEdition(stubEval{"OpenEditionJSON()": `{"number":2,"scorecardSHA256":"ab","operators":["g1x"]}`}, defaultRealm)
-	if err != nil || got.Number != 2 || got.ScorecardSHA256 != "ab" || len(got.Operators) != 1 {
+	sha := strings.Repeat("ab", 32)
+	got, err = readOpenEdition(stubEval{"OpenEditionJSON()": `{"number":2,"scorecardSHA256":"` + sha + `","operators":["` + testOperator(1) + `"]}`}, defaultRealm)
+	if err != nil || got.Number != 2 || got.ScorecardSHA256 != sha || len(got.Operators) != 1 {
 		t.Fatalf("got %+v, %v", got, err)
 	}
-	if _, err := readOpenEdition(stubEval{"OpenEditionJSON()": `{"number":2,"scorecardSHA256":"ab","operators":[],"extra":1}`}, defaultRealm); err == nil {
+	if _, err := readOpenEdition(stubEval{"OpenEditionJSON()": `{"number":2,"scorecardSHA256":"` + sha + `","operators":[],"extra":1}`}, defaultRealm); err == nil {
 		t.Fatal("an unknown key was accepted: the contract changed unnoticed")
+	}
+	// Both fields reach error messages: anything but the realm's shapes is refused, escaped.
+	for _, js := range []string{
+		`{"number":2,"scorecardSHA256":"\u001b[2J","operators":[]}`,
+		`{"number":2,"scorecardSHA256":"` + sha + `","operators":["\u001b]0;x\u0007"]}`,
+	} {
+		_, err := readOpenEdition(stubEval{"OpenEditionJSON()": js}, defaultRealm)
+		if err == nil || strings.ContainsAny(err.Error(), "\x1b\x07") {
+			t.Fatalf("%s: err %q", js, err)
+		}
 	}
 }
 

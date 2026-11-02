@@ -28,7 +28,9 @@ func newRPCClient(remote string) *rpcClient {
 	if !strings.Contains(u, "://") {
 		u = "http://" + u
 	}
-	return &rpcClient{url: u, http: &http.Client{Timeout: 30 * time.Second}}
+	// No redirect is followed: one could move an https remote to plain http.
+	return &rpcClient{url: u, http: &http.Client{Timeout: 30 * time.Second,
+		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}}
 }
 
 func (c *rpcClient) call(method string, params map[string]string, result any) error {
@@ -91,8 +93,9 @@ func (e *abciError) Error() string {
 // page, an edition of 200 candidates) stay far below it.
 const maxRPCBody = 8 << 20
 
-// nodeText escapes what a node wrote before it reaches the terminal, so a
-// hostile node cannot send control sequences.
+// nodeText escapes node text that publish puts in its own messages, so a
+// hostile node cannot send control sequences through them. gnokey prints the
+// node's answers to its own calls itself.
 func nodeText(s string) string {
 	q := strconv.QuoteToGraphic(s)
 	return q[1 : len(q)-1]
@@ -215,6 +218,15 @@ func readOpenEdition(r realmReader, realm string) (*openEditionJSON, error) {
 	var e openEditionJSON
 	if err := decodeStrict(s, &e); err != nil {
 		return nil, fmt.Errorf("OpenEditionJSON: %w", err)
+	}
+	// Both reach error messages; the realm only ever stores these shapes.
+	if !sha256Re.MatchString(e.ScorecardSHA256) {
+		return nil, fmt.Errorf("OpenEditionJSON: scorecardSHA256 is not 64 hex digits")
+	}
+	for _, op := range e.Operators {
+		if !operatorRe.MatchString(op) {
+			return nil, fmt.Errorf("OpenEditionJSON: %q is not a g1 address", op)
+		}
 	}
 	return &e, nil
 }

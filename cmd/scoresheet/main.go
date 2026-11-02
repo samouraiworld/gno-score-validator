@@ -165,6 +165,7 @@ On chain, through the gnokey CLI (no -id):
   publish     publish the candidates registered in r/gnops/valopers as one
               sealed edition of gno.land/r/samcrew/validator_scores; resumes
               an interrupted run          -chain dev|gnoland-1 [-dry] [-remote]
+                                          [-plan <digest>, required on gnoland-1]
                                           [-key score-publisher] [-realm] [-batch 10]
                                           [-max-deposit 1000000ugnot]
 
