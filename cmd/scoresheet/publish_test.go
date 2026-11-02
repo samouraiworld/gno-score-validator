@@ -273,6 +273,7 @@ func TestPublishSendsOnlyTheReviewedPlan(t *testing.T) {
 		func(p *publishOptions) { p.Batch = 1 },
 		func(p *publishOptions) { p.GasFee = "9000000ugnot" },
 		func(p *publishOptions) { p.MaxDeposit = "9000000ugnot" },
+		func(p *publishOptions) { p.GasWanted = "1" },
 	} {
 		c := o
 		change(&c)
@@ -313,6 +314,33 @@ func TestPublishReportBoundsTheCost(t *testing.T) {
 	// 3 candidates in batches of 2: OpenEdition, 2 AddCandidates, Seal.
 	if want := "cost       4 call(s): 800000ugnot in gas fees (never refunded), storage deposits at most 4000000ugnot"; !strings.Contains(out.String(), want) {
 		t.Fatalf("report lacks %q:\n%s", want, out)
+	}
+	// A resume missing 2 candidates: one AddCandidates and Seal, no OpenEdition.
+	chain.open = &fakeEdition{number: 1, sha: fixtureSHA(t), lines: fixtureLines[:1]}
+	out.Reset()
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	if want := "cost       2 call(s): 400000ugnot"; !strings.Contains(out.String(), want) {
+		t.Fatalf("resume: report lacks %q:\n%s", want, out)
+	}
+}
+
+// A sealed edition of this scorecard with other lines that appears after the
+// -dry changes the step (a new edition now supersedes it): the old -plan is
+// refused.
+func TestPublishPlanCoversASupersededEdition(t *testing.T) {
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	o := fixtureOptions(out)
+	o.NeedPlan, o.Dry = true, true
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	o.Dry, o.Plan = false, reportDigest(t, out.String())
+	chain.sealed = []fakeEdition{{number: 1, computedAt: "2026-10-13T00:00:00Z", sha: fixtureSHA(t),
+		arenas: strings.Split("challenge,test13,topaz,sapphire,pearl,firedrill", ","), lines: fixtureLines[:2]}}
+	if err := publishRun(o, chain, chain); err == nil || !strings.Contains(err.Error(), "not -plan") || len(chain.calls) != 0 {
+		t.Fatalf("err %v, calls %v", err, chain.calls)
 	}
 }
 
