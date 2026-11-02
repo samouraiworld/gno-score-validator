@@ -120,6 +120,15 @@ func checkScorecardFresh(root string, card snapshot) error {
 	if len(fresh.Validators) != len(card.Validators) {
 		return stale(fmt.Sprintf("%d validators, the CSVs give %d", len(card.Validators), len(fresh.Validators)))
 	}
+	// publish takes the edition's arenas and each rank from the scorecard as is.
+	if len(fresh.Arenas) != len(card.Arenas) {
+		return stale("arena list differs")
+	}
+	for i, a := range fresh.Arenas {
+		if a.ID != card.Arenas[i].ID || a.InTotal != card.Arenas[i].InTotal {
+			return stale("arena " + card.Arenas[i].ID)
+		}
+	}
 	for i, f := range fresh.Validators {
 		c := card.Validators[i]
 		if f.Moniker != c.Moniker {
@@ -135,6 +144,9 @@ func checkScorecardFresh(root string, card snapshot) error {
 		}
 		if !closeEnough(f.GithubCorrected, c.GithubCorrected) || !closeEnough(f.ScoreCorrected, c.ScoreCorrected) {
 			return stale(c.Moniker + ": total")
+		}
+		if f.RankCorrected != c.RankCorrected {
+			return stale(c.Moniker + ": rank")
 		}
 	}
 	return nil

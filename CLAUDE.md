@@ -27,6 +27,7 @@ ID=1HqBaQQsp9jLpJ4-LjGWgYUe7GEoGmgBPTwS4UjCL2qA
 ./bin/scoresheet score -dry                     # scorecard.json + page + scoreboard/, offline
 ./bin/scoresheet render                        # scoreboard/ + page payload, offline
 ./bin/scoresheet fetch -chain gnoland-1 -dry   # live report -> data/arenas/mainnet.csv, offline
+./bin/scoresheet publish -chain gnoland-1 -dry # ranking -> r/samcrew/validator_scores (read-only)
 ./bin/scoresheet -id $ID sheet diff            # sheet vs repo, cell by cell (read-only)
 ./bin/scoresheet -id $ID sheet push -dry       # repo -> Bilan, arena tabs, Dashboard, lock
 ./bin/scoresheet -id $ID sheet lock -dry       # protect every tab (service account only)
@@ -126,6 +127,18 @@ editing its CSV in a pull request, never in the sheet.
 - The HTML page embeds `publicPayload`, never `scorecard.json` as is: Discord
   handles and the github `name`, `bio`, `blog`, `note`, `evidence` fields stay
   out. Widen the allowlist in `cmd/scoresheet/page.go` only on purpose.
+
+## On chain
+
+`publish` is the only command that writes to a blockchain, and what it sends is
+public and permanent. The allowlist is the `pubCandidate` type in
+`cmd/scoresheet/publish_payload.go`; widen it only on purpose, like
+`publicPayload`. The realm keys candidates by valoper operator address, so
+publish is the one place that joins on an address: the moniker join happens
+once, in `matchOperators`, against `r/gnops/valopers` of the target chain. That
+realm does not keep monikers unique, so a real run on gnoland-1 needs `-plan
+<digest>`, the digest of the `-dry` whose matches were checked: what was
+reviewed is what gets sent.
 
 ## Chains
 

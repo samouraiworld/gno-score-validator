@@ -10,6 +10,7 @@
 //	render      regenerate the scoreboard and the page payload from scorecard.json
 //	fetch       write a chain's live gnomonitoring report to data/arenas/
 //	firedrill   rebuild the fire drill arena CSV from the portal exports
+//	publish     write the ranking to gno.land/r/samcrew/validator_scores through gnokey
 //	sheet diff  list every cell where the sheet differs from the repo (read-only)
 //	sheet push  write the repo into the sheet, rebuild the Dashboard, lock it
 //	sheet lock  protect every tab so only the service account can edit it
@@ -85,6 +86,13 @@ func main() {
 		}
 		return
 	}
+	// publish reads the chain over RPC and writes through the gnokey CLI.
+	if args[0] == "publish" {
+		if err := runPublish(*root, args[1:]); err != nil {
+			fatal(err)
+		}
+		return
+	}
 	if next, ok := retired[args[0]]; ok {
 		fatal(fmt.Errorf("%s is retired: the sheet is an output of the repo now; %s", args[0], next))
 	}
@@ -152,6 +160,14 @@ Offline, from config/ and data/ (no -id):
                                         -chain <id> [-dry] [-force]
   firedrill   rebuild the fire drill arena CSV from the portal exports;
               then run score                          [-dry] [-force]
+
+On chain, through the gnokey CLI (no -id):
+  publish     publish the candidates registered in r/gnops/valopers as one
+              sealed edition of gno.land/r/samcrew/validator_scores; resumes
+              an interrupted run          -chain dev|gnoland-1 [-dry] [-remote]
+                                          [-plan <digest>, required on gnoland-1]
+                                          [-key score-publisher] [-realm] [-batch 10]
+                                          [-max-deposit 1000000ugnot]
 
 The sheet, an output of the repo:
   sheet diff  list every cell where the sheet differs from data/scorecard.json and

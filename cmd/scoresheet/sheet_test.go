@@ -162,6 +162,28 @@ func TestScorecardStaleIsRefused(t *testing.T) {
 	}
 }
 
+// publish copies ranks and the arena list from the scorecard, so a hand edit
+// of either must fail the check too.
+func TestScorecardWithEditedRankOrArenasIsRefused(t *testing.T) {
+	root := filepath.Join("..", "..")
+	for name, edit := range map[string]func(*snapshot){
+		"rank": func(c *snapshot) {
+			c.Validators[0].RankCorrected, c.Validators[1].RankCorrected = c.Validators[1].RankCorrected, c.Validators[0].RankCorrected
+		},
+		"arena in_total": func(c *snapshot) { c.Arenas[0].InTotal = !c.Arenas[0].InTotal },
+		"arena order":    func(c *snapshot) { c.Arenas[0], c.Arenas[1] = c.Arenas[1], c.Arenas[0] },
+	} {
+		card, err := loadSnapshot(filepath.Join(root, "data", "scorecard.json"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		edit(&card)
+		if err := checkScorecardFresh(root, card); err == nil || !strings.Contains(err.Error(), "run score") {
+			t.Errorf("%s edited: accepted (%v)", name, err)
+		}
+	}
+}
+
 func TestLockRequests(t *testing.T) {
 	ss := &sheets.Spreadsheet{Sheets: []*sheets.Sheet{
 		{Properties: &sheets.SheetProperties{SheetId: 0, Title: "Bilan"},
