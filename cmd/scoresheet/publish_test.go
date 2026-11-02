@@ -344,6 +344,33 @@ func TestPublishRefusesRefusedMonikerBeforeAnySend(t *testing.T) {
 	}
 }
 
+func TestPublishRefusesOutOfBoundScoreBeforeAnySend(t *testing.T) {
+	card, err := os.ReadFile(fixtureScorecard)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, tc := range []struct{ name, old, new, want string }{
+		{"total above 100", `"score_corrected": 95.5`, `"score_corrected": 100.01`, "total 10001"},
+		{"arena above 100", `"pearl": 100,`, `"pearl": 100.01,`, "arena score 10001"},
+		{"bonus above 10", `"github_corrected": 0, "score_current": 95.5`, `"github_corrected": 100.1, "score_current": 95.5`, "GitHub bonus 1001"},
+	} {
+		if strings.Count(string(card), tc.old) != 1 {
+			t.Fatalf("%s: %q is not unique in the fixture", tc.name, tc.old)
+		}
+		path := filepath.Join(t.TempDir(), "scorecard.json")
+		if err := os.WriteFile(path, []byte(strings.Replace(string(card), tc.old, tc.new, 1)), 0o600); err != nil {
+			t.Fatal(err)
+		}
+		chain, out := newFakeChain(), &bytes.Buffer{}
+		o := fixtureOptions(out)
+		o.Scorecard = path
+		err := publishRun(o, chain, chain)
+		if err == nil || !strings.Contains(err.Error(), tc.want) || len(chain.calls) != 0 {
+			t.Errorf("%s: err %v, calls %v", tc.name, err, chain.calls)
+		}
+	}
+}
+
 func TestPublishReportListsEachMatchAndItsSource(t *testing.T) {
 	mapPath := filepath.Join(t.TempDir(), "map.csv")
 	csv := "moniker,operator_address\nUnregistered Node," + testOperator(4) + "\n"

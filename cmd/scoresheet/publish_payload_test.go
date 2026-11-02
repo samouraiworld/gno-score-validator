@@ -144,6 +144,40 @@ func TestEncodeLineRefusesWhatTheRealmRefuses(t *testing.T) {
 	}
 }
 
+// The realm caps the total and every arena score at 10000 (100.00) and the
+// GitHub bonus at 1000 (10.00). encodeLine applies the same caps, so a bad
+// scorecard fails before any fee is paid.
+func TestEncodeLineScoreBounds(t *testing.T) {
+	ok := pubCandidate{Operator: testOperator(1), Moniker: "Node", Total: 5000, Rank: 1, Github: 0, Arenas: []int64{5000, 5000, 5000}}
+	for _, tc := range []struct {
+		field         string
+		max           int64
+		set           func(*pubCandidate, int64)
+		wantSubstring string
+	}{
+		{"total", 10000, func(c *pubCandidate, v int64) { c.Total = v }, "total 10001"},
+		{"github", 1000, func(c *pubCandidate, v int64) { c.Github = v }, "GitHub bonus 1001"},
+		{"arena 1", 10000, func(c *pubCandidate, v int64) { c.Arenas[0] = v }, "arena score 10001"},
+		{"arena 2", 10000, func(c *pubCandidate, v int64) { c.Arenas[1] = v }, "arena score 10001"},
+		{"arena 3", 10000, func(c *pubCandidate, v int64) { c.Arenas[2] = v }, "arena score 10001"},
+	} {
+		for _, v := range []int64{tc.max, tc.max + 1} {
+			c := ok
+			c.Arenas = append([]int64(nil), ok.Arenas...)
+			tc.set(&c, v)
+			_, err := encodeLine(c)
+			switch {
+			case v == tc.max && err != nil:
+				t.Errorf("%s = %d refused: %v", tc.field, v, err)
+			case v > tc.max && err == nil:
+				t.Errorf("%s = %d accepted", tc.field, v)
+			case v > tc.max && !strings.Contains(err.Error(), tc.wantSubstring):
+				t.Errorf("%s = %d: error %q lacks %q", tc.field, v, err, tc.wantSubstring)
+			}
+		}
+	}
+}
+
 func TestEditionArenasRefusesDuplicate(t *testing.T) {
 	s := snapshot{Arenas: []snapArena{{ID: "challenge", InTotal: true}, {ID: "test13", InTotal: true}, {ID: "challenge", InTotal: true}}}
 	if _, err := editionArenas(s); err == nil || !strings.Contains(err.Error(), "twice") {
