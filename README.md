@@ -219,7 +219,15 @@ adjustable.
 Run it again after a failure: an open edition of the same scorecard is
 completed. An open edition of another scorecard is refused until
 `DiscardOpen()` is called by hand with the publisher key. A scorecard that is
-already the latest sealed edition sends nothing.
+already the latest sealed edition sends nothing. A resumed run does not check
+the lines already on chain again (the realm lists only their operators): if
+`data/valoper-map.csv` or `r/gnops/valopers` changed since the first run, call
+`DiscardOpen()` and publish again instead of resuming.
+
+Run one publication at a time per publisher key: two runs at once can open,
+discard and reopen editions under each other. An edition holds at most 200
+candidates. The realm sets no cap, but near 350 candidates with 16 arenas it
+can no longer render a sealed edition, and a sealed edition cannot be fixed.
 
 To try it locally, use `gnodev`, `gnokey` and `gnoland` built at the gno
 commit `gnoland-1` runs (`MAINNET_GNO_REF` in samcrew-deployer's

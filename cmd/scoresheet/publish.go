@@ -24,6 +24,12 @@ type publishOptions struct {
 	Out       io.Writer // the report
 }
 
+// maxEditionCandidates caps one edition. The realm sets no cap, but its Render
+// and EditionJSON exceed the node's query gas limit near 350 candidates with
+// 16 arenas, and a sealed edition can never be fixed. 200 leaves about a 2x
+// margin even at 16 arenas.
+const maxEditionCandidates = 200
+
 // chainReader is everything publish reads from the chain.
 type chainReader interface {
 	renderer
@@ -117,6 +123,10 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 	if err != nil {
 		return err
 	}
+	if len(lines) > maxEditionCandidates {
+		return fmt.Errorf("%d candidates matched a valoper; an edition takes at most %d, or the realm could not render it once sealed: nothing sent",
+			len(lines), maxEditionCandidates)
+	}
 	if _, err := batches(lines, o.Batch); err != nil {
 		return err
 	}
@@ -149,6 +159,12 @@ func publishRun(o publishOptions, chain chainReader, tx txSender) error {
 		return chainErr
 	}
 	fmt.Fprintf(o.Out, "plan       %s\n", step.describe(len(cands)))
+	if step.Kind == stepResume {
+		// OpenEditionJSON lists operators only: a line already added is never
+		// compared with this run's, and a stale one would show only after Seal.
+		fmt.Fprintln(o.Out, "note       the lines already in the open edition are not checked again: if the valoper map or\n"+
+			"           r/gnops/valopers changed since the first run, call DiscardOpen() and publish again")
+	}
 	if o.Dry {
 		fmt.Fprintln(o.Out, "-dry — nothing sent.")
 		return nil

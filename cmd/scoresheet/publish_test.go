@@ -207,6 +207,68 @@ func TestPublishResumesOpenEdition(t *testing.T) {
 	if !strings.Contains(out.String(), "resume open edition 1") || !reflect.DeepEqual(chain.sealed[0].lines, fixtureLines) {
 		t.Fatalf("sealed %+v\n%s", chain.sealed, out)
 	}
+	if !strings.Contains(out.String(), "not checked again") || !strings.Contains(out.String(), "call DiscardOpen() and publish again") {
+		t.Fatalf("resume printed no DiscardOpen note:\n%s", out)
+	}
+}
+
+func TestPublishPrintsResumeNoteOnlyWhenResuming(t *testing.T) {
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	if err := publishRun(fixtureOptions(out), chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(out.String(), "not checked again") {
+		t.Fatalf("a new edition printed the resume note:\n%s", out)
+	}
+	chain, out = newFakeChain(), &bytes.Buffer{}
+	chain.open = &fakeEdition{number: 1, sha: fixtureSHA(t), lines: fixtureLines[:1]}
+	o := fixtureOptions(out)
+	o.Dry = true
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(out.String(), "not checked again") || len(chain.calls) != 0 {
+		t.Fatalf("-dry resume: calls %v\n%s", chain.calls, out)
+	}
+}
+
+// bigScorecard writes a scorecard of n made-up candidates named node-1..node-n
+// and returns its path with a roster that registers all of them.
+func bigScorecard(t *testing.T, n int) (string, string) {
+	t.Helper()
+	var vals []string
+	var roster strings.Builder
+	for i := 1; i <= n; i++ {
+		vals = append(vals, fmt.Sprintf(`{"moniker": "node-%d", "components": {"challenge": 50}, "github_corrected": 0, "score_corrected": 50, "rank_corrected": %d}`, i, i))
+		roster.WriteString(rosterLine(fmt.Sprintf("node-%d", i), testOperator(i)))
+	}
+	card := `{"generated_at": "2026-10-13", "arenas": [{"id": "challenge", "in_total": true}], "validators": [` + strings.Join(vals, ",") + `]}`
+	path := filepath.Join(t.TempDir(), "scorecard.json")
+	if err := os.WriteFile(path, []byte(card), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	return path, roster.String()
+}
+
+func TestPublishCapsCandidatesPerEdition(t *testing.T) {
+	path, roster := bigScorecard(t, maxEditionCandidates)
+	chain, out := newFakeChain(), &bytes.Buffer{}
+	chain.roster = roster
+	o := fixtureOptions(out)
+	o.Scorecard, o.Dry = path, true
+	if err := publishRun(o, chain, chain); err != nil {
+		t.Fatalf("%d candidates refused: %v", maxEditionCandidates, err)
+	}
+
+	path, roster = bigScorecard(t, maxEditionCandidates+1)
+	chain = newFakeChain()
+	chain.roster = roster
+	o = fixtureOptions(&bytes.Buffer{})
+	o.Scorecard = path
+	err := publishRun(o, chain, chain)
+	if err == nil || !strings.Contains(err.Error(), fmt.Sprintf("at most %d", maxEditionCandidates)) || len(chain.calls) != 0 {
+		t.Fatalf("err %v, calls %v", err, chain.calls)
+	}
 }
 
 func TestPublishRefusesOpenEditionOfAnotherScorecard(t *testing.T) {
